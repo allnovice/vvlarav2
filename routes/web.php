@@ -23,10 +23,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/assets', [AssetController::class, 'index'])
         ->name('assets');
-
     Route::post('/assets', [AssetController::class, 'store'])
         ->name('assets.store');
-
+    Route::put('/assets/{asset}', [AssetController::class, 'update'])
+        ->name('assets.update');
+    Route::delete('/assets/{asset}', [AssetController::class, 'destroy'])
+        ->name('assets.destroy');
 });
 
 Route::middleware('auth')->group(function () {

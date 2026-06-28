@@ -27,4 +27,22 @@ class AssetController extends Controller
 
         return redirect()->route('assets');
     }
+    public function update(Request $request, Asset $asset)
+    {
+        $validated = $request->validate([
+            'property_number' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $asset->update($validated);
+
+        return redirect()->route('assets');
+    }
+    public function destroy(Asset $asset)
+    {
+        $asset->delete();
+
+        return redirect()->route('assets');
+}
 }
