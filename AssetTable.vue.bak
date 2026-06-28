@@ -1,0 +1,83 @@
+<script setup>
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import DangerButton from '@/Components/DangerButton.vue'
+
+defineProps({
+    assets: Array,
+})
+
+const emit = defineEmits([
+    'edit',
+    'delete',
+])
+</script>
+
+<template>
+
+<table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">                                                                                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+    Property No.                                                </th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">           Type
+</th>
+
+<th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+    Description
+</th>
+
+<th class="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+    Actions                                                     </th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr
+    v-for="(asset, index) in assets"
+    :key="asset.id"
+    :class="[                                                           index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
+        'border-b border-gray-100 hover:bg-blue-50 transition-colors'
+    ]"
+>                                                               
+                            <td class="px-4 py-3">
+                                {{ asset.property_number }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                {{ asset.type }}
+                            </td>
+
+                            <td class="px-4 py-3 whitespace-normal break-words">
+    {{ asset.description }}
+</td>
+
+                            <td class="p-2 text-center space-x-2">
+
+        <SecondaryButton
+    @click="emit('edit', asset)"
+>
+    Edit
+</SecondaryButton>
+
+
+    <DangerButton
+    @click="emit('delete', asset)"
+>
+    Delete
+</DangerButton>
+
+</td>
+
+                        </tr>
+
+                        <tr v-if="assets.length === 0">
+                            <td colspan="4" class="p-4 text-center">
+    No assets found
+</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+</template>

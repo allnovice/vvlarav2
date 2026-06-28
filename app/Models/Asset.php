@@ -10,5 +10,6 @@ class Asset extends Model
         'property_number',
         'type',
         'description',
+        'status',
     ];
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
@@ -9,18 +9,58 @@ import Modal from '@/Components/Modal.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
+import AssetModal from '@/Components/Assets/AssetModal.vue'
+import AssetToolbar from '@/Components/Assets/AssetToolbar.vue'
+import AssetTable from '@/Components/Assets/AssetTable.vue'
 
-defineProps({
+const props = defineProps({
     assets: Array,
 })
 
 const showModal = ref(false)
 const isEditing = ref(false)
 const editingId = ref(null)
+const search = ref('')
+const statusFilter = ref('All')
+const sortBy = ref('property_number')
+const sortDirection = ref('asc')
+
+const filteredAssets = computed(() => {
+    const term = search.value.toLowerCase()
+
+    const results = props.assets.filter(asset => {
+        const matchesSearch =
+            asset.property_number.toLowerCase().includes(term) ||
+            asset.type.toLowerCase().includes(term) ||
+            asset.description.toLowerCase().includes(term)
+
+        const matchesStatus =
+            statusFilter.value === 'All' ||
+            asset.status === statusFilter.value
+
+        return matchesSearch && matchesStatus
+    })
+
+    results.sort((a, b) => {
+        const first = String(a[sortBy.value] ?? '').toLowerCase()
+        const second = String(b[sortBy.value] ?? '').toLowerCase()
+
+        if (first < second)
+            return sortDirection.value === 'asc' ? -1 : 1
+
+        if (first > second)
+            return sortDirection.value === 'asc' ? 1 : -1
+
+        return 0
+    })
+
+    return results
+})
 
 const form = useForm({
     property_number: '',
     type: '',
+    status: 'Active',
     description: '',
 })
 
@@ -43,8 +83,9 @@ const editAsset = (asset) => {
 
     form.property_number = asset.property_number
     form.type = asset.type
+    form.status = asset.status
     form.description = asset.description
-
+    
     showModal.value = true
 }
 const deleteAsset = (asset) => {
@@ -60,6 +101,15 @@ const closeModal = () => {
     editingId.value = null
     form.reset()
 }
+const sort = (column) => {
+    if (sortBy.value === column) {
+        sortDirection.value =
+            sortDirection.value === 'asc' ? 'desc' : 'asc'
+    } else {
+        sortBy.value = column
+        sortDirection.value = 'asc'
+    }
+}
 </script>
 
 <template>
@@ -74,169 +124,44 @@ const closeModal = () => {
 
         <div class="py-6 px-6">
 
-            <div class="bg-white shadow rounded p-4">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
 
-<div class="flex justify-between items-center mb-4">
+ <!-- Toolbar -->
+<AssetToolbar
+    :search="search"
+    :statusFilter="statusFilter"
+    @update:search="search = $event"
+    @update:statusFilter="statusFilter = $event"
+    @addAsset="showModal = true"
+/>
 
-    <input
-        type="text"
-        placeholder="Search assets..."
-        class="border rounded-md px-3 py-2 w-80"
-    />
-
-    <PrimaryButton @click="showModal = true">
-        + Add Asset
-    </PrimaryButton>
-
-</div>
-
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="border-b">
-                            <th class="text-left p-2">Property No.</th>
-                            <th class="text-left p-2">Type</th>
-                            <th class="text-left p-2">Description</th>
-                            <th class="text-center p-2">Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr
-                            v-for="asset in assets"
-                            :key="asset.id"
-                            class="border-b"
-                        >
-                            <td class="p-2">
-                                {{ asset.property_number }}
-                            </td>
-
-                            <td class="p-2">
-                                {{ asset.type }}
-                            </td>
-
-                            <td class="p-2">
-                                {{ asset.description }}
-                            </td>
-
-                            <td class="p-2 text-center space-x-2">
-    
-        <SecondaryButton
-    @click="editAsset(asset)"
->
-    Edit
-</SecondaryButton>
-    
-
-    <DangerButton
-    @click="deleteAsset(asset)"
->
-    Delete
-</DangerButton>
-
-</td>
-
-                        </tr>
-
-                        <tr v-if="assets.length === 0">
-                            <td colspan="4" class="p-4 text-center">
-    No assets found
-</td>
-
-                        </tr>
-                    </tbody>
-                </table>
+<AssetTable
+    :assets="filteredAssets"
+    :sortBy="sortBy"
+    :sortDirection="sortDirection"
+    @edit="editAsset"
+    @delete="deleteAsset"
+    @sort="sort"
+/>
 
             </div>
 
+<div class="flex items-center justify-between border-t border-gray-200 px-4 py-3 bg-gray-50 rounded-b-xl">
+
+    <p class="text-sm text-gray-600">
+        Showing {{ assets.length }} asset<span v-if="assets.length !== 1">s</span>
+    </p>
+
+</div>
+
+          </div>
             <!-- Modal -->
-            <Modal
+<AssetModal
     :show="showModal"
+    :form="form"
+    :isEditing="isEditing"
+    @submit="submit"
     @close="closeModal"
-    max-width="lg"
->
-    <div class="p-6">
-
-        <h3 class="text-lg font-bold mb-4">
-            {{ isEditing ? 'Edit Asset' : 'Add Asset' }}
-        </h3>
-
-        <div class="mb-4">
-    <InputLabel for="property_number" value="Property Number" />
-
-    <TextInput
-        id="property_number"
-        v-model="form.property_number"
-        type="text"
-        class="mt-1 block w-full"
-    />
-
-    <InputError
-        class="mt-2"
-        :message="form.errors.property_number"
-    />
-</div>
-
-
-        <div class="mb-4">
-    <InputLabel for="type" value="Type" />
-
-    <select
-        id="type"
-        v-model="form.type"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-    >
-        <option value="">Select Type</option>
-        <option>Laptop</option>
-        <option>Desktop</option>
-        <option>Monitor</option>
-        <option>Printer</option>
-        <option>Scanner</option>
-        <option>Server</option>
-        <option>Network Device</option>
-        <option>UPS</option>
-        <option>Furniture</option>
-        <option>Other</option>
-    </select>
-
-    <InputError
-        class="mt-2"
-        :message="form.errors.type"
-    />
-</div>
-
-
-        <div class="mb-4">
-    <InputLabel for="description" value="Description" />
-
-    <textarea
-        id="description"
-        v-model="form.description"
-        rows="4"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-    ></textarea>
-
-    <InputError
-        class="mt-2"
-        :message="form.errors.description"
-    />
-</div>
-
-        <div class="flex justify-end gap-2">
-            <SecondaryButton @click="closeModal">
-                Cancel
-            </SecondaryButton>
-
-            <PrimaryButton @click="submit">
-                {{ isEditing ? 'Update' : 'Save' }}
-            </PrimaryButton>
-        </div>
-
-    </div>
-</Modal>
-   
-
-
-
-        </div>
+/>        
     </AuthenticatedLayout>
 </template>

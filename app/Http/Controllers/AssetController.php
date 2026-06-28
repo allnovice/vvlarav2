@@ -21,6 +21,7 @@ class AssetController extends Controller
             'property_number' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'status' => 'required|string|max:50',
         ]);
 
         Asset::create($validated);
@@ -33,6 +34,7 @@ class AssetController extends Controller
             'property_number' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'status' => ['required', 'string', 'max:50'],
         ]);
 
         $asset->update($validated);

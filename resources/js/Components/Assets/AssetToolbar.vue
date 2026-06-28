@@ -1,0 +1,52 @@
+<script setup>
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+
+defineProps({
+    search: String,
+    statusFilter: String,
+})
+
+const emit = defineEmits([
+    'update:search',
+    'update:statusFilter',
+    'addAsset',
+])
+</script>
+
+const emit = defineEmits(['addAsset'])
+
+<template>
+
+<div class="p-4 border-b border-gray-200">
+
+        <div class="flex justify-between items-center">
+
+
+    <input
+    :value="search"
+    @input="emit('update:search', $event.target.value)"
+    type="text"
+    placeholder="Search assets..."
+    class="border rounded-md px-3 py-2 w-80"
+/>
+
+<select
+    :value="statusFilter"
+    @change="emit('update:statusFilter', $event.target.value)"
+    class="rounded-md border-gray-300 shadow-sm"
+>
+    <option>All</option>
+    <option>Active</option>
+    <option>Under Repair</option>
+    <option>Borrowed</option>
+    <option>Archived</option>
+</select>
+
+    <PrimaryButton @click="emit('addAsset')">
+        + Add Asset
+    </PrimaryButton>
+
+</div>
+</div>
+
+</template>
