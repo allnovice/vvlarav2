@@ -12,9 +12,10 @@ import InputError from '@/Components/InputError.vue'
 import AssetModal from '@/Components/Assets/AssetModal.vue'
 import AssetToolbar from '@/Components/Assets/AssetToolbar.vue'
 import AssetTable from '@/Components/Assets/AssetTable.vue'
+import AssetPagination from '@/Components/Assets/AssetPagination.vue'
 
 const props = defineProps({
-    assets: Array,
+    assets: Object,
 })
 
 const showModal = ref(false)
@@ -28,7 +29,7 @@ const sortDirection = ref('asc')
 const filteredAssets = computed(() => {
     const term = search.value.toLowerCase()
 
-    const results = props.assets.filter(asset => {
+    const results = props.assets.data.filter(asset => {
         const matchesSearch =
             asset.property_number.toLowerCase().includes(term) ||
             asset.type.toLowerCase().includes(term) ||
@@ -149,10 +150,14 @@ const sort = (column) => {
 <div class="flex items-center justify-between border-t border-gray-200 px-4 py-3 bg-gray-50 rounded-b-xl">
 
     <p class="text-sm text-gray-600">
-        Showing {{ assets.length }} asset<span v-if="assets.length !== 1">s</span>
-    </p>
+    Showing {{ assets.data.length }} asset<span v-if="assets.data.length !== 1">s</span>
+</p>
 
 </div>
+
+<AssetPagination
+    :links="assets.links"
+/>
 
           </div>
             <!-- Modal -->

@@ -11,7 +11,7 @@ class AssetController extends Controller
     public function index()
     {
         return Inertia::render('Assets', [
-            'assets' => Asset::latest()->get(),
+            'assets' => Asset::latest()->paginate(10),
         ]);
     }
 
