@@ -39,6 +39,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('assets')"
+                                    :active="route().current('assets')"
+                                >
+                                    Assets
+                                </NavLink>
                             </div>
                         </div>
 
@@ -146,9 +152,16 @@ const showingNavigationDropdown = ref(false);
                         >
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('assets')"
+                            :active="route().current('assets')"
+                        >
+                            Assets
+                        </ResponsiveNavLink>
                     </div>
 
-                    <!-- Responsive Settings Options -->
+                      
+                  <!-- Responsive Settings Options -->
                     <div
                         class="border-t border-gray-200 pb-1 pt-4"
                     >
