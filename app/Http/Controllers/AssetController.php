@@ -46,5 +46,17 @@ class AssetController extends Controller
         $asset->delete();
 
         return redirect()->route('assets');
-}
+    }
+    public function show(Asset $asset)
+    {
+    return Inertia::render('Assets/Show', [
+        'asset' => $asset,
+        ]);
+    }
+    public function edit(Asset $asset)
+    {
+    return Inertia::render('Assets/Edit', [
+        'asset' => $asset,
+    ]);
+    }
 }

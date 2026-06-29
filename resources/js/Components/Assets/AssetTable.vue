@@ -1,6 +1,8 @@
 <script setup>
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import DangerButton from '@/Components/DangerButton.vue'
+import { Link } from '@inertiajs/vue3'
+import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 
 defineProps({
     assets: Array,
@@ -105,17 +107,8 @@ const emit = defineEmits([
 
 
                 <td class="px-4 py-3">
-    <span
-        :class="{
-            'bg-green-100 text-green-800': asset.status === 'Active',
-            'bg-yellow-100 text-yellow-800': asset.status === 'Under Repair',
-            'bg-blue-100 text-blue-800': asset.status === 'Borrowed',
-            'bg-gray-200 text-gray-700': asset.status === 'Archived',
-        }"
-        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
-    >
-        {{ asset.status }}
-    </span>
+    <StatusBadge :status="asset.status" />
+
 </td>
 
 
@@ -124,6 +117,14 @@ const emit = defineEmits([
                 </td>
 
                 <td class="px-4 py-3 text-center space-x-2">
+
+<Link
+    :href="route('assets.show', asset.id)"
+    class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+>
+    View
+</Link>
+
                     <SecondaryButton @click="emit('edit', asset)">
                         Edit
                     </SecondaryButton>
