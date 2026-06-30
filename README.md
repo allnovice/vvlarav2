@@ -5,8 +5,11 @@
 ![Laravel](https://img.shields.io/badge/Laravel-13-red)
 ![PHP](https://img.shields.io/badge/PHP-8.4-blue)
 ![Vue](https://img.shields.io/badge/Vue-3-42b883)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker)
 ![CI](https://github.com/allnovice/vvlarav2/actions/workflows/laravel.yml/badge.svg)
 ![License](https://img.shields.io/badge/License-MIT-green)
+![Repo Size](https://img.shields.io/github/repo-size/allnovice/vvlarav2)
+![Last Commit](https://img.shields.io/github/last-commit/allnovice/vvlarav2)
 
 
 ---
