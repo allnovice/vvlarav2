@@ -1,58 +1,216 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CMMS - Computerized Maintenance Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> A modern web-based Computerized Maintenance Management System (CMMS) built with Laravel, Vue.js, and Inertia.js for managing organizational assets, maintenance activities, and users.
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-13-red)
+![PHP](https://img.shields.io/badge/PHP-8.4-blue)
+![Vue](https://img.shields.io/badge/Vue-3-42b883)
+![CI](https://github.com/allnovice/vvlarav2/actions/workflows/laravel.yml/badge.svg)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Features
 
-## Learning Laravel
+- Asset Management
+  - Create, edit, delete, and view assets
+  - Asset details page
+  - Asset specifications
+  - Categories
+  - Status tracking
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Authentication
+  - Laravel Breeze
+  - User login/logout
+  - Profile management
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Dashboard
+  - Asset summary
+  - Statistics
+  - Quick navigation
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- Search
+  - Basic search
+  - Smart multi-keyword search
 
-## Agentic Development
+- Responsive Interface
+  - Laravel Inertia
+  - Vue 3
+  - Vite
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
+
+# Tech Stack
+
+| Technology | Version |
+|------------|---------|
+| Laravel | 13 |
+| PHP | 8.4 |
+| Vue | 3 |
+| Inertia.js | Latest |
+| Vite | Latest |
+| MariaDB | 11 |
+| Docker | Latest |
+| Laravel Sail | Latest |
+| GitHub Actions | CI/CD |
+
+---
+
+# Requirements
+
+- Docker Desktop
+- Laravel Sail
+- Git
+- Node.js
+- Composer
+
+---
+
+# Installation
 
 ```bash
-composer require laravel/boost --dev
+git clone https://github.com/allnovice/vvlarav2.git
 
-php artisan boost:install
+cd vvlarav2
+
+cp .env.example .env
+
+composer install
+
+npm install
+
+./vendor/bin/sail up -d
+
+./vendor/bin/sail artisan key:generate
+
+./vendor/bin/sail artisan migrate
+
+npm run dev
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+# Running Tests
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+./vendor/bin/sail artisan test
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Continuous Integration
 
-## Security Vulnerabilities
+GitHub Actions automatically runs:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Composer install
+- Node install
+- Vite build
+- Laravel migrations
+- PHPUnit tests
 
-## License
+on every push and pull request.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+# Project Structure
+
+```
+app/
+bootstrap/
+config/
+database/
+public/
+resources/
+    js/
+        Components/
+        Layouts/
+        Pages/
+routes/
+storage/
+tests/
+```
+
+---
+
+# Screenshots
+
+## Dashboard
+
+*(Add screenshot here)*
+
+---
+
+## Assets
+
+*(Add screenshot here)*
+
+---
+
+## Asset Details
+
+*(Add screenshot here)*
+
+---
+
+## Login
+
+*(Add screenshot here)*
+
+---
+
+# Roadmap
+
+## Completed
+
+- Laravel Breeze Authentication
+- Vue + Inertia
+- Asset CRUD
+- Asset Details
+- GitHub Actions CI
+
+## In Progress
+
+- Asset Specifications
+- Categories
+- Search Improvements
+
+## Planned
+
+- Maintenance Records
+- Preventive Maintenance
+- QR Code Assets
+- Reports
+- Notifications
+- User Roles & Permissions
+- Audit Logs
+- Dashboard Analytics
+
+---
+
+# Learning Goals
+
+This project is also a personal learning journey focused on:
+
+- Laravel
+- Vue.js
+- Inertia.js
+- Docker
+- GitHub Actions
+- CI/CD
+- Software Architecture
+- Clean Code Practices
+
+---
+
+# Contributing
+
+Contributions, suggestions, and feedback are welcome.
+
+Feel free to fork the repository and submit a pull request.
+
+---
+
+# License
+
+This project is licensed under the MIT License.
