@@ -1,4 +1,4 @@
-name: Laravel Tests (Sail - Optimized)
+name: Laravel Tests (Sail)
 
 on:
   push:
@@ -10,34 +10,39 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
-    env:
-      DOCKER_BUILDKIT: 1
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # -------------------------
-      # PHP + Composer
-      # -------------------------
+      - name: Copy .env
+        run: cp .env.example .env
+
+      - name: Configure CI environment
+        run: |
+          echo "APP_ENV=testing" >> .env
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=mariadb" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=laravel" >> .env
+          echo "DB_USERNAME=sail" >> .env
+          echo "DB_PASSWORD=password" >> .env
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: "8.4"
           tools: composer:v2
 
-      - name: Cache Composer dependencies
+      - name: Cache Composer
         uses: actions/cache@v4
         with:
           path: vendor
           key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
 
-      # -------------------------
-      # Node / Vite
-      # -------------------------
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -47,31 +52,9 @@ jobs:
       - name: Install Node dependencies
         run: npm install
 
-      - name: Build assets (Vite)
+      - name: Build Vite assets
         run: npm run build
 
-      # -------------------------
-      # Docker cache (Sail)
-      # -------------------------
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: docker-${{ runner.os }}-${{ hashFiles('docker-compose.yml') }}
-          restore-keys: |
-            docker-${{ runner.os }}-
-
-      - name: Build Sail containers (cached)
-        run: |
-          docker compose build \
-            --build-arg BUILDKIT_INLINE_CACHE=1
-
-      # -------------------------
-      # Start Sail
-      # -------------------------
       - name: Start Sail
         run: ./vendor/bin/sail up -d
 
@@ -81,24 +64,15 @@ jobs:
             sleep 2
           done
 
-      # -------------------------
-      # Laravel setup
-      # -------------------------
       - name: Generate application key
         run: ./vendor/bin/sail artisan key:generate
 
       - name: Run migrations
         run: ./vendor/bin/sail artisan migrate --force
 
-      # -------------------------
-      # Run tests
-      # -------------------------
       - name: Run tests
         run: ./vendor/bin/sail artisan test
 
-      # -------------------------
-      # Cleanup
-      # -------------------------
       - name: Stop Sail
         if: always()
         run: ./vendor/bin/sail down
