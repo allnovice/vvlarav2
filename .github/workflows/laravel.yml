@@ -20,11 +20,26 @@ jobs:
           php-version: '8.4'
           tools: composer:v2
 
-      - name: Copy .env
-        run: cp .env.example .env
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Cache Node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-${{ hashFiles('package-lock.json') }}
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Build assets (Vite)
+        run: npm run build
 
       - name: Start Sail
         run: ./vendor/bin/sail up -d
@@ -35,7 +50,7 @@ jobs:
             sleep 2
           done
 
-      - name: Generate application key
+      - name: Generate key
         run: ./vendor/bin/sail artisan key:generate
 
       - name: Run migrations
