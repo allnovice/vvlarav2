@@ -1,6 +1,7 @@
 <script setup>
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import CardSection from '@/Components/Assets/CardSection.vue'
+import { DocumentTextIcon } from '@heroicons/vue/24/outline'
 
 defineProps({
     asset: Object,
@@ -9,8 +10,10 @@ defineProps({
 
 <template>
 
-<CardSection title="Acquisition">
-
+<CardSection
+    title="cquisition"
+    :icon="DocumentTextIcon"
+>
     <InfoRow
         label="Acquisition Date"
         :value="asset.acquisition_date"

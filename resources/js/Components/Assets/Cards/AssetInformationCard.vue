@@ -2,6 +2,7 @@
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 import CardSection from '@/Components/Assets/CardSection.vue'
+import { CubeIcon } from '@heroicons/vue/24/outline'
 
 defineProps({
     asset: Object,
@@ -12,6 +13,7 @@ defineProps({
 
 <CardSection
     title="Asset Information"
+    :icon="CubeIcon"
 >
 
     <InfoRow

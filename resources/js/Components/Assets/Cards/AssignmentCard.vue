@@ -1,6 +1,7 @@
 <script setup>
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import CardSection from '@/Components/Assets/CardSection.vue'
+import { UserIcon } from '@heroicons/vue/24/outline'
 
 defineProps({
     asset: Object,
@@ -9,7 +10,10 @@ defineProps({
 
 <template>
 
-<CardSection title="Assignment">
+<CardSection
+    title="Assignment"
+    :icon="UserIcon"
+>
 
     <InfoRow
         label="Department"
