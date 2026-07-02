@@ -48,7 +48,7 @@ class AssetController extends Controller
     }
     public function update(Request $request, Asset $asset)
     {
-        
+
 $validated = $request->validate([
     // Asset Information
     'property_number' => ['required', 'string', 'max:255'],
@@ -88,11 +88,5 @@ $validated = $request->validate([
     return Inertia::render('Assets/Show', [
         'asset' => $asset,
         ]);
-    }
-    public function edit(Asset $asset)
-    {
-    return Inertia::render('Assets/Edit', [
-        'asset' => $asset,
-    ]);
     }
 }

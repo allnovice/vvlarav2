@@ -1,12 +1,74 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { useForm, Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
+import AssetModal from '@/Components/Assets/AssetModal.vue'
 
-defineProps({
+const props = defineProps({
     asset: Object,
 })
+const showModal = ref(false)
+
+const form = useForm({
+    // Asset Information
+    property_number: '',
+    type: '',
+    status: 'Active',
+    description: '',
+
+    // Specifications
+    brand: '',
+    model: '',
+    serial_number: '',
+    manufacturer: '',
+
+    // Assignment
+    assigned_to: '',
+    department: '',
+    location: '',
+
+    // Acquisition
+    acquisition_date: '',
+    acquisition_cost: '',
+    supplier: '',
+    warranty_expiry: '',
+})
+const editAsset = () => {
+
+    // Asset Information
+    form.property_number = props.asset.property_number
+    form.type = props.asset.type
+    form.status = props.asset.status
+    form.description = props.asset.description
+
+    // Specifications
+    form.brand = props.asset.brand
+    form.model = props.asset.model
+    form.serial_number = props.asset.serial_number
+    form.manufacturer = props.asset.manufacturer
+
+    // Assignment
+    form.assigned_to = props.asset.assigned_to
+    form.department = props.asset.department
+    form.location = props.asset.location
+
+    // Acquisition
+    form.acquisition_date = props.asset.acquisition_date
+    form.acquisition_cost = props.asset.acquisition_cost
+    form.supplier = props.asset.supplier
+    form.warranty_expiry = props.asset.warranty_expiry
+
+    showModal.value = true
+}
+const submit = () => {
+    form.put(route('assets.update', props.asset.id), {
+        onSuccess: () => {
+            showModal.value = false
+        },
+    })
+}
 </script>
 
 <template>
@@ -166,12 +228,12 @@ defineProps({
 
 <div class="mt-8 flex justify-end">
 
-    <Link
-        :href="route('assets.edit', asset.id)"
-        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-    >
-        Edit Asset
-    </Link>
+    <button
+    @click="editAsset"
+    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+>
+    Edit Asset
+</button>
 
 </div>
 
@@ -187,6 +249,13 @@ defineProps({
 
         </div>
 
+<AssetModal
+    :show="showModal"
+    :is-editing="true"
+    :form="form"
+    @close="showModal = false"
+    @submit="submit"
+/>
 
     </AuthenticatedLayout>
 </template>
