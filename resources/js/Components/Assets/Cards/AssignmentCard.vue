@@ -1,5 +1,6 @@
 <script setup>
 import InfoRow from '@/Components/Assets/InfoRow.vue'
+import CardSection from '@/Components/Assets/CardSection.vue'
 
 defineProps({
     asset: Object,
@@ -8,31 +9,23 @@ defineProps({
 
 <template>
 
-<div class="mt-8">
+<CardSection title="Assignment">
 
-    <h3 class="text-lg font-semibold text-gray-800">
-        Assignment
-    </h3>
+    <InfoRow
+        label="Department"
+        :value="asset.department"
+    />
 
-    <div class="mt-4 border rounded-lg overflow-hidden">
+    <InfoRow
+        label="Location"
+        :value="asset.location"
+    />
 
-        <InfoRow
-            label="Department"
-            :value="asset.department"
-        />
+    <InfoRow
+        label="Assigned To"
+        :value="asset.assigned_to"
+    />
 
-        <InfoRow
-            label="Location"
-            :value="asset.location"
-        />
-
-        <InfoRow
-            label="Assigned To"
-            :value="asset.assigned_to"
-        />
-
-    </div>
-
-</div>
+</CardSection>
 
 </template>

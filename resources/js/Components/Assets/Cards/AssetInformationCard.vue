@@ -1,6 +1,7 @@
 <script setup>
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
+import CardSection from '@/Components/Assets/CardSection.vue'
 
 defineProps({
     asset: Object,
@@ -9,37 +10,33 @@ defineProps({
 
 <template>
 
-<div>
+<CardSection
+    title="Asset Information"
+>
 
-    <h3 class="text-lg font-semibold text-gray-800">
-        Asset Information
-    </h3>
+    <InfoRow
+        label="Property Number"
+        :value="asset.property_number"
+    />
 
-    <div class="mt-4 border rounded-lg overflow-hidden">
+    <InfoRow
+        label="Type"
+        :value="asset.type"
+    />
 
-        <InfoRow
-            label="Property Number"
-            :value="asset.property_number"
+    <InfoRow label="Status">
+
+        <StatusBadge
+            :status="asset.status"
         />
 
-        <InfoRow
-            label="Type"
-            :value="asset.type"
-        />
+    </InfoRow>
 
-        <InfoRow label="Status">
+    <InfoRow
+        label="Description"
+        :value="asset.description"
+    />
 
-            <StatusBadge :status="asset.status" />
-
-        </InfoRow>
-
-        <InfoRow
-            label="Description"
-            :value="asset.description"
-        />
-
-    </div>
-
-</div>
-
+</CardSection>
+       
 </template>
