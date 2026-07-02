@@ -205,11 +205,13 @@ const submit = () => {
         <InfoRow
             label="Acquisition Date"
             :value="asset.acquisition_date"
+            type="date"
         />
 
         <InfoRow
             label="Acquisition Cost"
             :value="asset.acquisition_cost"
+            type="currency"
         />
 
         <InfoRow
@@ -220,6 +222,7 @@ const submit = () => {
         <InfoRow
             label="Warranty Expiry"
             :value="asset.warranty_expiry"
+            type="date"
         />
 
     </div>
