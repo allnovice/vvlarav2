@@ -5,6 +5,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 import AssetModal from '@/Components/Assets/AssetModal.vue'
+import AssetInformationCard from '@/Components/Assets/Cards/AssetInformationCard.vue'
+import SpecificationsCard from '@/Components/Assets/Cards/SpecificationsCard.vue'
+import AssignmentCard from '@/Components/Assets/Cards/AssignmentCard.vue'
+import AcquisitionCard from '@/Components/Assets/Cards/AcquisitionCard.vue'
 
 const props = defineProps({
     asset: Object,
@@ -96,138 +100,13 @@ const submit = () => {
 
 <div class="space-y-4">
 
-    <h3 class="text-lg font-semibold text-gray-800">
-        Asset Information
-    </h3>
-
-    <div class="border rounded-lg overflow-hidden">
-
-
-
-        <InfoRow
-    label="Property Number"
-    :value="asset.property_number"
-/>
-
-<InfoRow
-    label="Type"
-    :value="asset.type"
-/>
-
-<InfoRow label="Status">
-
-    <StatusBadge :status="asset.status" />
-
-</InfoRow>
-
-<InfoRow
-    label="Description"
-    :value="asset.description"
-/>
+<AssetInformationCard :asset="asset" />
+<SpecificationsCard :asset="asset" />
+<AssignmentCard :asset="asset" />
+<AcquisitionCard :asset="asset" />
 
 
 
-    </div>
-
-
-<div class="mt-8">
-
-    <h3 class="text-lg font-semibold text-gray-800 mb-4">
-        Specifications
-    </h3>
-
-    <div class="border rounded-lg overflow-hidden">
-
-
-<InfoRow
-    label="Brand"
-    :value="asset.brand"
-/>
-
-<InfoRow
-    label="Model"
-    :value="asset.model"
-/>
-
-<InfoRow
-    label="Serial Number"
-    :value="asset.serial_number"
-/>
-
-<InfoRow
-    label="Manufacturer"
-    :value="asset.manufacturer"
-/>
-
-
-    </div>
-
-</div>
-
-<div class="mt-8">
-
-    <h3 class="text-lg font-semibold text-gray-800 mb-4">
-        Assignment
-    </h3>
-
-    <div class="border rounded-lg overflow-hidden">
-
-<InfoRow
-    label="Department"
-    :value="asset.department"
-/>
-
-<InfoRow
-    label="Location"
-    :value="asset.location"
-/>
-
-<InfoRow
-    label="Assigned To"
-    :value="asset.assigned_to"
-/>
-
-    </div>
-
-</div>
-
-
-
-
-<div class="mt-8">
-
-    <h3 class="text-lg font-semibold text-gray-800 mb-4">
-        Acquisition
-    </h3>
-
-    <div class="border rounded-lg overflow-hidden">
-
-        <InfoRow
-            label="Acquisition Date"
-            :value="asset.acquisition_date"
-            type="date"
-        />
-
-        <InfoRow
-            label="Acquisition Cost"
-            :value="asset.acquisition_cost"
-            type="currency"
-        />
-
-        <InfoRow
-            label="Supplier"
-            :value="asset.supplier"
-        />
-
-        <InfoRow
-            label="Warranty Expiry"
-            :value="asset.warranty_expiry"
-            type="date"
-        />
-
-    </div>
-
-</div>
 
 <div class="mt-8 flex justify-end">
 
