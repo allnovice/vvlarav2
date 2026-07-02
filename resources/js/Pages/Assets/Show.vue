@@ -5,7 +5,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 import AssetModal from '@/Components/Assets/AssetModal.vue'
-import AssetInformationCard from '@/Components/Assets/Cards/AssetInformationCard.vue'
+import AssetSummaryCard from '@/Components/Assets/Cards/AssetSummaryCard.vue'
 import SpecificationsCard from '@/Components/Assets/Cards/SpecificationsCard.vue'
 import AssignmentCard from '@/Components/Assets/Cards/AssignmentCard.vue'
 import AcquisitionCard from '@/Components/Assets/Cards/AcquisitionCard.vue'
@@ -100,7 +100,10 @@ const submit = () => {
 
 <div class="space-y-4">
 
-<AssetInformationCard :asset="asset" />
+<AssetSummaryCard
+    :asset="asset"
+    @edit="editAsset"
+/>
 <SpecificationsCard :asset="asset" />
 <AssignmentCard :asset="asset" />
 <AcquisitionCard :asset="asset" />
@@ -108,16 +111,7 @@ const submit = () => {
 
 
 
-<div class="mt-8 flex justify-end">
 
-    <button
-    @click="editAsset"
-    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
->
-    Edit Asset
-</button>
-
-</div>
 
 
 
