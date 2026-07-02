@@ -76,20 +76,27 @@ defineProps({
 
     <div class="border rounded-lg overflow-hidden">
 
-        <InfoRow
-            label="Brand"
-            value="-"
-        />
 
-        <InfoRow
-            label="Model"
-            value="-"
-        />
+<InfoRow
+    label="Brand"
+    :value="asset.brand"
+/>
 
-        <InfoRow
-            label="Serial Number"
-            value="-"
-        />
+<InfoRow
+    label="Model"
+    :value="asset.model"
+/>
+
+<InfoRow
+    label="Serial Number"
+    :value="asset.serial_number"
+/>
+
+<InfoRow
+    label="Manufacturer"
+    :value="asset.manufacturer"
+/>
+
 
     </div>
 
@@ -103,19 +110,54 @@ defineProps({
 
     <div class="border rounded-lg overflow-hidden">
 
+<InfoRow
+    label="Department"
+    :value="asset.department"
+/>
+
+<InfoRow
+    label="Location"
+    :value="asset.location"
+/>
+
+<InfoRow
+    label="Assigned To"
+    :value="asset.assigned_to"
+/>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="mt-8">
+
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">
+        Acquisition
+    </h3>
+
+    <div class="border rounded-lg overflow-hidden">
+
         <InfoRow
-            label="Department"
-            value="-"
+            label="Acquisition Date"
+            :value="asset.acquisition_date"
         />
 
         <InfoRow
-            label="Location"
-            value="-"
+            label="Acquisition Cost"
+            :value="asset.acquisition_cost"
         />
 
         <InfoRow
-            label="Assigned To"
-            value="-"
+            label="Supplier"
+            :value="asset.supplier"
+        />
+
+        <InfoRow
+            label="Warranty Expiry"
+            :value="asset.warranty_expiry"
         />
 
     </div>

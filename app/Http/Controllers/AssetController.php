@@ -18,11 +18,29 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'property_number' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'status' => 'required|string|max:50',
-        ]);
+    // Asset Information
+    'property_number' => ['required', 'string', 'max:255'],
+    'type' => ['required', 'string', 'max:255'],
+    'description' => ['nullable', 'string'],
+    'status' => ['required', 'string', 'max:50'],
+
+    // Specifications
+    'brand' => ['nullable', 'string', 'max:255'],
+    'model' => ['nullable', 'string', 'max:255'],
+    'serial_number' => ['nullable', 'string', 'max:255'],
+    'manufacturer' => ['nullable', 'string', 'max:255'],
+
+    // Assignment
+    'assigned_to' => ['nullable', 'string', 'max:255'],
+    'department' => ['nullable', 'string', 'max:255'],
+    'location' => ['nullable', 'string', 'max:255'],
+
+    // Acquisition
+    'acquisition_date' => ['nullable', 'date'],
+    'acquisition_cost' => ['nullable', 'numeric'],
+    'supplier' => ['nullable', 'string', 'max:255'],
+    'warranty_expiry' => ['nullable', 'date'],
+]);
 
         Asset::create($validated);
 
@@ -30,13 +48,31 @@ class AssetController extends Controller
     }
     public function update(Request $request, Asset $asset)
     {
-        $validated = $request->validate([
-            'property_number' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'status' => ['required', 'string', 'max:50'],
-        ]);
+        
+$validated = $request->validate([
+    // Asset Information
+    'property_number' => ['required', 'string', 'max:255'],
+    'type' => ['required', 'string', 'max:255'],
+    'description' => ['nullable', 'string'],
+    'status' => ['required', 'string', 'max:50'],
 
+    // Specifications
+    'brand' => ['nullable', 'string', 'max:255'],
+    'model' => ['nullable', 'string', 'max:255'],
+    'serial_number' => ['nullable', 'string', 'max:255'],
+    'manufacturer' => ['nullable', 'string', 'max:255'],
+
+    // Assignment
+    'assigned_to' => ['nullable', 'string', 'max:255'],
+    'department' => ['nullable', 'string', 'max:255'],
+    'location' => ['nullable', 'string', 'max:255'],
+
+    // Acquisition
+    'acquisition_date' => ['nullable', 'date'],
+    'acquisition_cost' => ['nullable', 'numeric'],
+    'supplier' => ['nullable', 'string', 'max:255'],
+    'warranty_expiry' => ['nullable', 'date'],
+]);
         $asset->update($validated);
 
         return redirect()->route('assets');

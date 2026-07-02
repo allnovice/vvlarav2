@@ -59,10 +59,28 @@ const filteredAssets = computed(() => {
 })
 
 const form = useForm({
+    // Asset Information
     property_number: '',
     type: '',
     status: 'Active',
     description: '',
+
+    // Specifications
+    brand: '',
+    model: '',
+    serial_number: '',
+    manufacturer: '',
+
+    // Assignment
+    assigned_to: '',
+    department: '',
+    location: '',
+
+    // Acquisition
+    acquisition_date: '',
+    acquisition_cost: '',
+    supplier: '',
+    warranty_expiry: '',
 })
 
 const submit = () => {
@@ -82,11 +100,29 @@ const editAsset = (asset) => {
     isEditing.value = true
     editingId.value = asset.id
 
+    // Asset Information
     form.property_number = asset.property_number
     form.type = asset.type
     form.status = asset.status
     form.description = asset.description
-    
+
+    // Specifications
+    form.brand = asset.brand
+    form.model = asset.model
+    form.serial_number = asset.serial_number
+    form.manufacturer = asset.manufacturer
+
+    // Assignment
+    form.assigned_to = asset.assigned_to
+    form.department = asset.department
+    form.location = asset.location
+
+    // Acquisition
+    form.acquisition_date = asset.acquisition_date
+    form.acquisition_cost = asset.acquisition_cost
+    form.supplier = asset.supplier
+    form.warranty_expiry = asset.warranty_expiry
+
     showModal.value = true
 }
 const deleteAsset = (asset) => {
