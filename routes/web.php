@@ -31,6 +31,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('assets.update');
     Route::delete('/assets/{asset}', [AssetController::class, 'destroy'])
         ->name('assets.destroy');
+    Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
+    ->name('assets.qr');
 });
 
 Route::middleware('auth')->group(function () {

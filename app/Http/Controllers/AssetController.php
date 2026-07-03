@@ -6,6 +6,7 @@ use App\Models\Asset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AssetController extends Controller
 {
@@ -15,6 +16,20 @@ class AssetController extends Controller
             'assets' => Asset::latest()->paginate(10),
         ]);
     }
+
+public function qr(Asset $asset)
+{
+    $url = route('assets.show', $asset);
+
+    $qr = (string) QrCode::format('svg')
+    ->size(250)
+    ->generate($url);
+
+    return Inertia::render('Assets/PrintQr', [
+        'asset' => $asset,
+        'qr' => $qr,
+    ]);
+}
 
     public function store(Request $request)
     {
