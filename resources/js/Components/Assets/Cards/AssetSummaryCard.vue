@@ -8,10 +8,17 @@ import { Link } from '@inertiajs/vue3'
 
 defineProps({
     asset: Object,
+
+    isAuthenticated: {
+        type: Boolean,
+        default: false,
+    },
 })
+
 const emit = defineEmits([
     'edit',
 ])
+
 </script>
 
 <template>
@@ -133,6 +140,7 @@ const emit = defineEmits([
     />
 
     <button
+        v-if="isAuthenticated"
         @click="$emit('edit')"
         class="w-full inline-flex justify-center items-center px-4 py-2
                bg-blue-600 text-white rounded-lg

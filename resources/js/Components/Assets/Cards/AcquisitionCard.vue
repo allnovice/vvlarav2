@@ -11,7 +11,7 @@ defineProps({
 <template>
 
 <CardSection
-    title="cquisition"
+    title="Acquisition"
     :icon="DocumentTextIcon"
 >
     <InfoRow

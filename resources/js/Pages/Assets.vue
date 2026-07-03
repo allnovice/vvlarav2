@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { useForm } from '@inertiajs/vue3'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import { usePage, useForm } from '@inertiajs/vue3'
+import MainLayout from '@/Layouts/MainLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import DangerButton from '@/Components/DangerButton.vue'
@@ -17,7 +17,6 @@ import AssetPagination from '@/Components/Assets/AssetPagination.vue'
 const props = defineProps({
     assets: Object,
 })
-
 const showModal = ref(false)
 const isEditing = ref(false)
 const editingId = ref(null)
@@ -26,14 +25,24 @@ const statusFilter = ref('All')
 const sortBy = ref('property_number')
 const sortDirection = ref('asc')
 
+const page = usePage()
+
+console.log('AUTH =', page.props.auth)
+console.log('USER =', page.props.auth?.user)
+console.log('PROPS KEYS =', Object.keys(page.props))
+
+const user = computed(() => page.props.auth?.user ?? null)
+const isAuthenticated = computed(() => !!user.value)
+
+
 const filteredAssets = computed(() => {
     const term = search.value.toLowerCase()
 
     const results = props.assets.data.filter(asset => {
         const matchesSearch =
-            asset.property_number.toLowerCase().includes(term) ||
-            asset.type.toLowerCase().includes(term) ||
-            asset.description.toLowerCase().includes(term)
+            String(asset.property_number ?? '').toLowerCase().includes(term) ||
+            String(asset.type ?? '').toLowerCase().includes(term) ||
+            String(asset.description ?? '').toLowerCase().includes(term)
 
         const matchesStatus =
             statusFilter.value === 'All' ||
@@ -153,7 +162,7 @@ const sort = (column) => {
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <MainLayout>
 
         <template #header>
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -170,6 +179,7 @@ const sort = (column) => {
 <AssetToolbar
     :search="search"
     :statusFilter="statusFilter"
+    :isAuthenticated="isAuthenticated"
     @update:search="search = $event"
     @update:statusFilter="statusFilter = $event"
     @addAsset="showModal = true"
@@ -179,6 +189,7 @@ const sort = (column) => {
     :assets="filteredAssets"
     :sortBy="sortBy"
     :sortDirection="sortDirection"
+    :isAuthenticated="isAuthenticated"
     @edit="editAsset"
     @delete="deleteAsset"
     @sort="sort"
@@ -200,6 +211,8 @@ const sort = (column) => {
 
           </div>
             <!-- Modal -->
+
+
 <AssetModal
     :show="showModal"
     :form="form"
@@ -207,5 +220,7 @@ const sort = (column) => {
     @submit="submit"
     @close="closeModal"
 />        
-    </AuthenticatedLayout>
+
+
+    </MainLayout>
 </template>

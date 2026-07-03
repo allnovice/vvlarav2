@@ -8,6 +8,10 @@ defineProps({
     assets: Array,
     sortBy: String,
     sortDirection: String,
+    isAuthenticated: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const emit = defineEmits([
@@ -125,13 +129,22 @@ const emit = defineEmits([
     View
 </Link>
 
-                    <SecondaryButton @click="emit('edit', asset)">
-                        Edit
-                    </SecondaryButton>
 
-                    <DangerButton @click="emit('delete', asset)">
-                        Delete
-                    </DangerButton>
+<SecondaryButton
+    v-if="isAuthenticated"
+    @click="$emit('edit', asset)"
+>
+    Edit
+</SecondaryButton>
+
+<DangerButton
+    v-if="isAuthenticated"
+    @click="emit('delete', asset)"
+>
+    Delete
+</DangerButton>
+
+
                 </td>
             </tr>
 

@@ -1,7 +1,7 @@
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import { useForm, Link, usePage } from '@inertiajs/vue3'
+import { ref, computed } from 'vue'
+import MainLayout from '@/Layouts/MainLayout.vue'
 import InfoRow from '@/Components/Assets/InfoRow.vue'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 import AssetModal from '@/Components/Assets/AssetModal.vue'
@@ -14,7 +14,11 @@ const props = defineProps({
     asset: Object,
 })
 const showModal = ref(false)
+const page = usePage()
 
+const user = computed(() => page.props.auth?.user ?? null)
+
+const isAuthenticated = computed(() => !!user.value)
 const form = useForm({
     // Asset Information
     property_number: '',
@@ -39,6 +43,7 @@ const form = useForm({
     acquisition_cost: '',
     supplier: '',
     warranty_expiry: '',
+
 })
 const editAsset = () => {
 
@@ -82,7 +87,7 @@ form.put(route('assets.update', props.asset.id), {
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <MainLayout>
 
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -108,6 +113,7 @@ form.put(route('assets.update', props.asset.id), {
 
 <AssetSummaryCard
     :asset="asset"
+    :isAuthenticated="isAuthenticated"    
     @edit="editAsset"
 />
 <SpecificationsCard :asset="asset" />
@@ -139,5 +145,5 @@ form.put(route('assets.update', props.asset.id), {
     @submit="submit"
 />
 
-    </AuthenticatedLayout>
+    </MainLayout>
 </template>

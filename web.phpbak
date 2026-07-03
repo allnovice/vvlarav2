@@ -7,15 +7,24 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
 Route::get('/dashboard', function () {
-    return redirect('/');
-})->name('dashboard');
-
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/assets', [AssetController::class, 'index'])
+        ->name('assets');
+    Route::get('/assets/{asset}', [AssetController::class, 'show'])
+        ->name('assets.show');
     Route::post('/assets', [AssetController::class, 'store'])
         ->name('assets.store');
     Route::put('/assets/{asset}', [AssetController::class, 'update'])
@@ -25,12 +34,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
     ->name('assets.qr');
 });
-
-Route::get('/assets', [AssetController::class, 'index'])
-    ->name('assets');
-
-Route::get('/assets/{asset}', [AssetController::class, 'show'])
-    ->name('assets.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -4,16 +4,19 @@ import PrimaryButton from '@/Components/PrimaryButton.vue'
 defineProps({
     search: String,
     statusFilter: String,
+    isAuthenticated: {
+        type: Boolean,
+        default: false,
+    },
 })
-
 const emit = defineEmits([
     'update:search',
     'update:statusFilter',
     'addAsset',
 ])
-</script>
 
-const emit = defineEmits(['addAsset'])
+
+</script>
 
 <template>
 
@@ -42,9 +45,14 @@ const emit = defineEmits(['addAsset'])
     <option>Archived</option>
 </select>
 
-    <PrimaryButton @click="emit('addAsset')">
-        + Add Asset
-    </PrimaryButton>
+
+
+<PrimaryButton
+    v-if="isAuthenticated"
+    @click="emit('addAsset')"
+>
+    + Add Asset
+</PrimaryButton>
 
 </div>
 </div>
