@@ -29,7 +29,17 @@ class Asset extends Model
     'acquisition_cost',
     'supplier',
     'warranty_expiry',
+    'verified_at',
+    'verified_by',
+
 ];
+
+protected function casts(): array
+{
+    return [
+        'verified_at' => 'datetime',
+    ];
+}
 
 }
 

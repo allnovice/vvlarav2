@@ -9,6 +9,7 @@ import AssetSummaryCard from '@/Components/Assets/Cards/AssetSummaryCard.vue'
 import SpecificationsCard from '@/Components/Assets/Cards/SpecificationsCard.vue'
 import AssignmentCard from '@/Components/Assets/Cards/AssignmentCard.vue'
 import AcquisitionCard from '@/Components/Assets/Cards/AcquisitionCard.vue'
+import VerificationCard from '@/Components/Assets/Cards/VerificationCard.vue'
 
 const props = defineProps({
     asset: Object,
@@ -119,7 +120,7 @@ form.put(route('assets.update', props.asset.id), {
 <SpecificationsCard :asset="asset" />
 <AssignmentCard :asset="asset" />
 <AcquisitionCard :asset="asset" />
-
+<VerificationCard :asset="asset" />
 
 
 
@@ -132,9 +133,7 @@ form.put(route('assets.update', props.asset.id), {
 
 
                  </div>
-
             </div>
-
         </div>
 
 <AssetModal

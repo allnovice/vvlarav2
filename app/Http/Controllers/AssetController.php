@@ -128,4 +128,22 @@ public function qr(Asset $asset)
             'asset' => $asset,
         ]);
     }
+
+public function verify(Asset $asset)
+{
+    $asset->update([
+        'verified_at' => now(),
+        'verified_by' => auth()->id(),
+    ]);
+
+    return redirect()
+        ->route('assets.show', $asset)
+        ->with('success', 'Asset verified successfully.');
+}
+
+
+
+
+
+
 }

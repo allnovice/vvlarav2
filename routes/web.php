@@ -28,6 +28,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 });
 
+Route::patch('/assets/{asset}/verify', [AssetController::class, 'verify'])
+    ->middleware(['auth', 'admin'])
+    ->name('assets.verify');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/assets', [AssetController::class, 'store'])
