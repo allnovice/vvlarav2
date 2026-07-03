@@ -1,10 +1,10 @@
 <?php
-namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Storage;
 
+namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class AssetController extends Controller
@@ -18,89 +18,99 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
-
         $validated = $request->validate([
-    // Asset Information
-    'property_number' => ['required', 'string', 'max:255'],
-    'type' => ['required', 'string', 'max:255'],
-    'description' => ['nullable', 'string'],
-    'status' => ['required', 'string', 'max:50'],
-    'photo' => ['nullable', 'image', 'max:2048'],
+            // Asset Information
+            'property_number' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', 'string', 'max:50'],
+            'photo' => ['nullable', 'image', 'max:2048'],
 
-    // Specifications
-    'brand' => ['nullable', 'string', 'max:255'],
-    'model' => ['nullable', 'string', 'max:255'],
-    'serial_number' => ['nullable', 'string', 'max:255'],
-    'manufacturer' => ['nullable', 'string', 'max:255'],
+            // Specifications
+            'brand' => ['nullable', 'string', 'max:255'],
+            'model' => ['nullable', 'string', 'max:255'],
+            'serial_number' => ['nullable', 'string', 'max:255'],
+            'manufacturer' => ['nullable', 'string', 'max:255'],
 
-    // Assignment
-    'assigned_to' => ['nullable', 'string', 'max:255'],
-    'department' => ['nullable', 'string', 'max:255'],
-    'location' => ['nullable', 'string', 'max:255'],
+            // Assignment
+            'assigned_to' => ['nullable', 'string', 'max:255'],
+            'department' => ['nullable', 'string', 'max:255'],
+            'location' => ['nullable', 'string', 'max:255'],
 
-    // Acquisition
-    'acquisition_date' => ['nullable', 'date'],
-    'acquisition_cost' => ['nullable', 'numeric'],
-    'supplier' => ['nullable', 'string', 'max:255'],
-    'warranty_expiry' => ['nullable', 'date'],
-]);
+            // Acquisition
+            'acquisition_date' => ['nullable', 'date'],
+            'acquisition_cost' => ['nullable', 'numeric'],
+            'supplier' => ['nullable', 'string', 'max:255'],
+            'warranty_expiry' => ['nullable', 'date'],
+        ]);
 
-
-if ($request->hasFile('photo')) {
-    $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
-}
+        if ($request->hasFile('photo')) {
+            $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
+        }
 
         Asset::create($validated);
 
         return redirect()->route('assets');
     }
+
     public function update(Request $request, Asset $asset)
     {
+        $validated = $request->validate([
+            // Asset Information
+            'property_number' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', 'string', 'max:50'],
+            'photo' => ['nullable', 'image', 'max:2048'],
 
-$validated = $request->validate([
-    // Asset Information
-    'property_number' => ['required', 'string', 'max:255'],
-    'type' => ['required', 'string', 'max:255'],
-    'description' => ['nullable', 'string'],
-    'status' => ['required', 'string', 'max:50'],
-    'photo' => ['nullable', 'image', 'max:2048'],
+            // Specifications
+            'brand' => ['nullable', 'string', 'max:255'],
+            'model' => ['nullable', 'string', 'max:255'],
+            'serial_number' => ['nullable', 'string', 'max:255'],
+            'manufacturer' => ['nullable', 'string', 'max:255'],
 
-    // Specifications
-    'brand' => ['nullable', 'string', 'max:255'],
-    'model' => ['nullable', 'string', 'max:255'],
-    'serial_number' => ['nullable', 'string', 'max:255'],
-    'manufacturer' => ['nullable', 'string', 'max:255'],
+            // Assignment
+            'assigned_to' => ['nullable', 'string', 'max:255'],
+            'department' => ['nullable', 'string', 'max:255'],
+            'location' => ['nullable', 'string', 'max:255'],
 
-    // Assignment
-    'assigned_to' => ['nullable', 'string', 'max:255'],
-    'department' => ['nullable', 'string', 'max:255'],
-    'location' => ['nullable', 'string', 'max:255'],
+            // Acquisition
+            'acquisition_date' => ['nullable', 'date'],
+            'acquisition_cost' => ['nullable', 'numeric'],
+            'supplier' => ['nullable', 'string', 'max:255'],
+            'warranty_expiry' => ['nullable', 'date'],
+        ]);
 
-    // Acquisition
-    'acquisition_date' => ['nullable', 'date'],
-    'acquisition_cost' => ['nullable', 'numeric'],
-    'supplier' => ['nullable', 'string', 'max:255'],
-    'warranty_expiry' => ['nullable', 'date'],
-]);
+        if ($request->hasFile('photo')) {
 
-if ($request->hasFile('photo')) {
-    $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
-}
+            if ($asset->photo_path) {
+                Storage::disk('public')->delete($asset->photo_path);
+            }
+
+            $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
+        }
+
 
         $asset->update($validated);
 
-        return redirect()->route('assets');
+        return redirect()->route('assets.show', $asset);
     }
+
     public function destroy(Asset $asset)
     {
+        if ($asset->photo_path) {
+            Storage::disk('public')->delete($asset->photo_path);
+        }
+
         $asset->delete();
 
         return redirect()->route('assets');
     }
+
     public function show(Asset $asset)
     {
-    return Inertia::render('Assets/Show', [
-        'asset' => $asset,
+        return Inertia::render('Assets/Show', [
+            'asset' => $asset,
         ]);
     }
 }

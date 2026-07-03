@@ -21,6 +21,7 @@ const form = useForm({
     type: '',
     status: 'Active',
     description: '',
+    photo: null,
 
     // Specifications
     brand: '',
@@ -64,14 +65,19 @@ const editAsset = () => {
     form.supplier = props.asset.supplier
     form.warranty_expiry = props.asset.warranty_expiry
 
+    form.photo = null
+
     showModal.value = true
 }
 const submit = () => {
-    form.put(route('assets.update', props.asset.id), {
-        onSuccess: () => {
-            showModal.value = false
-        },
-    })
+
+form.put(route('assets.update', props.asset.id), {
+    forceFormData: true,
+    onSuccess: () => {
+        showModal.value = false
+    },
+})
+
 }
 </script>
 

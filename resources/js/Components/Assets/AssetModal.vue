@@ -54,7 +54,7 @@ const emit = defineEmits([
         type="file"
         accept="image/*"
         class="mt-1 block w-full"
-        @change="form.photo = $event.target.files[0]"
+        @change="e => form.photo = e.target.files[0]"
     />
 
     <InputError

@@ -37,19 +37,25 @@ const emit = defineEmits([
 
 <div class="w-32 h-32 rounded-xl overflow-hidden border">
 
-    <img
-        v-if="asset.photo_path"
-        :src="`/storage/${asset.photo_path}`"
-        alt="Asset Photo"
-        class="w-full h-full object-cover"
-    />
+
+
+   <img
+    v-if="asset.photo_path"
+    :src="`/storage/${asset.photo_path}`"
+    alt="Asset Photo"
+    class="w-32 h-32 rounded-xl object-cover shadow-sm"
+/>
 
     <div
-        v-else
-        class="w-full h-full flex items-center justify-center bg-gray-100"
-    >
-        <CubeIcon class="w-12 h-12 text-gray-400" />
-    </div>
+    v-else
+    class="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center shrink-0"
+>
+    <CubeIcon class="w-10 h-10 text-gray-400" />
+
+    <p class="text-xs text-gray-400 mt-2">
+        No Photo
+    </p>
+</div>
 
 </div>
 
