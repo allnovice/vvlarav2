@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AssetHistoryController;
 
 Route::get('/', function () {
     return Inertia::render('Dashboard');
@@ -31,6 +32,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::patch('/assets/{asset}/verify', [AssetController::class, 'verify'])
     ->middleware(['auth', 'admin'])
     ->name('assets.verify');
+
+Route::post('/assets/{asset}/history', [AssetHistoryController::class, 'store'])
+    ->middleware(['auth', 'admin'])
+    ->name('assets.history.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/assets', [AssetController::class, 'store'])

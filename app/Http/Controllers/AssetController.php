@@ -123,11 +123,13 @@ public function qr(Asset $asset)
     }
 
     public function show(Asset $asset)
-    {
-        return Inertia::render('Assets/Show', [
-            'asset' => $asset,
-        ]);
-    }
+{
+    $asset->load('history');
+
+    return Inertia::render('Assets/Show', [
+        'asset' => $asset,
+    ]);
+}
 
 public function verify(Asset $asset)
 {

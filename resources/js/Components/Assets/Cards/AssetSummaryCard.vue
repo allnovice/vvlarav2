@@ -139,6 +139,20 @@ const emit = defineEmits([
         :status="asset.status"
     />
 
+
+<div class="mt-2">
+    <span
+        :class="asset.verified_at
+            ? 'bg-green-100 text-green-700'
+            : 'bg-yellow-100 text-yellow-700'"
+        class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium"
+    >
+        {{ asset.verified_at ? '✓ Verified' : 'Not Verified' }}
+    </span>
+</div>
+
+
+
     <button
         v-if="isAuthenticated"
         @click="$emit('edit')"

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\AssetHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class Asset extends Model
@@ -40,6 +40,13 @@ protected function casts(): array
         'verified_at' => 'datetime',
     ];
 }
+public function history()
+{
+    return $this->hasMany(AssetHistory::class)
+        ->latest('performed_at');
+}
+
+
 
 }
 
