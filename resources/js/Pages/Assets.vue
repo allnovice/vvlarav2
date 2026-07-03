@@ -64,6 +64,7 @@ const form = useForm({
     type: '',
     status: 'Active',
     description: '',
+    photo: null,
 
     // Specifications
     brand: '',
@@ -86,11 +87,13 @@ const form = useForm({
 const submit = () => {
     if (isEditing.value) {
         form.put(route('assets.update', editingId.value), {
+            forceFormData: true,
             onSuccess: () => closeModal(),
         })
 
     } else {
         form.post(route('assets.store'), {
+            forceFormData: true, 
             onSuccess: () => closeModal(),
         })
 

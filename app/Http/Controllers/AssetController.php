@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Storage;
+
 
 use App\Models\Asset;
 use Illuminate\Http\Request;
@@ -17,12 +18,14 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
     // Asset Information
     'property_number' => ['required', 'string', 'max:255'],
     'type' => ['required', 'string', 'max:255'],
     'description' => ['nullable', 'string'],
     'status' => ['required', 'string', 'max:50'],
+    'photo' => ['nullable', 'image', 'max:2048'],
 
     // Specifications
     'brand' => ['nullable', 'string', 'max:255'],
@@ -41,6 +44,11 @@ class AssetController extends Controller
     'supplier' => ['nullable', 'string', 'max:255'],
     'warranty_expiry' => ['nullable', 'date'],
 ]);
+
+
+if ($request->hasFile('photo')) {
+    $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
+}
 
         Asset::create($validated);
 
@@ -55,6 +63,7 @@ $validated = $request->validate([
     'type' => ['required', 'string', 'max:255'],
     'description' => ['nullable', 'string'],
     'status' => ['required', 'string', 'max:50'],
+    'photo' => ['nullable', 'image', 'max:2048'],
 
     // Specifications
     'brand' => ['nullable', 'string', 'max:255'],
@@ -73,6 +82,11 @@ $validated = $request->validate([
     'supplier' => ['nullable', 'string', 'max:255'],
     'warranty_expiry' => ['nullable', 'date'],
 ]);
+
+if ($request->hasFile('photo')) {
+    $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
+}
+
         $asset->update($validated);
 
         return redirect()->route('assets');

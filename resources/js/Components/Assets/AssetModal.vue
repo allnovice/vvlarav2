@@ -42,6 +42,29 @@ const emit = defineEmits([
 <AssignmentForm :form="form" />
 <AcquisitionForm :form="form" />
 
+<div class="mb-4">
+
+    <InputLabel
+        for="photo"
+        value="Asset Photo"
+    />
+
+    <input
+        id="photo"
+        type="file"
+        accept="image/*"
+        class="mt-1 block w-full"
+        @change="form.photo = $event.target.files[0]"
+    />
+
+    <InputError
+        class="mt-2"
+        :message="form.errors.photo"
+    />
+
+</div>
+
+
 
         <div class="flex justify-end gap-2">
             <SecondaryButton @click="emit('close')">

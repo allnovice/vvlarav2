@@ -3,6 +3,7 @@ import InfoRow from '@/Components/Assets/InfoRow.vue'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 import CardSection from '@/Components/Assets/CardSection.vue'
 import { CubeIcon } from '@heroicons/vue/24/outline'
+import TagChip from '@/Components/Assets/TagChip.vue'
 
 defineProps({
     asset: Object,
@@ -16,11 +17,13 @@ const emit = defineEmits([
 
 <div
     class="rounded-xl
-           border
-           border-gray-200
-           bg-white
-           shadow-sm
-           p-6"
+       border
+       border-blue-100
+       bg-gradient-to-r
+       from-blue-50
+       to-white
+       shadow-sm
+       p-6"
 >
 
     <div class="flex justify-between items-start">
@@ -32,38 +35,77 @@ const emit = defineEmits([
 
     <!-- Placeholder for future asset photo -->
 
+<div class="w-32 h-32 rounded-xl overflow-hidden border">
+
+    <img
+        v-if="asset.photo_path"
+        :src="`/storage/${asset.photo_path}`"
+        alt="Asset Photo"
+        class="w-full h-full object-cover"
+    />
+
     <div
-        class="w-20 h-20
-               rounded-xl
-               bg-gray-100
-               border
-               flex
-               items-center
-               justify-center"
+        v-else
+        class="w-full h-full flex items-center justify-center bg-gray-100"
     >
-
-        <CubeIcon class="w-10 h-10 text-gray-400" />
-
+        <CubeIcon class="w-12 h-12 text-gray-400" />
     </div>
 
-    <div>
+</div>
 
-        <h2 class="text-2xl font-bold text-gray-900">
-            {{ asset.brand || 'Unknown Brand' }}
-            {{ asset.model || '' }}
-        </h2>
 
-        <p class="text-gray-500 mt-1">
-            Property No. {{ asset.property_number }}
-        </p>
+<div>
 
-        <p class="text-gray-500 mt-2">
-            {{ asset.type }}
-            •
-            {{ asset.department || 'Unassigned' }}
-            •
-            {{ asset.location || 'No Location' }}
-        </p>
+
+<p class="text-sm uppercase tracking-[0.2em] text-blue-600 font-semibold">
+    {{ asset.brand || 'Unknown Brand' }}
+</p>
+<h2 class="text-3xl font-bold text-gray-900 mt-1">
+    {{ asset.model || 'Unknown Model' }}
+</h2>
+
+
+
+<div class="mt-4">
+
+    <p
+        class="text-xs
+               uppercase
+               tracking-[0.2em]
+               text-gray-400"
+    >
+        Property Number
+    </p>
+
+    <p
+        class="text-lg
+               font-semibold
+               text-gray-900"
+    >
+        {{ asset.property_number }}
+    </p>
+
+</div>
+
+
+
+<div class="flex flex-wrap gap-2 mt-4">
+
+    <TagChip
+        :value="asset.type"
+    />
+
+    <TagChip
+        :value="asset.department || 'Unassigned'"
+    />
+
+    <TagChip
+        :value="asset.location || 'No Location'"
+    />
+
+</div>
+
+
 
     </div>
 
