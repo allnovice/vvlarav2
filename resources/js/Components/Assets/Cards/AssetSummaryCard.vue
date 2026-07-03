@@ -4,6 +4,7 @@ import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 import CardSection from '@/Components/Assets/CardSection.vue'
 import { CubeIcon } from '@heroicons/vue/24/outline'
 import TagChip from '@/Components/Assets/TagChip.vue'
+import { Link } from '@inertiajs/vue3'
 
 defineProps({
     asset: Object,
@@ -125,7 +126,7 @@ const emit = defineEmits([
 
 
 
-<div class="flex flex-col items-end gap-4">
+<div class="flex flex-col items-end gap-3">
 
     <StatusBadge
         :status="asset.status"
@@ -133,12 +134,21 @@ const emit = defineEmits([
 
     <button
         @click="$emit('edit')"
-        class="inline-flex items-center gap-2 px-4 py-2
+        class="w-full inline-flex justify-center items-center px-4 py-2
                bg-blue-600 text-white rounded-lg
                hover:bg-blue-700 transition"
     >
         Edit Asset
     </button>
+
+    <Link
+        :href="route('assets.qr', asset.id)"
+        class="w-full inline-flex justify-center items-center px-4 py-2
+               bg-gray-700 text-white rounded-lg
+               hover:bg-gray-800 transition"
+    >
+        Print QR
+    </Link>
 
 </div>
 
