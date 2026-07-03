@@ -33,12 +33,12 @@ const user = computed(() => page.props.auth?.user ?? null);
 
                         <div class="hidden sm:ms-10 sm:flex sm:space-x-8">
 
-                            <NavLink
-                                href="/"
-                                :active="route().current('/')"
-                            >
-                                Dashboard
-                            </NavLink>
+<NavLink
+    :href="route('dashboard')"
+    :active="route().current('home')"
+>
+    Dashboard
+</NavLink>
 
                             <NavLink
                                 :href="route('assets')"
@@ -46,6 +46,14 @@ const user = computed(() => page.props.auth?.user ?? null);
                             >
                                 Assets
                             </NavLink>
+
+<NavLink
+    :href="route('users.index')"
+    :active="route().current('users.*')"
+>
+    Users
+</NavLink>
+
 
                         </div>
 
@@ -156,13 +164,29 @@ const user = computed(() => page.props.auth?.user ?? null);
                 class="sm:hidden border-t border-gray-200"
             >
 
-                <ResponsiveNavLink href="/">
-                    Dashboard
-                </ResponsiveNavLink>
 
-                <ResponsiveNavLink :href="route('assets')">
-                    Assets
-                </ResponsiveNavLink>
+                
+<ResponsiveNavLink
+    :href="route('dashboard')"
+    :active="route().current('home')"
+>
+    Dashboard
+</ResponsiveNavLink>
+
+<ResponsiveNavLink
+    :href="route('assets')"
+    :active="route().current('assets')"
+>
+    Assets
+</ResponsiveNavLink>
+                
+<ResponsiveNavLink
+    :href="route('users.index')"
+    :active="route().current('users.*')"
+>
+    Users
+</ResponsiveNavLink>
+
 
                 <template v-if="user">
 
