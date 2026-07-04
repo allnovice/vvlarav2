@@ -58,6 +58,11 @@ jobs:
       - name: Start Sail
         run: ./vendor/bin/sail up -d
 
+      - name: Test file writes
+        run: |
+         ./vendor/bin/sail exec laravel.test sh -c 'touch /var/www/html/storage/logs/test.log && echo "storage OK"'
+         ./vendor/bin/sail exec laravel.test sh -c 'echo test >> /var/www/html/.env && echo ".env OK"'
+     
       - name: Test write access
         run: |
          ./vendor/bin/sail exec laravel.test sh -c 'echo hello > /tmp/test && cat /tmp/test'
