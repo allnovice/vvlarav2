@@ -1,8 +1,6 @@
 name: Laravel Tests (Sail)
 
 on:
-  push:
-    branches: ["main"]
   pull_request:
     branches: ["main"]
 
@@ -57,30 +55,11 @@ jobs:
 
       - name: Start Sail
         run: ./vendor/bin/sail up -d
-
-      - name: Test file writes
-        run: |
-         ./vendor/bin/sail exec laravel.test sh -c 'touch /var/www/html/storage/logs/test.log && echo "storage OK"'
-         ./vendor/bin/sail exec laravel.test sh -c 'echo test >> /var/www/html/.env && echo ".env OK"'
-     
-      - name: Test write access
-        run: |
-         ./vendor/bin/sail exec laravel.test sh -c 'echo hello > /tmp/test && cat /tmp/test'
-         ./vendor/bin/sail exec laravel.test sh -c 'touch /var/www/html/storage/logs/test.log'
-         ./vendor/bin/sail exec laravel.test sh -c 'echo test >> /var/www/html/.env'
-         ./vendor/bin/sail exec laravel.test mount | grep "/var/www/html"
-  
-      - name: Debug permissions
-        run: |
-         ./vendor/bin/sail exec laravel.test id
-          ./vendor/bin/sail exec laravel.test ls -ld /var/www/html
-          ./vendor/bin/sail exec laravel.test ls -ld /var/www/html/storage
-          ./vendor/bin/sail exec laravel.test ls -l /var/www/html/.env
   
       - name: Wait for MariaDB
         run: |
           until ./vendor/bin/sail exec mariadb mariadb-admin ping --silent; do
-            sleep 10
+            sleep 2
           done
 
       - name: Generate application key
