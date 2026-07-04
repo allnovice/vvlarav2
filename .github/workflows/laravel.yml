@@ -58,6 +58,13 @@ jobs:
       - name: Start Sail
         run: ./vendor/bin/sail up -d
 
+      - name: Debug permissions
+        run: |
+         ./vendor/bin/sail exec laravel.test id
+          ./vendor/bin/sail exec laravel.test ls -ld /var/www/html
+          ./vendor/bin/sail exec laravel.test ls -ld /var/www/html/storage
+          ./vendor/bin/sail exec laravel.test ls -l /var/www/html/.env
+  
       - name: Wait for MariaDB
         run: |
           until ./vendor/bin/sail exec mariadb mariadb-admin ping --silent; do
