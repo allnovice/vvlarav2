@@ -58,6 +58,13 @@ jobs:
       - name: Start Sail
         run: ./vendor/bin/sail up -d
 
+      - name: Test write access
+        run: |
+         ./vendor/bin/sail exec laravel.test sh -c 'echo hello > /tmp/test && cat /tmp/test'
+         ./vendor/bin/sail exec laravel.test sh -c 'touch /var/www/html/storage/logs/test.log'
+         ./vendor/bin/sail exec laravel.test sh -c 'echo test >> /var/www/html/.env'
+         ./vendor/bin/sail exec laravel.test mount | grep "/var/www/html"
+  
       - name: Debug permissions
         run: |
          ./vendor/bin/sail exec laravel.test id
