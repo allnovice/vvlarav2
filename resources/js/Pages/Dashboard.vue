@@ -1,6 +1,17 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue'
 import { Head } from '@inertiajs/vue3';
+import DashboardStatCard from '@/Components/Dashboard/DashboardStatCard.vue'
+
+defineProps({
+    totalAssets: Number,
+    activeAssets: Number,
+    underRepairAssets: Number,
+    borrowedAssets: Number,
+    archivedAssets: Number,
+    totalUsers: Number,
+})
+
 </script>
 
 <template>
@@ -21,15 +32,43 @@ import { Head } from '@inertiajs/vue3';
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
 
-<div class="p-6">
-    <h1 class="text-3xl font-bold">
-        Computerized Maintenance Management System
-    </h1>
 
-    <p class="mt-2 text-gray-600">
-        Manage organizational assets, maintenance activities, and work requests.
-    </p>
+
+<div class="grid gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
+
+    <DashboardStatCard
+        title="Total Assets"
+        :value="totalAssets"
+    />
+
+    <DashboardStatCard
+        title="Active Assets"
+        :value="activeAssets"
+    />
+
+    <DashboardStatCard
+        title="Under Repair"
+        :value="underRepairAssets"
+    />
+
+    <DashboardStatCard
+        title="Borrowed"
+        :value="borrowedAssets"
+    />
+
+    <DashboardStatCard
+        title="Archived"
+        :value="archivedAssets"
+    />
+
+    <DashboardStatCard
+        title="Total Users"
+        :value="totalUsers"
+    />
+
 </div>
+
+
 
                 </div>
             </div>

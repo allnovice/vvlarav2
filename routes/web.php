@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssetHistoryController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/debug', function (\Illuminate\Http\Request $request) {
     return response()->json([
@@ -22,9 +23,8 @@ Route::get('/debug', function (\Illuminate\Http\Request $request) {
     ]);
 });
 
-Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->name('home');
+Route::get('/', [DashboardController::class, 'index'])
+    ->name('home');
 
 Route::get('/dashboard', function () {
     return redirect('/');
