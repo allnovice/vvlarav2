@@ -8,6 +8,20 @@ use Inertia\Inertia;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssetHistoryController;
 
+Route::get('/debug', function (\Illuminate\Http\Request $request) {
+    return response()->json([
+        'url' => $request->fullUrl(),
+        'scheme' => $request->getScheme(),
+        'host' => $request->getHost(),
+        'headers' => [
+            'host' => $request->header('host'),
+            'x-forwarded-proto' => $request->header('x-forwarded-proto'),
+            'x-forwarded-host' => $request->header('x-forwarded-host'),
+            'x-forwarded-for' => $request->header('x-forwarded-for'),
+        ],
+    ]);
+});
+
 Route::get('/', function () {
     return Inertia::render('Dashboard');
 })->name('home');
