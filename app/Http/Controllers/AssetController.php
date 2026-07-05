@@ -10,12 +10,43 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AssetController extends Controller
 {
-    public function index()
-    {
-        return Inertia::render('Assets', [
-            'assets' => Asset::latest()->paginate(10),
-        ]);
+
+public function index(Request $request)
+{
+    $query = Asset::query();
+
+    if ($request->filled('search')) {
+
+        $search = $request->search;
+
+        $query->where(function ($q) use ($search) {
+
+            $q->where('property_number', 'like', "%{$search}%")
+              ->orWhere('type', 'like', "%{$search}%")
+              ->orWhere('description', 'like', "%{$search}%")
+              ->orWhere('status', 'like', "%{$search}%")
+              ->orWhere('brand', 'like', "%{$search}%")
+              ->orWhere('model', 'like', "%{$search}%")
+              ->orWhere('serial_number', 'like', "%{$search}%")
+              ->orWhere('assigned_to', 'like', "%{$search}%");
+
+        });
+
     }
+
+    $sort = $request->input('sort', 'property_number');
+    $direction = $request->input('direction', 'asc');
+
+    $query->orderBy($sort, $direction);
+
+    if ($request->filled('status') && $request->status !== 'All') {
+    $query->where('status', $request->status);
+    }
+    return Inertia::render('Assets', [
+        'assets' => $query->paginate(10)->withQueryString(),
+    ]);
+}
+
 
 public function qr(Asset $asset)
 {

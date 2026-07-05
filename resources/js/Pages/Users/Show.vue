@@ -1,7 +1,18 @@
 <script setup>
+import { computed } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
+import MainLayout from '@/Layouts/MainLayout.vue'
+
+const page = usePage()
+
+const isAdmin = computed(() => page.props.auth.user?.role === 'admin')
+
 defineProps({
     user: Object,
 })
+
+
+
 </script>
 
 <template>
@@ -12,12 +23,15 @@ defineProps({
                     {{ user.name }}
                 </h2>
 
-                <Link
-                    :href="route('users.edit', user.id)"
-                    class="rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
-                >
-                    Edit User
-                </Link>
+<Link
+    v-if="isAdmin"
+    :href="route('users.edit', user.id)"
+    class="rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
+>
+    Edit User
+</Link>
+
+
             </div>
         </template>
 

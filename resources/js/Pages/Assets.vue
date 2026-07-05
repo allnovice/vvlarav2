@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { usePage, useForm } from '@inertiajs/vue3'
+import { router, usePage, useForm } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
@@ -25,6 +25,32 @@ const statusFilter = ref('All')
 const sortBy = ref('property_number')
 const sortDirection = ref('asc')
 
+const performSearch = () => {
+    router.get(route('assets'), {
+        search: search.value,
+    }, {
+        preserveState: true,
+        replace: true,
+    })
+}
+
+const updateSearch = (value) => {
+    search.value = value
+    performSearch()
+}
+const updateStatusFilter = (value) => {
+    statusFilter.value = value
+
+    router.get(route('assets'), {
+        search: search.value,
+        status: statusFilter.value,
+        sort: sortBy.value,
+        direction: sortDirection.value,
+    }, {
+        preserveState: true,
+        replace: true,
+    })
+}
 const page = usePage()
 
 console.log('AUTH =', page.props.auth)
@@ -35,37 +61,7 @@ const user = computed(() => page.props.auth?.user ?? null)
 const isAuthenticated = computed(() => !!user.value)
 
 
-const filteredAssets = computed(() => {
-    const term = search.value.toLowerCase()
-
-    const results = props.assets.data.filter(asset => {
-        const matchesSearch =
-            String(asset.property_number ?? '').toLowerCase().includes(term) ||
-            String(asset.type ?? '').toLowerCase().includes(term) ||
-            String(asset.description ?? '').toLowerCase().includes(term)
-
-        const matchesStatus =
-            statusFilter.value === 'All' ||
-            asset.status === statusFilter.value
-
-        return matchesSearch && matchesStatus
-    })
-
-    results.sort((a, b) => {
-        const first = String(a[sortBy.value] ?? '').toLowerCase()
-        const second = String(b[sortBy.value] ?? '').toLowerCase()
-
-        if (first < second)
-            return sortDirection.value === 'asc' ? -1 : 1
-
-        if (first > second)
-            return sortDirection.value === 'asc' ? 1 : -1
-
-        return 0
-    })
-
-    return results
-})
+        
 
 const form = useForm({
     // Asset Information
@@ -150,7 +146,9 @@ const closeModal = () => {
     editingId.value = null
     form.reset()
 }
+
 const sort = (column) => {
+
     if (sortBy.value === column) {
         sortDirection.value =
             sortDirection.value === 'asc' ? 'desc' : 'asc'
@@ -158,7 +156,18 @@ const sort = (column) => {
         sortBy.value = column
         sortDirection.value = 'asc'
     }
+
+    router.get(route('assets'), {
+        search: search.value,
+        sort: sortBy.value,
+        direction: sortDirection.value,
+    }, {
+        preserveState: true,
+        replace: true,
+    })
+
 }
+
 </script>
 
 <template>
@@ -180,13 +189,13 @@ const sort = (column) => {
     :search="search"
     :statusFilter="statusFilter"
     :isAuthenticated="isAuthenticated"
-    @update:search="search = $event"
-    @update:statusFilter="statusFilter = $event"
+    @update:search="updateSearch"
+    @update:statusFilter="updateStatusFilter"
     @addAsset="showModal = true"
 />
 
 <AssetTable
-    :assets="filteredAssets"
+    :assets="props.assets.data"
     :sortBy="sortBy"
     :sortDirection="sortDirection"
     :isAuthenticated="isAuthenticated"

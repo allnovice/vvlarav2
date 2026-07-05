@@ -3,9 +3,12 @@
 namespace App\Models;
 use App\Models\AssetHistory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Asset extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
     'property_number',
     'type',
@@ -45,8 +48,6 @@ public function history()
     return $this->hasMany(AssetHistory::class)
         ->latest('performed_at');
 }
-
-
 
 }
 
