@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -7,6 +7,12 @@ const props = defineProps({
 })
 
 const form = useForm({})
+
+const page = usePage()
+
+const isAdmin = computed(() => {
+    return page.props.auth?.user?.role === 'admin'
+})
 
 const formattedVerifiedAt = computed(() => {
     if (!props.asset.verified_at) return null
@@ -49,6 +55,7 @@ const formattedVerifiedAt = computed(() => {
             <div class="mt-6">
 
                 <button
+                    v-if="isAdmin"
                     @click="form.patch(route('assets.verify', asset.id))"
                     :disabled="form.processing"
                     class="rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:opacity-50"

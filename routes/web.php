@@ -8,6 +8,34 @@ use Inertia\Inertia;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssetHistoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AssetChangeController;
+use App\Http\Controllers\AssetHistoryChangeController;
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::post('/asset-changes/{change}/approve', [AssetChangeController::class, 'approve'])
+        ->name('asset-changes.approve');
+
+    Route::get('/asset-changes/{change}', [AssetChangeController::class, 'show'])
+        ->name('asset-changes.show');
+
+    Route::post('/asset-changes/{change}/reject', [AssetChangeController::class, 'reject'])
+        ->name('asset-changes.reject');
+
+
+
+
+Route::get('/asset-history-changes/{change}', [AssetHistoryChangeController::class, 'show'])
+    ->name('asset-history-changes.show');
+
+Route::post('/asset-history-changes/{change}/approve', [AssetHistoryChangeController::class, 'approve'])
+    ->name('asset-history-changes.approve');
+
+Route::post('/asset-history-changes/{change}/reject', [AssetHistoryChangeController::class, 'reject'])
+    ->name('asset-history-changes.reject');
+
+
+});
 
 Route::get('/debug', function (\Illuminate\Http\Request $request) {
     return response()->json([
@@ -48,7 +76,7 @@ Route::patch('/assets/{asset}/verify', [AssetController::class, 'verify'])
     ->name('assets.verify');
 
 Route::post('/assets/{asset}/history', [AssetHistoryController::class, 'store'])
-    ->middleware(['auth', 'admin'])
+    ->middleware('auth' )
     ->name('assets.history.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -62,6 +90,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('assets.qr');
     Route::get('/users', [UserController::class, 'index'])
         ->name('users.index');
+
+    Route::get('/asset-changes', [AssetChangeController::class, 'index'])
+        ->name('asset-changes.index');
+
+    Route::get('/asset-history-changes', [AssetHistoryChangeController::class, 'index'])
+        ->name('asset-history-changes.index');
 });
 
 Route::get('/assets', [AssetController::class, 'index'])

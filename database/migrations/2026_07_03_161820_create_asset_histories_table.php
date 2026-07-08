@@ -22,10 +22,7 @@ public function up(): void
         $table->string('title');
         $table->text('description')->nullable();
 
-        $table->foreignId('performed_by')
-            ->nullable()
-            ->constrained('users')
-            ->nullOnDelete();
+        $table->string('performed_by');
 
         $table->timestamp('performed_at');
 

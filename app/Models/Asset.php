@@ -4,6 +4,7 @@ namespace App\Models;
 use App\Models\AssetHistory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\AssetChange;
 
 class Asset extends Model
 {
@@ -47,6 +48,15 @@ public function history()
 {
     return $this->hasMany(AssetHistory::class)
         ->latest('performed_at');
+}
+public function changes()
+{
+    return $this->hasMany(AssetChange::class);
+}
+public function pendingChange()
+{
+    return $this->hasOne(AssetChange::class)
+        ->where('status', AssetChange::STATUS_PENDING);
 }
 
 }

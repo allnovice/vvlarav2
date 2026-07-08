@@ -7,13 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Models\AssetChange;
+use Illuminate\Validation\Rule;
 
 class AssetController extends Controller
 {
 
 public function index(Request $request)
 {
-    $query = Asset::query();
+    $query = Asset::query()
+        ->with('pendingChange');
 
     if ($request->filled('search')) {
 
@@ -66,7 +69,12 @@ public function qr(Asset $asset)
     {
         $validated = $request->validate([
             // Asset Information
-            'property_number' => ['required', 'string', 'max:255'],
+            'property_number' => [
+    'required',
+    'string',
+    'max:255',
+    Rule::unique('assets', 'property_number'),
+],
             'type' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['required', 'string', 'max:50'],
@@ -94,9 +102,47 @@ public function qr(Asset $asset)
             $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
         }
 
-        Asset::create($validated);
 
-        return redirect()->route('assets');
+
+if (auth()->user()->isAdmin()) {
+    Asset::create($validated);
+} else {
+
+
+if (
+    AssetChange::pending()
+        ->where('action', AssetChange::ACTION_CREATE)
+        ->where('data->property_number', $validated['property_number'])
+        ->exists()
+) {
+    return back()->with(
+        'error',
+        'A pending request already exists for this property number.'
+    );
+}
+
+
+if (
+    Asset::where('property_number', $validated['property_number'])
+        ->exists()
+) {
+    return back()->with(
+        'error',
+        'An asset with this property number already exists.'
+    );
+}
+
+
+    AssetChange::create([
+        'user_id' => auth()->id(),
+        'action' => AssetChange::ACTION_CREATE,
+        'data' => $validated,
+    ]);
+}
+
+return redirect()->route('assets');
+
+
     }
 
     public function update(Request $request, Asset $asset)
@@ -137,25 +183,87 @@ public function qr(Asset $asset)
         }
 
 
-        $asset->update($validated);
 
-        return redirect()->route('assets.show', $asset);
+if (auth()->user()->isAdmin()) {
+
+    $asset->update($validated);
+
+} else {
+
+    if (
+        AssetChange::pending()
+            ->where('asset_id', $asset->id)
+            ->exists()
+    ) {
+        return back()->with(
+            'error',
+            'This asset already has a pending request.'
+        );
+    }
+
+    AssetChange::create([
+        'asset_id' => $asset->id,
+        'user_id' => auth()->id(),
+        'action' => AssetChange::ACTION_UPDATE,
+        'data' => $validated,
+    ]);
+
+}
+
+return redirect()->route('assets.show', $asset);
+
+
+
+
     }
 
     public function destroy(Asset $asset)
     {
-        if ($asset->photo_path) {
-            Storage::disk('public')->delete($asset->photo_path);
-        }
 
-        $asset->delete();
+
+if (auth()->user()->isAdmin()) {
+
+    if ($asset->photo_path) {
+        Storage::disk('public')->delete($asset->photo_path);
+    }
+
+    $asset->delete();
+
+} else {
+
+if (
+    AssetChange::pending()
+        ->where('asset_id', $asset->id)
+        ->exists()
+) {
+    return back()->with(
+        'error',
+        'This asset already has a pending request.'
+    );
+}
+
+AssetChange::create([
+    'asset_id' => $asset->id,
+    'user_id' => auth()->id(),
+    'action' => AssetChange::ACTION_DELETE,
+    'data' => $asset->toArray(),
+]);
+
+
+
+}
+
+
 
         return redirect()->route('assets');
     }
 
     public function show(Asset $asset)
 {
-    $asset->load('history');
+    $asset->load([
+        'history',
+        'pendingChange',
+    ]);
 
     return Inertia::render('Assets/Show', [
         'asset' => $asset,

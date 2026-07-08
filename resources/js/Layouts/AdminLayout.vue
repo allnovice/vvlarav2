@@ -55,6 +55,7 @@ const user = computed(() => page.props.auth?.user ?? null);
 </NavLink>
 
 <NavLink
+    v-if="isAdmin"
     :href="route('asset-changes.index')"
     :active="route().current('asset-changes.*')"
 >
@@ -62,6 +63,7 @@ const user = computed(() => page.props.auth?.user ?? null);
 </NavLink>
 
 <NavLink
+    v-if="isAdmin"
     :href="route('asset-history-changes.index')"
     :active="route().current('asset-history-changes.*')"
 >
@@ -207,6 +209,7 @@ const user = computed(() => page.props.auth?.user ?? null);
 </ResponsiveNavLink>
 
 <ResponsiveNavLink
+    v-if="isAdmin"
     :href="route('asset-changes.index')"
     :active="route().current('asset-changes.*')"
 >
@@ -214,6 +217,7 @@ const user = computed(() => page.props.auth?.user ?? null);
 </ResponsiveNavLink>
 
 <ResponsiveNavLink
+    v-if="isAdmin"
     :href="route('asset-history-changes.index')"
     :active="route().current('asset-history-changes.*')"
 >

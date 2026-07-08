@@ -153,15 +153,14 @@ const emit = defineEmits([
 
 
 
-    <button
-        v-if="isAuthenticated"
-        @click="$emit('edit')"
-        class="w-full inline-flex justify-center items-center px-4 py-2
-               bg-blue-600 text-white rounded-lg
-               hover:bg-blue-700 transition"
-    >
-        Edit Asset
-    </button>
+<button
+    v-if="isAuthenticated"
+    :disabled="!!asset.pending_change"
+    @click="$emit('edit')"
+    class="... disabled:opacity-25 disabled:cursor-not-allowed"
+>
+    Edit Asset
+</button>
 
     <Link
         :href="route('assets.qr', asset.id)"
