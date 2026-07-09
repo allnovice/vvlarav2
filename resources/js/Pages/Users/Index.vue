@@ -98,7 +98,7 @@ defineProps({
                         <span
                             class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 capitalize"
                         >
-                            {{ user.role.replaceAll('_', ' ') }}
+                            {{ user.role === 'it_head' ? 'I.T. Head' : user.role.replaceAll('_', ' ') }}
                         </span>
                     </td>
 

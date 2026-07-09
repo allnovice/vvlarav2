@@ -134,6 +134,8 @@ const editAsset = (asset) => {
     showModal.value = true
 }
 const deleteAsset = (asset) => {
+    if (!isAuthenticated.value) return
+
     if (!confirm(`Delete asset "${asset.property_number}"?`)) {
         return
     }

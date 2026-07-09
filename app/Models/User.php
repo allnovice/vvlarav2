@@ -61,5 +61,9 @@ public function isEmployee(): bool
     return $this->role === 'employee';
 }
 
+public function isITHead(): bool
+{
+    return $this->role === 'it_head';
+}
 
 }

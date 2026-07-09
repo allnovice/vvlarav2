@@ -1,6 +1,6 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, router } from '@inertiajs/vue3'
 
 const props = defineProps({
     user: Object,
@@ -13,8 +13,24 @@ const form = useForm({
     position: props.user.position ?? '',
     contact_no: props.user.contact_no ?? '',
     role: props.user.role,
-    is_active: props.user.is_active,
+    status: props.user.is_active ? 'active' : 'inactive',
 })
+const submit = () => {
+    form.transform((data) => {
+        const { status, ...rest } = data
+        return {
+            ...rest,
+            is_active: status === 'active',
+        }
+    }).patch(route('users.update', props.user.id))
+}
+const deleteUser = () => {
+    if (!confirm(`Delete user "${props.user.name}"?`)) {
+        return
+    }
+
+    router.delete(route('users.destroy', props.user.id))
+}
 </script>
 
 <template>
@@ -28,7 +44,7 @@ const form = useForm({
                 {{ user.name }}
             </h2>
 
-<form @submit.prevent="form.patch(route('users.update', user.id))">
+<form @submit.prevent="submit">
     <div class="mb-6">
         <label class="block mb-2 text-sm font-medium">
             Name
@@ -120,18 +136,20 @@ const form = useForm({
         </option>
         <option value="technician">Technician</option>
         <option value="employee">Employee</option>
+        <option value="it_head">I.T. Head</option>
     </select>
 </div>
 
 <div class="mb-6">
-    <label class="flex items-center gap-2">
-        <input
-            v-model="form.is_active"
-            type="checkbox"
-        />
+    <label class="block mb-2 text-sm font-medium">Status</label>
 
-        Active User
-    </label>
+    <select
+        v-model="form.status"
+        class="w-full rounded border-gray-300"
+    >
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+    </select>
 </div>
 
 
@@ -149,7 +167,13 @@ const form = useForm({
     {{ form.processing ? 'Saving...' : 'Save Changes' }}
 </button>
 
-
+<button
+    type="button"
+    @click="deleteUser"
+    class="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+>
+    Delete User
+</button>
 
 </form>
 

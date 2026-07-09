@@ -139,6 +139,7 @@ const emit = defineEmits([
 </SecondaryButton>
 
 <DangerButton
+    v-if="isAuthenticated"
     :disabled="!!asset.pending_change"
     @click="$emit('delete', asset)"
 >

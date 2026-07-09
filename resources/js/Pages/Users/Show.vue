@@ -7,6 +7,11 @@ const page = usePage()
 
 const isAdmin = computed(() => page.props.auth.user?.role === 'admin')
 
+const formatRole = (role) => {
+    if (role === 'it_head') return 'I.T. Head'
+    return role?.replace(/_/g, ' ')
+}
+
 defineProps({
     user: Object,
 })
@@ -61,8 +66,7 @@ defineProps({
                     </div>
 
                     <div>
-                        <p class="text-sm text-gray-500">Role</p>
-                        <p class="capitalize">{{ user.role }}</p>
+                        <p>{{ formatRole(user.role) }}</p>
                     </div>
 
                     <div>
