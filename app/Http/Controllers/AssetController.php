@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\AssetChange;
 use Illuminate\Validation\Rule;
+use App\Models\AssetVerification;
 
 class AssetController extends Controller
 {
@@ -263,6 +264,7 @@ AssetChange::create([
     $asset->load([
         'history',
         'pendingChange',
+        'pendingVerification',
     ]);
 
     return Inertia::render('Assets/Show', [

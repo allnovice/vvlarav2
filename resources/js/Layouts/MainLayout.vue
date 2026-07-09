@@ -68,7 +68,12 @@ const user = computed(() => page.props.auth?.user ?? null);
     History Requests
 </NavLink>
 
-
+<NavLink
+    :href="route('asset-verifications.index')"
+    :active="route().current('asset-verifications.*')"
+>
+    Verification Requests
+</NavLink>
 
 
 
@@ -218,6 +223,13 @@ const user = computed(() => page.props.auth?.user ?? null);
     :active="route().current('asset-history-changes.*')"
 >
     History Request
+</ResponsiveNavLink>
+
+<ResponsiveNavLink
+    :href="route('asset-verifications.index')"
+    :active="route().current('asset-verifications.*')"
+>
+    Verification Requests
 </ResponsiveNavLink>
 
                 <template v-if="user">

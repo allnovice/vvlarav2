@@ -34,12 +34,12 @@ const emit = defineEmits([
        p-6"
 >
 
-    <div class="flex justify-between items-start">
+    <div class="flex flex-col gap-6 md:flex-row md:justify-between md:items-start">
 
         <div>
 
 
-<div class="flex items-start gap-4">
+<div class="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
 
     <!-- Placeholder for future asset photo -->
 
@@ -133,7 +133,7 @@ const emit = defineEmits([
 
 
 
-<div class="flex flex-col items-end gap-3">
+<div class="flex flex-col items-center gap-3 md:items-end">
 
     <StatusBadge
         :status="asset.status"

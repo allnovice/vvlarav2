@@ -5,6 +5,7 @@ use App\Models\AssetHistory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\AssetChange;
+use App\Models\AssetVerification;
 
 class Asset extends Model
 {
@@ -58,6 +59,14 @@ public function pendingChange()
     return $this->hasOne(AssetChange::class)
         ->where('status', AssetChange::STATUS_PENDING);
 }
-
+public function verifications()
+{
+    return $this->hasMany(AssetVerification::class);
+}
+public function pendingVerification()
+{
+    return $this->hasOne(AssetVerification::class)
+        ->where('status', AssetVerification::STATUS_PENDING);
 }
 
+}

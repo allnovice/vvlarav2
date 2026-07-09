@@ -22,7 +22,7 @@ const emit = defineEmits([
 
 <div class="p-4 border-b border-gray-200">
 
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 
 
     <input

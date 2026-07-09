@@ -10,6 +10,42 @@ use App\Http\Controllers\AssetHistoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetHistoryChangeController;
+use App\Http\Controllers\AssetVerificationController;
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Asset Routes
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Asset Request Routes
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Asset History Request Routes
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| User Routes
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Profile Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
@@ -23,8 +59,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('asset-changes.reject');
 
 
-
-
 Route::get('/asset-history-changes/{change}', [AssetHistoryChangeController::class, 'show'])
     ->name('asset-history-changes.show');
 
@@ -34,6 +68,18 @@ Route::post('/asset-history-changes/{change}/approve', [AssetHistoryChangeContro
 Route::post('/asset-history-changes/{change}/reject', [AssetHistoryChangeController::class, 'reject'])
     ->name('asset-history-changes.reject');
 
+
+Route::get('/asset-verifications', [AssetVerificationController::class, 'index'])
+    ->name('asset-verifications.index');
+
+Route::get('/asset-verifications/{assetVerification}', [AssetVerificationController::class, 'show'])
+    ->name('asset-verifications.show');
+
+Route::post('/asset-verifications/{assetVerification}/approve', [AssetVerificationController::class, 'approve'])
+    ->name('asset-verifications.approve');
+
+Route::post('/asset-verifications/{assetVerification}/reject', [AssetVerificationController::class, 'reject'])
+    ->name('asset-verifications.reject');
 
 });
 
@@ -96,6 +142,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/asset-history-changes', [AssetHistoryChangeController::class, 'index'])
         ->name('asset-history-changes.index');
+
+
+    Route::post('/assets/{asset}/verify', [AssetVerificationController::class, 'store'])
+        ->name('asset-verifications.store');
 });
 
 Route::get('/assets', [AssetController::class, 'index'])

@@ -23,10 +23,18 @@ function formatShortDate(date) {
 
 <template>
 <AdminLayout>
-    <div class="p-6">
-        <h1 class="text-2xl font-bold mb-6">
-            Review History Request
-        </h1>
+    <template #header>
+
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            History Review Requests
+        </h2>
+
+    </template>
+
+    <div class="py-6 px-6">
+
+
+   
 
         <p><strong>Requested By:</strong> {{ change.user.name }}</p>
         <p><strong>Asset:</strong> {{ change.asset.property_number }}</p>
