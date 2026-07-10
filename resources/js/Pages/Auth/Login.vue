@@ -95,6 +95,14 @@ const submit = () => {
                     Log in
                 </PrimaryButton>
             </div>
-        </form>
+        </form> 
+
+<a
+    href="/auth/google"
+    class="w-full inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-gray-700 hover:bg-gray-50"
+>
+    Continue with Google
+</a>
+
     </GuestLayout>
 </template>

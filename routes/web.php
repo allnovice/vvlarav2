@@ -11,6 +11,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetHistoryChangeController;
 use App\Http\Controllers\AssetVerificationController;
+use App\Http\Controllers\Auth\GoogleController;
+
+Route::get('/auth/google', [GoogleController::class, 'redirect'])
+    ->name('google.redirect');
+
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])
+    ->name('google.callback');
 
 /*--------------approval-routes-ithead-PSO-admin--------------*/
 Route::middleware(['auth', 'admin'])->group(function () {
