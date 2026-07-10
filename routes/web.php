@@ -11,92 +11,23 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetHistoryChangeController;
 use App\Http\Controllers\AssetVerificationController;
-/*
-|--------------------------------------------------------------------------
-| Public Routes
-|--------------------------------------------------------------------------
-*/
 
-/*
-|--------------------------------------------------------------------------
-| Asset Routes
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| Asset Request Routes
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| Asset History Request Routes
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| User Routes
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| Profile Routes
-|--------------------------------------------------------------------------
-*/
-
+/*--------------approval-routes-ithead-PSO-admin--------------*/
 Route::middleware(['auth', 'admin'])->group(function () {
-
     Route::post('/asset-changes/{change}/approve', [AssetChangeController::class, 'approve'])
         ->name('asset-changes.approve');
-
-    Route::get('/asset-changes/{change}', [AssetChangeController::class, 'show'])
-        ->name('asset-changes.show');
-
     Route::post('/asset-changes/{change}/reject', [AssetChangeController::class, 'reject'])
         ->name('asset-changes.reject');
-
-
-Route::get('/asset-history-changes/{change}', [AssetHistoryChangeController::class, 'show'])
-    ->name('asset-history-changes.show');
-
-Route::post('/asset-history-changes/{change}/approve', [AssetHistoryChangeController::class, 'approve'])
-    ->name('asset-history-changes.approve');
-
-Route::post('/asset-history-changes/{change}/reject', [AssetHistoryChangeController::class, 'reject'])
-    ->name('asset-history-changes.reject');
-
-
-Route::get('/asset-verifications', [AssetVerificationController::class, 'index'])
-    ->name('asset-verifications.index');
-
-Route::get('/asset-verifications/{assetVerification}', [AssetVerificationController::class, 'show'])
-    ->name('asset-verifications.show');
-
-Route::post('/asset-verifications/{assetVerification}/approve', [AssetVerificationController::class, 'approve'])
-    ->name('asset-verifications.approve');
-
-Route::post('/asset-verifications/{assetVerification}/reject', [AssetVerificationController::class, 'reject'])
-    ->name('asset-verifications.reject');
-
+    Route::post('/asset-history-changes/{change}/approve', [AssetHistoryChangeController::class, 'approve'])
+        ->name('asset-history-changes.approve');
+    Route::post('/asset-history-changes/{change}/reject', [AssetHistoryChangeController::class, 'reject'])
+        ->name('asset-history-changes.reject');
+    Route::post('/asset-verifications/{assetVerification}/approve', [AssetVerificationController::class, 'approve'])
+        ->name('asset-verifications.approve');
+    Route::post('/asset-verifications/{assetVerification}/reject', [AssetVerificationController::class, 'reject'])
+        ->name('asset-verifications.reject');
 });
-
-Route::get('/debug', function (\Illuminate\Http\Request $request) {
-    return response()->json([
-        'url' => $request->fullUrl(),
-        'scheme' => $request->getScheme(),
-        'host' => $request->getHost(),
-        'headers' => [
-            'host' => $request->header('host'),
-            'x-forwarded-proto' => $request->header('x-forwarded-proto'),
-            'x-forwarded-host' => $request->header('x-forwarded-host'),
-            'x-forwarded-for' => $request->header('x-forwarded-for'),
-        ],
-    ]);
-});
-
+/*--------------dashboard--------------*/
 Route::get('/', [DashboardController::class, 'index'])
     ->name('home');
 
@@ -104,63 +35,62 @@ Route::get('/dashboard', function () {
     return redirect('/');
 })->name('dashboard');
 
-Route::get('/users/{user}', [UserController::class, 'show'])
-    ->name('users.show');
-
+/*--------------user admin controlled--------------*/
 Route::middleware(['auth', 'admin'])->group(function () {
-
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])
         ->name('users.edit');
-
     Route::patch('/users/{user}', [UserController::class, 'update'])
         ->name('users.update');
-
     Route::delete('/users/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy');
-
 });
 
-Route::patch('/assets/{asset}/verify', [AssetController::class, 'verify'])
-    ->middleware(['auth', 'admin'])
-    ->name('assets.verify');
 
-Route::post('/assets/{asset}/history', [AssetHistoryController::class, 'store'])
-    ->middleware('auth' )
-    ->name('assets.history.store');
-
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware('auth')->group(function () {
+/*--------------------qr--------------*/
+    Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
+        ->name('assets.qr');
+/*--------------------verify--------------*/
+    Route::patch('/assets/{asset}/verify', [AssetController::class, 'verify'])
+        ->name('assets.verify');
+/*--------------------store--------------*/
     Route::post('/assets', [AssetController::class, 'store'])
         ->name('assets.store');
     Route::put('/assets/{asset}', [AssetController::class, 'update'])
         ->name('assets.update');
     Route::delete('/assets/{asset}', [AssetController::class, 'destroy'])
         ->name('assets.destroy');
-    Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
-        ->name('assets.qr');
-    Route::get('/users', [UserController::class, 'index'])
-        ->name('users.index');
-
-    Route::get('/asset-changes', [AssetChangeController::class, 'index'])
-        ->name('asset-changes.index');
-
-    Route::get('/asset-history-changes', [AssetHistoryChangeController::class, 'index'])
-        ->name('asset-history-changes.index');
-
-
+    Route::post('/assets/{asset}/history', [AssetHistoryController::class, 'store'])
+        ->name('assets.history.store');
     Route::post('/assets/{asset}/verify', [AssetVerificationController::class, 'store'])
         ->name('asset-verifications.store');
-});
-
-Route::get('/assets', [AssetController::class, 'index'])
-    ->name('assets');
-
-Route::get('/assets/{asset}', [AssetController::class, 'show'])
-    ->name('assets.show');
-
-Route::middleware('auth')->group(function () {
+/*--------------------show--------------*/
+    Route::get('/asset-changes/{change}', [AssetChangeController::class, 'show'])
+        ->name('asset-changes.show');
+    Route::get('/asset-history-changes/{change}', [AssetHistoryChangeController::class, 'show'])
+        ->name('asset-history-changes.show');
+    Route::get('/asset-verifications/{assetVerification}', [AssetVerificationController::class, 'show'])
+        ->name('asset-verifications.show');
+    Route::get('/users/{user}', [UserController::class, 'show'])
+        ->name('users.show');
+/*--------------------index--------------*/
+    Route::get('/asset-verifications', [AssetVerificationController::class, 'index'])
+        ->name('asset-verifications.index');
+    Route::get('/asset-history-changes', [AssetHistoryChangeController::class, 'index'])
+        ->name('asset-history-changes.index');
+    Route::get('/asset-changes', [AssetChangeController::class, 'index'])
+        ->name('asset-changes.index');
+    Route::get('/users', [UserController::class, 'index'])
+        ->name('users.index');
+/*--------------------profile--------------*/
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+/*--------------public--------------*/
+Route::get('/assets', [AssetController::class, 'index'])
+    ->name('assets');
+Route::get('/assets/{asset}', [AssetController::class, 'show'])
+    ->name('assets.show');
 
 require __DIR__.'/auth.php';

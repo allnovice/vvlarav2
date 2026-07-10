@@ -1,9 +1,14 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
+import { useForm, usePage, router } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import RejectVerificationModal from '@/Components/Assets/RejectVerificationModal.vue'
+import StatusBadge from '@/Components/StatusBadge.vue'
 
+const page = usePage()
+function back() {
+    router.visit(route('asset-verifications.index'))
+}
 const props = defineProps({
     verification: Object,
 })
@@ -39,111 +44,175 @@ function formatDate(date) {
 
 <template>
 <MainLayout>
+<template #header>
+    <div class="flex items-center gap-4">
 
-    <template #header>
+        <button
+            @click="back"
+            class="px-3 py-1 text-sm border rounded hover:bg-gray-100"
+        >
+            ← Back
+        </button>
 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Verification Requests
+            Verification Request
         </h2>
 
-    </template>
+    </div>
+</template>
+
 
     <div class="py-6 px-6">
 
+<div
+    v-if="page.props.errors.verification"
+    class="mb-4 rounded bg-red-100 border border-red-400 text-red-700 px-4 py-3"
+>
+    {{ page.props.errors.verification }}
+</div>
 
+<div class="bg-white rounded-lg shadow p-6 mb-6">
 
-    
+    <h3 class="text-lg font-semibold mb-4">
+        Verification Request
+    </h3>
 
-    <p>
-        <strong>Submitted By:</strong>
-        {{ verification.user.name }}
-    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-    <p>
-        <strong>Asset:</strong>
-        {{ verification.asset.property_number }}
-    </p>
+        <div>
+            <p class="text-sm text-gray-500">Submitted By</p>
+            <p>{{ verification.user.name }}</p>
+        </div>
 
-    <p>
-        <strong>Status:</strong>
-        {{ verification.status }}
-    </p>
+        <div>
+            <p class="text-sm text-gray-500">Asset</p>
+            <p>{{ verification.asset.property_number }}</p>
+        </div>
 
-    <div
-        v-if="verification.status !== 'pending'"
-        class="mt-4"
-    >
-
-        <p>
-            <strong>Reviewed By:</strong>
-            {{ verification.reviewer?.name || '—' }}
-        </p>
-
-        <p>
-            <strong>Reviewed At:</strong>
-            {{ formatDate(verification.reviewed_at) }}
-        </p>
-
-        <p>
-            <strong>Reviewer Remarks:</strong>
-            {{ verification.reviewer_remarks || '—' }}
-        </p>
+        <div>
+            <p class="text-sm text-gray-500">Status</p>
+            <StatusBadge :status="verification.status" />
+        </div>
 
     </div>
 
-    <hr class="my-6">
+</div>
 
-    <p>
-        <strong>Remarks:</strong>
-        {{ verification.remarks || 'No remarks provided.' }}
-    </p>
 
-    <div class="mt-4">
 
-        <strong>Attachment:</strong>
+<div
+    v-if="verification.status !== 'pending'"
+    class="bg-white rounded-lg shadow p-6 mb-6"
+>
 
-        <div class="mt-2">
+    <h3 class="text-lg font-semibold mb-4">
+        Review
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+            <p class="text-sm text-gray-500">Reviewed By</p>
+            <p>{{ verification.reviewer?.name || '-' }}</p>
+        </div>
+
+        <div>
+            <p class="text-sm text-gray-500">Reviewed At</p>
+            <p>{{ formatDate(verification.reviewed_at) }}</p>
+        </div>
+
+        <div class="md:col-span-2">
+            <p class="text-sm text-gray-500">Reviewer Remarks</p>
+            <p>{{ verification.reviewer_remarks || '-' }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+  
+
+
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+
+    <h3 class="text-lg font-semibold mb-4">
+        Verification Details
+    </h3>
+
+    <div class="grid grid-cols-1 gap-6">
+
+        <div>
+            <p class="text-sm text-gray-500">Remarks</p>
+            <p>{{ verification.remarks || '-' }}</p>
+        </div>
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+                Attachment
+            </p>
 
             <a
                 v-if="verification.attachment_path"
                 :href="`/storage/${verification.attachment_path}`"
                 target="_blank"
-                class="text-blue-600 hover:underline"
+                class="inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
             >
                 Download Attachment
             </a>
 
-            <span
+            <p
                 v-else
                 class="text-gray-500"
             >
                 No attachment.
-            </span>
+            </p>
 
         </div>
 
     </div>
 
-    <div
-        v-if="verification.status === 'pending'"
-        class="mt-8 flex gap-3"
-    >
+</div>
+
+
+
+
+
+
+
+
+<div
+    v-if="verification.status === 'pending'"
+    class="bg-white rounded-lg shadow p-6"
+>
+
+    <h3 class="text-lg font-semibold mb-4">
+        Actions
+    </h3>
+
+    <div class="flex gap-4">
 
         <button
             @click="approve"
-            class="rounded bg-green-600 px-4 py-2 text-white"
+            class="px-6 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition"
         >
-            Approve
+            ✓ Approve
         </button>
 
         <button
             @click="showRejectModal = true"
-            class="rounded bg-red-600 px-4 py-2 text-white"
+            class="px-6 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition"
         >
-            Reject
+            ✕ Reject
         </button>
 
     </div>
+
+</div>
+
+
+
+
 
 </div>
 

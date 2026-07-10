@@ -65,24 +65,18 @@ public function show(AssetChange $change)
     ]);
 
 }
-public function reject(AssetChange $change)
+public function reject(
+    AssetChange $change,
+    AssetApprovalService $service
+)
 {
-    if ($change->status !== AssetChange::STATUS_PENDING) {
-        return redirect()
-            ->route('asset-changes.index')
-            ->with('error', 'This request has already been processed.');
-    }
-
-    $change->update([
-        'status' => AssetChange::STATUS_REJECTED,
-        'approved_by' => auth()->id(),
-        'approved_at' => now(),
-    ]);
+    $service->reject($change);
 
     return redirect()
         ->route('asset-changes.index')
         ->with('success', 'Request rejected.');
 }
+
 
 
 

@@ -15,7 +15,7 @@ class EnsureUserIsAdmin
      */
 public function handle($request, Closure $next)
 {
-    if (!auth()->check() || !auth()->user()->isAdmin()) {
+    if (!auth()->check() || !auth()->user()->canApprove()) {
         abort(403);
     }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Asset;
 use App\Models\AssetChange;
+use Illuminate\Validation\ValidationException;
 
 class AssetApprovalService
 {
@@ -14,7 +15,15 @@ public function approve(AssetChange $change): void
 {
 
     if ($change->status !== AssetChange::STATUS_PENDING) {
-        throw new \RuntimeException('This request has already been processed.');
+        throw ValidationException::withMessages([
+            'change' => 'This request has already been processed.',
+        ]);
+    }
+
+    if ($change->user_id === auth()->id()) {
+        throw ValidationException::withMessages([
+            'change' => 'You cannot approve your own request.',
+        ]);
     }
 
 switch ($change->action) {
@@ -58,6 +67,26 @@ private function approveDelete(AssetChange $change): void
     }
 
     $asset->delete();
+}
+public function reject(AssetChange $change): void
+{
+    if ($change->status !== AssetChange::STATUS_PENDING) {
+        throw ValidationException::withMessages([
+            'change' => 'This request has already been processed.',
+        ]);
+    }
+
+    if ($change->user_id === auth()->id()) {
+        throw ValidationException::withMessages([
+            'change' => 'You cannot reject your own request.',
+        ]);
+    }
+
+    $change->update([
+        'status' => AssetChange::STATUS_REJECTED,
+        'approved_by' => auth()->id(),
+        'approved_at' => now(),
+    ]);
 }
 
 }

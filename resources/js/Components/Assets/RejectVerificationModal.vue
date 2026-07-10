@@ -31,6 +31,13 @@ const emit = defineEmits([
     Please provide a reason for rejecting this verification request.
 </p>
 
+<div
+    v-if="form.errors.verification"
+    class="mt-4 rounded border border-red-300 bg-red-50 p-3 text-sm text-red-700"
+>
+    {{ form.errors.verification }}
+</div>
+
 <div class="mt-6">
 
 <label class="block text-sm font-medium mb-2">

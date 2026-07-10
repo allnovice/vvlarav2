@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AssetHistoryChange;
 use Inertia\Inertia;
 use App\Models\AssetHistory;
+use App\Services\AssetHistoryApprovalService;
 
 class AssetHistoryChangeController extends Controller
 {
@@ -46,53 +47,27 @@ public function show(AssetHistoryChange $change)
         ]),
     ]);
 }
-public function approve(AssetHistoryChange $change)
+public function approve(
+    AssetHistoryChange $change,
+    AssetHistoryApprovalService $service
+)
 {
+$service->approve($change);
 
-    if ($change->status !== AssetHistoryChange::STATUS_PENDING) {
-        return redirect()
-            ->route('asset-history-changes.index')
-            ->with('error', 'This request has already been processed.');
-    }
-
-    AssetHistory::create([
-        'asset_id' => $change->asset_id,
-        'type' => $change->type,
-        'title' => $change->title,
-        'description' => $change->description,
-        'performed_by' => $change->performed_by,
-        'performed_at' => $change->performed_at,
-        'remarks' => $change->remarks,
-    ]);
-
-    $change->update([
-        'status' => AssetHistoryChange::STATUS_APPROVED,
-        'approved_by' => auth()->id(),
-        'approved_at' => now(),
-    ]);
-
-    return redirect()
-        ->route('asset-history-changes.index')
-        ->with('success', 'History request approved.');
+return redirect()
+    ->route('asset-history-changes.index')
+    ->with('success', 'History request approved.');
 }
-public function reject(AssetHistoryChange $change)
+public function reject(
+    AssetHistoryChange $change,
+    AssetHistoryApprovalService $service
+)
 {
+$service->reject($change);
 
-if ($change->status !== AssetHistoryChange::STATUS_PENDING) {
-    return redirect()
-        ->route('asset-history-changes.index')
-        ->with('error', 'This request has already been processed.');
-}
-
-    $change->update([
-        'status' => AssetHistoryChange::STATUS_REJECTED,
-        'approved_by' => auth()->id(),
-        'approved_at' => now(),
-    ]);
-
-    return redirect()
-        ->route('asset-history-changes.index')
-        ->with('success', 'History request rejected.');
+return redirect()
+    ->route('asset-history-changes.index')
+    ->with('success', 'History request rejected.');
 }
 
 

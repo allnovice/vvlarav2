@@ -45,25 +45,28 @@ public function isAdmin(): bool
 {
     return $this->role === 'admin';
 }
-
 public function isPropertySupplyOfficer(): bool
 {
     return $this->role === 'property_supply_officer';
 }
-
 public function isTechnician(): bool
 {
     return $this->role === 'technician';
 }
-
 public function isEmployee(): bool
 {
     return $this->role === 'employee';
 }
-
 public function isITHead(): bool
 {
     return $this->role === 'it_head';
 }
+public function canApprove(): bool
+{
+    return $this->isAdmin()
+        || $this->isITHead()
+        || $this->isPropertySupplyOfficer();
+}
+
 
 }
