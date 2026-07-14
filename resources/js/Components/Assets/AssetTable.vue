@@ -83,8 +83,24 @@ const emit = defineEmits([
         {{ sortDirection === 'asc' ? '▲' : '▼' }}
     </span>
 </div>
-
 </th>
+
+
+<th
+    @click="emit('sort', 'assigned_to')"
+    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 hover:bg-gray-100"
+>
+    <div class="flex items-center gap-1">
+        Assigned To
+
+        <span v-if="sortBy === 'assigned_to'">
+            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+        </span>
+    </div>
+</th>
+
+
+
 
                 <th class="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
                     Actions
@@ -120,8 +136,17 @@ const emit = defineEmits([
                     {{ asset.description }}
                 </td>
 
-                <td class="px-4 py-3 text-center space-x-2">
+                
 
+
+
+<td class="px-4 py-3">
+    {{ asset.assigned_to || '-' }}
+</td>
+
+
+
+<td class="px-4 py-3 text-center space-x-2">
 <Link
     :href="route('assets.show', asset.id)"
     class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
@@ -151,7 +176,7 @@ const emit = defineEmits([
             </tr>
 
             <tr v-if="assets.length === 0">
-                <td colspan="5" class="px-4 py-6 text-center text-gray-500">
+                <td colspan="6" class="px-4 py-6 text-center text-gray-500">
                     No assets found.
                 </td>
             </tr>
