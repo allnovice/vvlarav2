@@ -26,3 +26,8 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+# Docker image archives
+docker/*.tar
+
+# Database dumps
+*.sql
