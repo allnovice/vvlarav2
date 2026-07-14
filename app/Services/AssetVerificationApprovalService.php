@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 class AssetVerificationApprovalService
 {
 
-public function approve(AssetVerification $verification): void
+public function approve(AssetVerification $verification, ?string $remarks = null): void
 {
     if ($verification->status !== AssetVerification::STATUS_PENDING) {
         throw ValidationException::withMessages([

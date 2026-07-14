@@ -88,12 +88,15 @@ public function show(AssetVerification $assetVerification)
     ]);
 }
 public function approve(
+    Request $request,
     AssetVerification $assetVerification,
     AssetVerificationApprovalService $service
 )
 {
-    $service->approve($assetVerification);
-
+    $service->approve(
+        $assetVerification,
+        $request->input('reviewer_remarks')
+    );
     return redirect()
         ->route('asset-verifications.index')
         ->with('success', 'Verification approved.');

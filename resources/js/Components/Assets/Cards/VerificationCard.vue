@@ -97,7 +97,6 @@ const formattedVerifiedAt = computed(() => {
             <div class="mt-6">
 
                 <button
-                    v-if="isAdmin"
                     @click="showVerificationModal = true"
                     :disabled="form.processing"
                     class="rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:opacity-50"
