@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useForm, usePage, router } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
-import RejectVerificationModal from '@/Components/Assets/RejectVerificationModal.vue'
+import RejectModal from '@/Components/Assets/RejectModal.vue'
 import StatusBadge from '@/Components/StatusBadge.vue'
 
 const page = usePage()
@@ -216,7 +216,7 @@ function formatDate(date) {
 
 </div>
 
-<RejectVerificationModal
+<RejectModal
     :show="showRejectModal"
     :form="form"
     @close="showRejectModal = false"

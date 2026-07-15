@@ -25,6 +25,7 @@ public function approve(AssetHistoryChange $change): void
 
     AssetHistory::create([
         'asset_id' => $change->asset_id,
+        'asset_history_change_id' => $change->id,
         'type' => $change->type,
         'title' => $change->title,
         'description' => $change->description,

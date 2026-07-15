@@ -8,6 +8,7 @@ class AssetHistory extends Model
 {
     protected $fillable = [
         'asset_id',
+        'asset_history_change_id',
         'type',
         'title',
         'description',

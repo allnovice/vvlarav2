@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import HistoryModal from '@/Components/Assets/HistoryModal.vue'
 
 defineProps({
@@ -52,17 +53,36 @@ const showModal = ref(false)
 
         <div class="flex items-center justify-between">
 
-            <span
-                :class="entry.type === 'maintenance'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'bg-orange-100 text-orange-700'"
-                class="rounded-full px-3 py-1 text-xs font-semibold capitalize"
-            >
-                {{ entry.type }}
-            </span>
+            
+<component
+    :is="entry.asset_history_change_id ? Link : 'span'"
+    :href="entry.asset_history_change_id
+        ? route('asset-history-changes.show', entry.asset_history_change_id)
+        : undefined"
+    :class="[
+        entry.type === 'maintenance'
+            ? 'bg-blue-100 text-blue-700'
+            : 'bg-orange-100 text-orange-700',
+        'rounded-full px-3 py-1 text-xs font-semibold capitalize',
+        entry.asset_history_change_id ? 'hover:opacity-80 cursor-pointer' : ''
+    ]"
+>
+    {{ entry.type }}
+</component>
+
+
 
             <span class="text-sm text-gray-500">
-                {{ entry.performed_at }}
+
+
+
+{{ new Date(entry.performed_at).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+}) }}
+
+
             </span>
 
         </div>

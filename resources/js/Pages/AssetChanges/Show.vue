@@ -1,16 +1,22 @@
 <script setup>
 import { router, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import StatusBadge from '@/Components/StatusBadge.vue'
+import ConfirmationModal from '@/Components/ConfirmationModal.vue'
 
+const showApproveModal = ref(false)
+const showRejectModal = ref(false)
 const page = usePage()
 defineProps({
     change: Object,
 })
 function approve(id) {
+    showApproveModal.value = false
     router.post(route('asset-changes.approve', id))
 }
 function reject(id) {
+    showRejectModal.value = false
     router.post(route('asset-changes.reject', id))
 }
 function formatDate(date) {
@@ -185,19 +191,20 @@ function back() {
 
     <div class="flex gap-4">
 
-        <button
-            @click="approve(change.id)"
-            class="px-6 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition"
-        >
-            ✓ Approve
-        </button>
 
-        <button
-            @click="reject(change.id)"
-            class="px-6 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition"
-        >
-            ✕ Reject
-        </button>
+<button
+    @click="showApproveModal = true"
+    class="px-6 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition"
+>
+    ✓ Approve
+</button>
+<button
+    @click="showRejectModal = true"
+    class="px-6 py-2 rounded bg-red-600 text-white ..."
+>
+    ✕ Reject
+</button>
+
 
     </div>
 
@@ -207,4 +214,21 @@ function back() {
 
 </div>
 </MainLayout>
+<ConfirmationModal
+    :show="showApproveModal"
+    title="Approve Asset Change"
+    message="Are you sure you want to approve this asset change?"
+    confirm-text="Approve"
+    @close="showApproveModal = false"
+    @confirm="approve(change.id)"
+/>
+<ConfirmationModal
+    :show="showRejectModal"
+    title="Reject Asset Change"
+    message="Are you sure you want to reject this asset change?"
+    confirm-text="Reject"
+    @close="showRejectModal = false"
+    @confirm="reject(change.id)"
+/>
+
 </template>
