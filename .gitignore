@@ -29,5 +29,8 @@ Thumbs.db
 # Docker image archives
 docker/*.tar
 
-# Database dumps
+# Database dumps etc
 *.sql
+*.tar
+*.tar.gz
+*.sql~
