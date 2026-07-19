@@ -16,23 +16,36 @@ public function callback()
 {
     $googleUser = Socialite::driver('google')->user();
 
-    $user = \App\Models\User::firstOrCreate(
-        [
-            'email' => $googleUser->getEmail(),
-        ],
-        [
-            'name' => $googleUser->getName(),
-            'role' => 'employee',
-            'email_verified_at' => now(),
-            'password' => bcrypt(\Illuminate\Support\Str::random(32)),
-        ]
-    );
+
+
+$user = \App\Models\User::firstOrCreate(
+    [
+        'email' => $googleUser->getEmail(),
+    ],
+    [
+        'name' => $googleUser->getName(),
+        'role' => 'employee',
+        'password' => bcrypt(\Illuminate\Support\Str::random(32)),
+    ]
+);
+
+
+
     $user->update([
         'avatar' => $googleUser->getAvatar(),
     ]);
-    auth()->login($user, true);
 
-    return redirect()->route('dashboard');
+
+if ($user->verified_at === null) {
+    return redirect()
+        ->route('login')
+        ->with('status', 'Your account has been created and is awaiting administrator approval.');
+}
+
+auth()->login($user, true);
+
+return redirect()->route('dashboard');
+
 }
 
 

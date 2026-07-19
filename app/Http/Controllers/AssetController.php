@@ -261,11 +261,24 @@ AssetChange::create([
 
     public function show(Asset $asset)
 {
-    $asset->load([
-        'history',
-        'pendingChange',
-        'pendingVerification',
-    ]);
+
+
+$asset->load([
+    'history',
+    'pendingChange',
+    'pendingVerification',
+    'photos',
+]);
+
+$asset->photos->each(function ($photo) {
+    $photo->has_pending_request = \App\Models\AssetPhotoChange::where(
+        'asset_photo_id',
+        $photo->id
+    )
+    ->where('status', \App\Models\AssetPhotoChange::STATUS_PENDING)
+    ->exists();
+});
+
 
     return Inertia::render('Assets/Show', [
         'asset' => $asset,

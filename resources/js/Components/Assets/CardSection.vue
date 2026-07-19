@@ -1,10 +1,7 @@
 <script setup>
 defineProps({
     title: String,
-    icon: {
-        type: Object,
-        default: null,
-    },
+    icon: [Object, Function],
 })
 </script>
 

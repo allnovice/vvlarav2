@@ -31,6 +31,16 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+
+if (Auth::user()->verified_at === null) {
+    Auth::logout();
+
+    return back()->withErrors([
+        'email' => 'Your account is awaiting administrator approval.',
+    ]);
+}
+
+
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard', absolute: false));

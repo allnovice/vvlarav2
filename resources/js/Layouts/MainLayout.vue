@@ -62,6 +62,13 @@ const user = computed(() => page.props.auth?.user ?? null);
 </NavLink>
 
 <NavLink
+    :href="route('asset-photo-changes.index')"
+    :active="route().current('asset-photo-changes.*')"
+>
+    Asset Photo Changes Requests
+</NavLink>
+
+<NavLink
     :href="route('asset-history-changes.index')"
     :active="route().current('asset-history-changes.*')"
 >
@@ -225,6 +232,13 @@ const user = computed(() => page.props.auth?.user ?? null);
     :active="route().current('asset-changes.*')"
 >
     Asset Requests
+</ResponsiveNavLink>
+
+<ResponsiveNavLink
+    :href="route('asset-photo-changes.index')"
+    :active="route().current('asset-photo-changes.*')"
+>
+    Asset Photo Changes Requests
 </ResponsiveNavLink>
 
 <ResponsiveNavLink

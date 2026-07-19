@@ -1,6 +1,16 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
+import ApproveUserModal from '@/Components/Users/ApproveUserModal.vue';
+import { ref } from 'vue';
+
+const showApproveModal = ref(false);
+const selectedUser = ref(null);
+
+function openApproveModal(user) {
+    selectedUser.value = user;
+    showApproveModal.value = true;
+}
 
 defineProps({
     users: Object,
@@ -60,9 +70,15 @@ defineProps({
                         Role
                     </th>
 
-                    <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        Status
-                    </th>
+<th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+    Approval
+</th>
+
+<th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+    Status
+</th>
+
+
                 </tr>
             </thead>
 
@@ -102,6 +118,20 @@ defineProps({
                         </span>
                     </td>
 
+<td class="px-6 py-4 text-center">
+    <span
+        @click="openApproveModal(user)"
+        :class="[
+            user.verified_at
+                ? 'bg-green-100 text-green-700'
+                : 'bg-yellow-100 text-yellow-700 cursor-pointer hover:bg-yellow-200',
+            'rounded-full px-3 py-1 text-xs font-medium'
+        ]"
+    >
+        {{ user.verified_at ? 'Approved' : 'Pending' }}
+    </span>
+</td>
+
                     <td class="px-6 py-4 text-center">
                         <span
                             :class="user.is_active
@@ -123,5 +153,10 @@ defineProps({
 
 
     </div>
+<ApproveUserModal
+    :show="showApproveModal"
+    :user="selectedUser"
+    @close="showApproveModal = false"
+/>
 </MainLayout>
 </template>

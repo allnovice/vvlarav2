@@ -17,6 +17,7 @@ $users = User::select([
     'position',
     'role',
     'is_active',
+    'verified_at',
 ])
 ->orderBy('name')
 ->paginate(10);
@@ -71,6 +72,25 @@ public function update(Request $request, User $user)
     return redirect()
         ->route('users.show', $user)
         ->with('success', 'User updated successfully.');
+}
+public function approve(User $user)
+{
+    if ($user->verified_at) {
+        return back()->with(
+            'error',
+            'User has already been approved.'
+        );
+    }
+
+    $user->update([
+        'verified_at' => now(),
+        'verified_by' => auth()->id(),
+        'is_active' => true,
+    ]);
+
+    return redirect()
+        ->route('users.index')
+        ->with('success', 'User approved successfully.');
 }
 public function destroy(User $user)
 {

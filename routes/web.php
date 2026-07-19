@@ -12,6 +12,8 @@ use App\Http\Controllers\AssetChangeController;
 use App\Http\Controllers\AssetHistoryChangeController;
 use App\Http\Controllers\AssetVerificationController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\AssetPhotoController;
+use App\Http\Controllers\AssetPhotoChangeController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -20,7 +22,7 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])
     ->name('google.callback');
 
 /*--------------approval-routes-ithead-PSO-admin--------------*/
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'approve.users'])->group(function () {
     Route::post('/asset-changes/{change}/approve', [AssetChangeController::class, 'approve'])
         ->name('asset-changes.approve');
     Route::post('/asset-changes/{change}/reject', [AssetChangeController::class, 'reject'])
@@ -33,6 +35,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('asset-verifications.approve');
     Route::post('/asset-verifications/{assetVerification}/reject', [AssetVerificationController::class, 'reject'])
         ->name('asset-verifications.reject');
+    Route::post('/users/{user}/approve', [UserController::class, 'approve'])
+        ->name('users.approve');
+
+
+
 });
 /*--------------dashboard--------------*/
 Route::get('/', [DashboardController::class, 'index'])
@@ -50,6 +57,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy');
+
+Route::get('/asset-photo-changes', [AssetPhotoChangeController::class, 'index'])
+    ->name('asset-photo-changes.index');
+
+Route::get('/asset-photo-changes/{change}', [AssetPhotoChangeController::class, 'show'])
+    ->name('asset-photo-changes.show');
+
+Route::post('/asset-photo-changes/{change}/approve', [AssetPhotoChangeController::class, 'approve'])
+    ->name('asset-photo-changes.approve');
+
+Route::post('/asset-photo-changes/{change}/reject', [AssetPhotoChangeController::class, 'reject'])
+    ->name('asset-photo-changes.reject');
+
 });
 
 
@@ -71,6 +91,18 @@ Route::middleware('auth')->group(function () {
         ->name('assets.history.store');
     Route::post('/assets/{asset}/verify', [AssetVerificationController::class, 'store'])
         ->name('asset-verifications.store');
+
+    Route::post('/assets/{asset}/photos', [AssetPhotoController::class, 'store'])
+        ->name('assets.photos.store');
+
+Route::post(
+    '/assets/photos/{photo}/caption',
+    [AssetPhotoController::class, 'requestCaptionUpdate']
+)->name('assets.photos.caption');
+Route::post(
+    '/assets/photos/{photo}/delete',
+    [AssetPhotoController::class, 'requestDelete']
+)->name('assets.photos.delete');
 /*--------------------show--------------*/
     Route::get('/asset-changes/{change}', [AssetChangeController::class, 'show'])
         ->name('asset-changes.show');

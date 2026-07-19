@@ -68,6 +68,9 @@ public function canApprove(): bool
         || $this->isITHead()
         || $this->isPropertySupplyOfficer();
 }
-
+public function canApproveUsers(): bool
+{
+    return $this->isITHead();
+}
 
 }

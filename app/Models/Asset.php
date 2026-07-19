@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\AssetChange;
 use App\Models\AssetVerification;
+use App\Models\AssetPhoto;
 
 class Asset extends Model
 {
@@ -67,6 +68,11 @@ public function pendingVerification()
 {
     return $this->hasOne(AssetVerification::class)
         ->where('status', AssetVerification::STATUS_PENDING);
+}
+public function photos()
+{
+    return $this->hasMany(AssetPhoto::class)
+        ->orderBy('sort_order');
 }
 
 }

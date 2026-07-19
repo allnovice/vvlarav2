@@ -50,6 +50,18 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+
+$user = Auth::user();
+
+if (! $user->is_active || ! $user->verified_at) {
+    Auth::logout();
+
+    throw ValidationException::withMessages([
+        'email' => 'Your account is pending approval or has been deactivated.',
+    ]);
+}
+
+
         RateLimiter::clear($this->throttleKey());
     }
 

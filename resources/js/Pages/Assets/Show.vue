@@ -11,6 +11,7 @@ import AssignmentCard from '@/Components/Assets/Cards/AssignmentCard.vue'
 import AcquisitionCard from '@/Components/Assets/Cards/AcquisitionCard.vue'
 import VerificationCard from '@/Components/Assets/Cards/VerificationCard.vue'
 import HistoryCard from '@/Components/Assets/Cards/HistoryCard.vue'
+import AdditionalPhotosCard from '@/Components/Assets/Cards/AdditionalPhotosCard.vue'
 
 const props = defineProps({
     asset: Object,
@@ -86,6 +87,7 @@ form.put(route('assets.update', props.asset.id), {
 })
 
 }
+
 </script>
 
 <template>
@@ -122,6 +124,10 @@ form.put(route('assets.update', props.asset.id), {
 <AssignmentCard :asset="asset" />
 <AcquisitionCard :asset="asset" />
 <VerificationCard :asset="asset" />
+<AdditionalPhotosCard
+    :asset-id="asset.id"
+    :photos="asset.photos"
+/>
 <HistoryCard :asset="asset" />
 
 
