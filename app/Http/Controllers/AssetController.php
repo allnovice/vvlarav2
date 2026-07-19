@@ -48,6 +48,7 @@ public function index(Request $request)
     }
     return Inertia::render('Assets', [
         'assets' => $query->paginate(10)->withQueryString(),
+        'search' => $request->search,
     ]);
 }
 

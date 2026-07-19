@@ -1,0 +1,42 @@
+<script setup>
+import MainLayout from '@/Layouts/MainLayout.vue'
+import { Head } from '@inertiajs/vue3';
+import StatisticsGrid from '@/Components/Dashboard/StatisticsGrid.vue'
+import HeroSection from '@/Components/Dashboard/HeroSection.vue'
+
+defineProps({
+    totalAssets: Number,
+    activeAssets: Number,
+    underRepairAssets: Number,
+    borrowedAssets: Number,
+    archivedAssets: Number,
+    totalUsers: Number,
+
+    pendingChanges: Number,
+    pendingVerifications: Number,
+    pendingUserApprovals: Number,
+})
+
+</script>
+
+<template>
+    <Head title="Dashboard" />
+
+    <MainLayout>
+        <template #header>
+            <h2
+                class="text-xl font-semibold leading-tight text-gray-800"
+            >
+                Dashboard
+            </h2>
+        </template>
+
+        <div class="py-12">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div
+                    class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
+
+
+
+    </MainLayout>
+</template>

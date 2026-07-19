@@ -1,6 +1,4 @@
 <script setup>
-import MainLayout from '@/Layouts/MainLayout.vue'
-import { Head } from '@inertiajs/vue3';
 import DashboardStatCard from '@/Components/Dashboard/DashboardStatCard.vue'
 
 defineProps({
@@ -11,31 +9,11 @@ defineProps({
     archivedAssets: Number,
     totalUsers: Number,
 })
-
 </script>
 
 <template>
-    <Head title="Dashboard" />
 
-    <MainLayout>
-        <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Dashboard
-            </h2>
-        </template>
-
-        <div class="py-12">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div
-                    class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
-                >
-
-
-
-<div class="grid gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
-
+<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     <DashboardStatCard
         title="Total Assets"
         :value="totalAssets"
@@ -65,13 +43,5 @@ defineProps({
         title="Total Users"
         :value="totalUsers"
     />
-
 </div>
-
-
-
-                </div>
-            </div>
-        </div>
-    </MainLayout>
 </template>

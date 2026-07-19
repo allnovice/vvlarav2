@@ -16,11 +16,12 @@ import AssetPagination from '@/Components/Assets/AssetPagination.vue'
 
 const props = defineProps({
     assets: Object,
+    search: String,
 })
 const showModal = ref(false)
 const isEditing = ref(false)
 const editingId = ref(null)
-const search = ref('')
+const search = ref(props.search ?? '')
 const statusFilter = ref('All')
 const sortBy = ref('property_number')
 const sortDirection = ref('asc')
