@@ -14,3 +14,10 @@ compose.yaml
 compose.stage.yaml
 README.md
 bootstrap/cache/*.php
+docker/*.tar
+docker/*.tar.gz
+*.tar
+*.tar.gz
+*.sql
+*.sql~
+*.bak
