@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import GoogleLoginButton from '@/Components/Auth/GoogleLoginButton.vue';
 
 defineProps({
     canResetPassword: {
@@ -84,7 +85,7 @@ const submit = () => {
                     :href="route('password.request')"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                    Forgot your password?
+                    Forgot your password? -ewan ko sau!
                 </Link>
 
                 <PrimaryButton
@@ -96,13 +97,6 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form> 
-
-<a
-    href="/auth/google"
-    class="w-full inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-gray-700 hover:bg-gray-50"
->
-    Continue with Google
-</a>
-
+<GoogleLoginButton />
     </GuestLayout>
 </template>
