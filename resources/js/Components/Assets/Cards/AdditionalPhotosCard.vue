@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
+import ImageModal from '@/Components/ImageModal.vue'
 
 const editingPhotoId = ref(null)
 const editedCaption = ref('')
@@ -121,12 +122,14 @@ function requestDelete(photo) {
             class="border rounded-lg p-2"
         >
             <div class="relative">
-                <img
-                    :src="`/storage/${photo.photo_path}`"
-                    alt="Additional Photo"
-                    class="w-full h-32 object-cover rounded"
-                />
 
+
+             
+<ImageModal
+    :src="`/storage/${photo.photo_path}`"
+    alt="Additional Photo"
+    thumbnail-class="w-full h-32 rounded"
+/>
 
 <button
     type="button"

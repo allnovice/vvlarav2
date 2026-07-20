@@ -1,6 +1,7 @@
 <script setup>
 import { router } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
+import ImageModal from '@/Components/ImageModal.vue'
 
 defineProps({
     changes: Array,
@@ -100,10 +101,16 @@ function filterStatus(event) {
     </td>
 
     <td class="px-6 py-4 text-center">
-        <img
-            :src="`/storage/${change.photo_path}`"
-            class="mx-auto h-16 w-16 rounded object-cover border"
-        >
+
+
+<ImageModal
+    :src="`/storage/${change.photo_path}`"
+    alt="Asset Photo"
+    thumbnail-class="mx-auto h-16 w-16 rounded object-cover border"
+/>
+
+
+
     </td>
 
     <td class="px-6 py-4 text-center">

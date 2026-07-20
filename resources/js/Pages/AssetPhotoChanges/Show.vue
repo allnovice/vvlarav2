@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import StatusBadge from '@/Components/StatusBadge.vue'
 import ConfirmationModal from '@/Components/ConfirmationModal.vue'
+import ImageModal from '@/Components/ImageModal.vue'
 
 const showApproveModal = ref(false)
 const showRejectModal = ref(false)
@@ -144,10 +145,14 @@ function back() {
 
         <div class="flex justify-center">
 
-            <img
-                :src="`/storage/${change.photo_path}`"
-                class="max-w-full md:max-w-md rounded-lg border shadow"
-            >
+
+<ImageModal
+    :src="`/storage/${change.photo_path}`"
+    alt="Asset Photo"
+    thumbnail-class="max-w-full md:max-w-md rounded-lg border shadow"
+/>
+
+
 
         </div>
 

@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import StatusBadge from '@/Components/StatusBadge.vue'
 import ConfirmationModal from '@/Components/ConfirmationModal.vue'
+import ImageModal from '@/Components/ImageModal.vue'
 
 const showApproveModal = ref(false)
 const showRejectModal = ref(false)
@@ -142,6 +143,17 @@ function back() {
             <p class="text-sm text-gray-500">Description</p>
             <p>{{ change.data.description }}</p>
         </div>
+
+
+<ImageModal
+    :src="`/storage/${change.data.photo_path}`"
+    alt="Asset Photo"
+    thumbnail-class="w-32 h-32 rounded-xl object-cover shadow-sm border"
+/>
+
+
+
+
 
     </div>
 

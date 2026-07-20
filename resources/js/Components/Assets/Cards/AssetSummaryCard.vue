@@ -5,6 +5,7 @@ import CardSection from '@/Components/Assets/CardSection.vue'
 import { CubeIcon } from '@heroicons/vue/24/outline'
 import TagChip from '@/Components/Assets/TagChip.vue'
 import { Link } from '@inertiajs/vue3'
+import ImageModal from '@/Components/ImageModal.vue'
 
 defineProps({
     asset: Object,
@@ -41,87 +42,69 @@ const emit = defineEmits([
 
 <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
 
-    <!-- Placeholder for future asset photo -->
-
-<div class="w-32 h-32 rounded-xl overflow-hidden border">
+    <div class="w-32 h-32 rounded-xl overflow-hidden border">
 
 
 
-   <img
+<ImageModal
     v-if="asset.photo_path"
     :src="`/storage/${asset.photo_path}`"
     alt="Asset Photo"
-    class="w-32 h-32 rounded-xl object-cover shadow-sm"
+    thumbnail-class="w-32 h-32 rounded-xl shadow-sm"
 />
 
-    <div
-    v-else
-    class="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center shrink-0"
->
-    <CubeIcon class="w-10 h-10 text-gray-400" />
-
-    <p class="text-xs text-gray-400 mt-2">
-        No Photo
-    </p>
-</div>
-
-</div>
 
 
-<div>
+        <div
+            v-else
+            class="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center"
+        >
+            <CubeIcon class="w-10 h-10 text-gray-400" />
 
-
-<p class="text-sm uppercase tracking-[0.2em] text-blue-600 font-semibold">
-    {{ asset.brand || 'Unknown Brand' }}
-</p>
-<h2 class="text-3xl font-bold text-gray-900 mt-1">
-    {{ asset.model || 'Unknown Model' }}
-</h2>
-
-
-
-<div class="mt-4">
-
-    <p
-        class="text-xs
-               uppercase
-               tracking-[0.2em]
-               text-gray-400"
-    >
-        Property Number
-    </p>
-
-    <p
-        class="text-lg
-               font-semibold
-               text-gray-900"
-    >
-        {{ asset.property_number }}
-    </p>
-
-</div>
-
-
-
-<div class="flex flex-wrap gap-2 mt-4">
-
-    <TagChip
-        :value="asset.type"
-    />
-
-    <TagChip
-        :value="asset.department || 'Unassigned'"
-    />
-
-    <TagChip
-        :value="asset.location || 'No Location'"
-    />
-
-</div>
-
-
+            <p class="text-xs text-gray-400 mt-2">
+                No Photo
+            </p>
+        </div>
 
     </div>
+
+    <div>
+
+        <p class="text-sm uppercase tracking-[0.2em] text-blue-600 font-semibold">
+            {{ asset.brand || 'Unknown Brand' }}
+        </p>
+
+        <h2 class="text-3xl font-bold text-gray-900 mt-1">
+            {{ asset.model || 'Unknown Model' }}
+        </h2>
+
+        <div class="mt-4">
+            <p class="text-xs uppercase tracking-[0.2em] text-gray-400">
+                Property Number
+            </p>
+
+            <p class="text-lg font-semibold text-gray-900">
+                {{ asset.property_number }}
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mt-4">
+
+            <TagChip :value="asset.type" />
+
+            <TagChip :value="asset.department || 'Unassigned'" />
+
+            <TagChip :value="asset.location || 'No Location'" />
+
+        </div>
+
+    </div>
+
+
+
+
+
+
 
 </div>
 
