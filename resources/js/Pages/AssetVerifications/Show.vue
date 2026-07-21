@@ -4,6 +4,7 @@ import { useForm, usePage, router } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import RejectModal from '@/Components/Assets/RejectModal.vue'
 import StatusBadge from '@/Components/StatusBadge.vue'
+import ConfirmationModal from '@/Components/ConfirmationModal.vue'
 
 const page = usePage()
 function back() {
@@ -18,6 +19,7 @@ const form = useForm({
 })
 
 const showRejectModal = ref(false)
+const showApproveModal = ref(false);
 
 function approve() {
     form.post(route('asset-verifications.approve', props.verification.id))
@@ -193,11 +195,12 @@ function formatDate(date) {
     <div class="flex gap-4">
 
         <button
-            @click="approve"
+            @click="showApproveModal = true"
             class="px-6 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition"
         >
             ✓ Approve
         </button>
+
 
         <button
             @click="showRejectModal = true"
@@ -222,6 +225,13 @@ function formatDate(date) {
     @close="showRejectModal = false"
     @submit="submitReject"
 />
-
+<ConfirmationModal
+    :show="showApproveModal"
+    title="Approve Asset Change"
+    message="Are you sure you want to approve this asset change?"
+    confirm-text="Approve"
+    @close="showApproveModal = false"
+    @confirm="approve(props.verification.id)"
+/>
 </MainLayout>
 </template>

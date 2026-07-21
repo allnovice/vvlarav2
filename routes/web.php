@@ -23,21 +23,15 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])
 
 /*--------------approval-routes-ithead-PSO-admin--------------*/
 Route::middleware(['auth', 'admin', 'approve.users'])->group(function () {
-    Route::post('/asset-changes/{change}/approve', [AssetChangeController::class, 'approve'])
-        ->name('asset-changes.approve');
-    Route::post('/asset-changes/{change}/reject', [AssetChangeController::class, 'reject'])
-        ->name('asset-changes.reject');
-    Route::post('/asset-history-changes/{change}/approve', [AssetHistoryChangeController::class, 'approve'])
-        ->name('asset-history-changes.approve');
-    Route::post('/asset-history-changes/{change}/reject', [AssetHistoryChangeController::class, 'reject'])
-        ->name('asset-history-changes.reject');
-    Route::post('/asset-verifications/{assetVerification}/approve', [AssetVerificationController::class, 'approve'])
-        ->name('asset-verifications.approve');
-    Route::post('/asset-verifications/{assetVerification}/reject', [AssetVerificationController::class, 'reject'])
-        ->name('asset-verifications.reject');
+
     Route::post('/users/{user}/approve', [UserController::class, 'approve'])
         ->name('users.approve');
-
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
+    Route::patch('/users/{user}', [UserController::class, 'update'])
+        ->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])
+        ->name('users.destroy');
 
 
 });
@@ -51,12 +45,7 @@ Route::get('/dashboard', function () {
 
 /*--------------user admin controlled--------------*/
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])
-        ->name('users.edit');
-    Route::patch('/users/{user}', [UserController::class, 'update'])
-        ->name('users.update');
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])
-        ->name('users.destroy');
+
 
 Route::get('/asset-photo-changes', [AssetPhotoChangeController::class, 'index'])
     ->name('asset-photo-changes.index');
@@ -70,6 +59,19 @@ Route::post('/asset-photo-changes/{change}/approve', [AssetPhotoChangeController
 Route::post('/asset-photo-changes/{change}/reject', [AssetPhotoChangeController::class, 'reject'])
     ->name('asset-photo-changes.reject');
 
+    Route::post('/asset-changes/{change}/approve', [AssetChangeController::class, 'approve'])
+        ->name('asset-changes.approve');
+    Route::post('/asset-changes/{change}/reject', [AssetChangeController::class, 'reject'])
+        ->name('asset-changes.reject');
+
+    Route::post('/asset-history-changes/{change}/approve', [AssetHistoryChangeController::class, 'approve'])
+        ->name('asset-history-changes.approve');
+    Route::post('/asset-history-changes/{change}/reject', [AssetHistoryChangeController::class, 'reject'])
+        ->name('asset-history-changes.reject');
+    Route::post('/asset-verifications/{assetVerification}/approve', [AssetVerificationController::class, 'approve'])
+        ->name('asset-verifications.approve');
+    Route::post('/asset-verifications/{assetVerification}/reject', [AssetVerificationController::class, 'reject'])
+        ->name('asset-verifications.reject');
 });
 
 
