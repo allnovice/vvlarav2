@@ -1,4 +1,6 @@
 <script setup>
+import DashboardWidget from './DashboardWidget.vue'
+
 defineProps({
     maintainedAssets: Number,
     unmaintainedAssets: Number,
@@ -7,7 +9,8 @@ defineProps({
 </script>
 
 <template>
-    <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+<DashboardWidget>
+    
         <h2 class="mb-4 text-lg font-semibold text-gray-900">
             Preventive Maintenance
         </h2>
@@ -30,5 +33,6 @@ defineProps({
                 </span>
             </div>
         </div>
-    </div>
+    
+</DashboardWidget>
 </template>

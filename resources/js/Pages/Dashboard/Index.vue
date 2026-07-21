@@ -6,6 +6,7 @@ import AboutSection from '@/Components/Dashboard/AboutSection.vue'
 import MaintenanceSummary from '@/Components/Dashboard/MaintenanceSummary.vue'
 import PendingTasks from '@/Components/Dashboard/PendingTasks.vue'
 import RecentActivity from '@/Components/Dashboard/RecentActivity.vue'
+import ContentLayout from '@/Layouts/ContentLayout.vue'
 
 defineProps({
     totalAssets: Number,
@@ -45,30 +46,47 @@ recentActivities: Array,
                 Dashboard
             </h2>
         </template>
+<ContentLayout>
 
+    <div class="space-y-6">
 
-<div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-    <div class="space-y-8 p-6">
-        <HeroSection />
+        <!-- Row 1 -->
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <HeroSection />
 
-<PendingTasks
-    :pending-verifications="pendingVerifications"
-    :pending-changes="pendingChanges"
-    :pending-photo-changes="pendingPhotoChanges"
-    :pending-history-changes="pendingHistoryChanges"
-/>
-<RecentActivity
-    :activities="recentActivities"
-/>
-<MaintenanceSummary
-    :maintained-assets="maintainedAssets"
-    :unmaintained-assets="unmaintainedAssets"
-    :maintenance-coverage="maintenanceCoverage"
-/>
+            <PendingTasks
+                :pending-verifications="pendingVerifications"
+                :pending-changes="pendingChanges"
+                :pending-photo-changes="pendingPhotoChanges"
+                :pending-history-changes="pendingHistoryChanges"
+            />
+        </div>
 
-        <AboutSection />
+        <!-- Row 2 -->
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <MaintenanceSummary
+                :maintained-assets="maintainedAssets"
+                :unmaintained-assets="unmaintainedAssets"
+                :maintenance-coverage="maintenanceCoverage"
+            />
+
+            <AboutSection />
+        </div>
+
+        <!-- Row 3 -->
+        <RecentActivity
+            :activities="recentActivities"
+        />
+
     </div>
-</div>
+
+</ContentLayout>
+
+
+
+
+
+
 
     </MainLayout>
 </template>

@@ -1,8 +1,9 @@
 <script setup>
+import DashboardWidget from './DashboardWidget.vue'
 </script>
 
 <template>
-    <div class="rounded-lg border border-gray-200 bg-gray-50 p-6">
+<DashboardWidget>
         <h2 class="text-xl font-semibold text-gray-900">
             About the System
         </h2>
@@ -13,5 +14,5 @@
             lifecycle. It helps maintain accurate asset records, improve
             accountability, and support informed decision-making.
         </p>
-    </div>
+</DashboardWidget>
 </template>
