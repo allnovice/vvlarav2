@@ -7,7 +7,15 @@ import MaintenanceSummary from '@/Components/Dashboard/MaintenanceSummary.vue'
 import PendingTasks from '@/Components/Dashboard/PendingTasks.vue'
 import RecentActivity from '@/Components/Dashboard/RecentActivity.vue'
 import ContentLayout from '@/Layouts/ContentLayout.vue'
+import DashboardRow from '@/Components/Dashboard/DashboardRow.vue'
+import DashboardColumn from '@/Components/Dashboard/DashboardColumn.vue'
+import { ref, onMounted } from 'vue'
 
+const windowWidth = ref(0)
+
+onMounted(() => {
+    windowWidth.value = window.innerWidth
+})
 defineProps({
     totalAssets: Number,
     activeAssets: Number,
@@ -36,7 +44,12 @@ recentActivities: Array,
 </script>
 
 <template>
-    <Head title="Dashboard" />
+  
+<div class="mb-4 text-sm">
+    Width: {{ windowWidth }}
+</div>
+
+  <Head title="Dashboard" />
 
     <MainLayout>
         <template #header>
@@ -46,32 +59,43 @@ recentActivities: Array,
                 Dashboard
             </h2>
         </template>
+
 <ContentLayout>
 
     <div class="space-y-6">
 
         <!-- Row 1 -->
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <HeroSection />
 
-            <PendingTasks
-                :pending-verifications="pendingVerifications"
-                :pending-changes="pendingChanges"
-                :pending-photo-changes="pendingPhotoChanges"
-                :pending-history-changes="pendingHistoryChanges"
-            />
-        </div>
+
+<DashboardRow>
+<DashboardColumn>
+    <HeroSection />
+</DashboardColumn>
+<DashboardColumn>
+    <PendingTasks
+        :pending-verifications="pendingVerifications"
+        :pending-changes="pendingChanges"
+        :pending-photo-changes="pendingPhotoChanges"
+        :pending-history-changes="pendingHistoryChanges"
+    />
+</DashboardColumn>
+</DashboardRow>
+
 
         <!-- Row 2 -->
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <MaintenanceSummary
-                :maintained-assets="maintainedAssets"
-                :unmaintained-assets="unmaintainedAssets"
-                :maintenance-coverage="maintenanceCoverage"
-            />
 
-            <AboutSection />
-        </div>
+<DashboardRow>
+<DashboardColumn>
+    <MaintenanceSummary
+        :maintained-assets="maintainedAssets"
+        :unmaintained-assets="unmaintainedAssets"
+        :maintenance-coverage="maintenanceCoverage"
+    />
+</DashboardColumn>
+<DashboardColumn>
+    <AboutSection />
+</DashboardColumn>
+</DashboardRow>
 
         <!-- Row 3 -->
         <RecentActivity
