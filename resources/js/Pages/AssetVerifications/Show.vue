@@ -22,6 +22,8 @@ const showRejectModal = ref(false)
 const showApproveModal = ref(false);
 
 function approve() {
+    showApproveModal.value = false
+
     form.post(route('asset-verifications.approve', props.verification.id))
 }
 
@@ -51,12 +53,12 @@ function formatDate(date) {
 
         <button
             @click="back"
-            class="px-3 py-1 text-sm border rounded hover:bg-gray-100"
+            class="rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
         >
             ← Back
         </button>
 
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
             Verification Request
         </h2>
 
@@ -68,31 +70,32 @@ function formatDate(date) {
 
 <div
     v-if="page.props.errors.verification"
-    class="mb-4 rounded bg-red-100 border border-red-400 text-red-700 px-4 py-3"
+    class="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700 dark:border-red-700 dark:bg-red-900/40 dark:text-red-300"
 >
     {{ page.props.errors.verification }}
 </div>
 
-<div class="bg-white rounded-lg shadow p-6 mb-6">
 
-    <h3 class="text-lg font-semibold mb-4">
+<div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800 mb-6">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Verification Request
     </h3>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         <div>
-            <p class="text-sm text-gray-500">Submitted By</p>
-            <p>{{ verification.user.name }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Submitted By</p>
+            
+            <p class="text-gray-900 dark:text-gray-100">{{ verification.user.name }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Asset</p>
-            <p>{{ verification.asset.property_number }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Asset</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ verification.asset.property_number }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Status</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>
             <StatusBadge :status="verification.status" />
         </div>
 
@@ -114,18 +117,24 @@ function formatDate(date) {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         <div>
-            <p class="text-sm text-gray-500">Reviewed By</p>
-            <p>{{ verification.reviewer?.name || '-' }}</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Reviewed By</p>
+<p class="text-gray-900 dark:text-gray-100">
+    {{ verification.reviewer?.name || '-' }}
+</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Reviewed At</p>
-            <p>{{ formatDate(verification.reviewed_at) }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Reviewed At</p>
+<p class="text-gray-900 dark:text-gray-100">
+    {{ formatDate(verification.reviewed_at) }}
+</p>
         </div>
 
         <div class="md:col-span-2">
-            <p class="text-sm text-gray-500">Reviewer Remarks</p>
-            <p>{{ verification.reviewer_remarks || '-' }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Reviewer Remarks</p>
+<p class="text-gray-900 dark:text-gray-100">
+    {{ verification.reviewer_remarks || '-' }}
+</p>
         </div>
 
     </div>
@@ -135,17 +144,18 @@ function formatDate(date) {
   
 
 
-<div class="bg-white rounded-lg shadow p-6 mb-6">
+<div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800 mb-6">
 
-    <h3 class="text-lg font-semibold mb-4">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Verification Details
     </h3>
 
     <div class="grid grid-cols-1 gap-6">
 
         <div>
-            <p class="text-sm text-gray-500">Remarks</p>
-            <p>{{ verification.remarks || '-' }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Remarks</p>
+            <p class="text-gray-900 dark:text-gray-100">
+{{ verification.remarks || '-' }}</p>
         </div>
 
         <div>
@@ -165,7 +175,7 @@ function formatDate(date) {
 
             <p
                 v-else
-                class="text-gray-500"
+                class="text-gray-500 dark:text-gray-400"
             >
                 No attachment.
             </p>
@@ -185,10 +195,10 @@ function formatDate(date) {
 
 <div
     v-if="verification.status === 'pending'"
-    class="bg-white rounded-lg shadow p-6"
+    class="rounded-lg bg-white p-6 shadow dark:bg-gray-800"
 >
 
-    <h3 class="text-lg font-semibold mb-4">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Actions
     </h3>
 

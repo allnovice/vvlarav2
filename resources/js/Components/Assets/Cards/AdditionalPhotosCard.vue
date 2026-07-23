@@ -82,9 +82,10 @@ function requestDelete(photo) {
 </script>
 
 <template>
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
         <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold">
+            
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 Additional Photos
             </h2>
 
@@ -105,13 +106,13 @@ function requestDelete(photo) {
             @change="handleFiles"
         />
 
-        <div v-if="photos.length === 0" class="text-sm text-gray-500">
+        <div v-if="photos.length === 0" class="text-sm text-gray-500 dark:text-gray-400">
             No additional photos available.
         </div>
 
 
 <div v-else>
-    <p class="text-sm text-gray-500 mb-4">
+    <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
         {{ photos.length }} photo(s)
     </p>
 
@@ -119,7 +120,7 @@ function requestDelete(photo) {
         <div
             v-for="photo in photos"
             :key="photo.id"
-            class="border rounded-lg p-2"
+            class="rounded-lg border border-gray-200 p-2 dark:border-gray-700"
         >
             <div class="relative">
 
@@ -134,7 +135,7 @@ function requestDelete(photo) {
 <button
     type="button"
     :disabled="photo.has_pending_request"
-    class="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-red-600 shadow transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-red-600 hover:text-white"
+    class="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-red-600 shadow transition hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-800/90"
     @click="requestDelete(photo)"
 >
     ✕
@@ -147,12 +148,12 @@ function requestDelete(photo) {
             <div v-if="editingPhotoId === photo.id">
                 <input
                     v-model="editedCaption"
-                    class="mt-2 w-full rounded-md border-gray-300 shadow-sm"
+                    class="mt-2 w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                     @keyup.enter="submitCaption(photo)"
                     @keyup.esc="cancelEditing"
                 />
 
-                <p class="mt-2 text-xs text-gray-500">
+                <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
                     Press Enter to submit • Esc to cancel
                 </p>
             </div>
@@ -164,7 +165,7 @@ function requestDelete(photo) {
 
                 <p
                     v-if="photo.caption"
-                    class="mt-2 text-xs text-gray-600"
+                    class="mt-2 text-xs text-gray-600 dark:text-gray-300"
                 >
                     {{ photo.caption }}
                 </p>
@@ -172,7 +173,8 @@ function requestDelete(photo) {
 
 <button
     :disabled="photo.has_pending_request"    
-    class="mt-2 text-sm text-blue-600 hover:underline disabled:text-gray-400 disabled:no-underline disabled:cursor-not-allowed"
+    class="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400 disabled:cursor-not-allowed disabled:text-gray-500 disabled:no-underline"
+    
     @click="startEditing(photo)"
 >
     Edit Caption

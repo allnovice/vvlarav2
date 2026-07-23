@@ -13,9 +13,7 @@ import { ref, onMounted } from 'vue'
 
 const windowWidth = ref(0)
 
-onMounted(() => {
-    windowWidth.value = window.innerWidth
-})
+
 defineProps({
     totalAssets: Number,
     activeAssets: Number,
@@ -45,19 +43,19 @@ recentActivities: Array,
 
 <template>
   
-<div class="mb-4 text-sm">
-    Width: {{ windowWidth }}
-</div>
+
 
   <Head title="Dashboard" />
 
     <MainLayout>
         <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Dashboard
-            </h2>
+
+<h2
+    class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100"
+>
+    Dashboard
+</h2>
+
         </template>
 
 <ContentLayout>

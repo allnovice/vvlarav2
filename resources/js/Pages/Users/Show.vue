@@ -24,7 +24,7 @@ defineProps({
     <MainLayout>
         <template #header>
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                     {{ user.name }}
                 </h2>
 
@@ -41,37 +41,41 @@ defineProps({
         </template>
 
         <div class="mx-auto max-w-4xl p-6">
-            <div class="rounded-lg border bg-white p-6 shadow-sm">
+            
+            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                     <div>
-                        <p class="text-sm text-gray-500">Name</p>
-                        <p>{{ user.name }}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Name</p>
+                        <p class="text-gray-900 dark:text-gray-100">{{ user.name }}</p>
                     </div>
 
                     <div>
                         <p class="text-sm text-gray-500">Email</p>
-                        <p>{{ user.email }}</p>
+                        <p class="text-gray-900 dark:text-gray-100">{{ user.email }}</p>
                     </div>
 
                     <div>
                         <p class="text-sm text-gray-500">Department</p>
-                        <p>{{ user.department || '-' }}</p>
+                        <p class="text-gray-900 dark:text-gray-100">{{ user.department || '-' }}</p>
                     </div>
 
                     <div>
                         <p class="text-sm text-gray-500">Position</p>
-                        <p>{{ user.position || '-' }}</p>
+                        <p class="text-gray-900 dark:text-gray-100">{{ user.position || '-' }}</p>
                     </div>
 
-                    <div>
-                        <p>{{ formatRole(user.role) }}</p>
-                    </div>
+<div>
+    <p class="text-sm text-gray-500 dark:text-gray-400">Role</p>
+    <p class="text-gray-900 dark:text-gray-100">
+        {{ formatRole(user.role) }}
+    </p>
+</div>
 
                     <div>
                         <p class="text-sm text-gray-500">Status</p>
-                        <p>{{ user.is_active ? 'Active' : 'Inactive' }}</p>
+                        <p class="text-gray-900 dark:text-gray-100">{{ user.is_active ? 'Active' : 'Inactive' }}</p>
                     </div>
 
                 </div>

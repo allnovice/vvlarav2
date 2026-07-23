@@ -10,7 +10,7 @@ defineProps({
 
 <template>
 
-    <h4 class="text-lg font-semibold mt-8 mb-4">
+    <h4 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Acquisition
     </h4>
 

@@ -25,14 +25,17 @@ const emit = defineEmits([
 <template>
 
 <div
-    class="rounded-xl
+class="rounded-xl
        border
        border-blue-100
        bg-gradient-to-r
        from-blue-50
        to-white
+       p-6
        shadow-sm
-       p-6"
+       dark:border-blue-800
+       dark:from-gray-800
+       dark:to-gray-900"
 >
 
     <div class="flex flex-col gap-6 md:flex-row md:justify-between md:items-start">
@@ -57,11 +60,11 @@ const emit = defineEmits([
 
         <div
             v-else
-            class="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center"
+            class="flex h-32 w-32 flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-800"
         >
-            <CubeIcon class="w-10 h-10 text-gray-400" />
+            <CubeIcon class="w-10 h-10 text-gray-400 dark:text-gray-500" />
 
-            <p class="text-xs text-gray-400 mt-2">
+            <p class="mt-2 text-xs text-gray-400 dark:text-gray-500">
                 No Photo
             </p>
         </div>
@@ -70,20 +73,20 @@ const emit = defineEmits([
 
     <div>
 
-        <p class="text-sm uppercase tracking-[0.2em] text-blue-600 font-semibold">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
             {{ asset.brand || 'Unknown Brand' }}
         </p>
 
-        <h2 class="text-3xl font-bold text-gray-900 mt-1">
+        <h2 class="mt-1 text-3xl font-bold text-gray-900 dark:text-gray-100">
             {{ asset.model || 'Unknown Model' }}
         </h2>
 
         <div class="mt-4">
-            <p class="text-xs uppercase tracking-[0.2em] text-gray-400">
+            <p class="text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
                 Property Number
             </p>
 
-            <p class="text-lg font-semibold text-gray-900">
+            <p class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 {{ asset.property_number }}
             </p>
         </div>

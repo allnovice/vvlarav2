@@ -20,14 +20,14 @@ function filterStatus(event) {
 
         <template #header>
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                     Photo Upload Requests
                 </h2>
 
                 <select
                     :value="status"
                     @change="filterStatus"
-                    class="rounded-md border-gray-300 text-sm"
+                    class="rounded-md border-gray-300 bg-white text-sm text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 >
                     <option value="pending">Pending</option>
                     <option value="approved">Approved</option>
@@ -39,13 +39,13 @@ function filterStatus(event) {
 
         <div class="p-6">
 
-            <div class="rounded-lg bg-white shadow overflow-hidden">
+            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
 
                 <div class="overflow-x-auto">
 
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
 
-                        <thead class="bg-gray-50">
+                        <thead class="bg-gray-50 dark:bg-gray-900">
 
                             <tr>
 
@@ -53,22 +53,22 @@ function filterStatus(event) {
                                     Asset
                                 </th>
 
-                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase">
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                     Submitted By
                                 </th>
 
-                                <th class="px-6 py-3 text-center text-xs font-semibold uppercase">
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                     Preview
                                 </th>
 
-                                <th class="px-6 py-3 text-center text-xs font-semibold uppercase">
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                     Status
                                 </th>
 
-<th class="px-6 py-3 text-center text-xs font-semibold uppercase">
+<th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
     Action
 </th>
-                                <th class="px-6 py-3 text-center text-xs font-semibold uppercase">
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                     View
                                 </th>
 
@@ -76,7 +76,7 @@ function filterStatus(event) {
 
                         </thead>
 
-                        <tbody class="divide-y divide-gray-100 bg-white">
+                        <tbody class="divide-y divide-gray-100 bg-white dark:divide-gray-700 dark:bg-gray-800">
 
                             
 
@@ -91,16 +91,18 @@ function filterStatus(event) {
 <tr
     v-for="change in changes"
     :key="change.id"
+    class="transition hover:bg-gray-50 dark:hover:bg-gray-700"
 >
-    <td class="px-6 py-4">
+    
+    <td class="px-6 py-4 text-gray-900 dark:text-gray-100">
         {{ change.asset.property_number }}
     </td>
 
-    <td class="px-6 py-4">
+    <td class="px-6 py-4 text-gray-900 dark:text-gray-100">
         {{ change.user.name }}
     </td>
 
-    <td class="px-6 py-4 text-center">
+    <td class="px-6 py-4 text-gray-900 dark:text-gray-100">
 
 
 <ImageModal
@@ -113,20 +115,20 @@ function filterStatus(event) {
 
     </td>
 
-    <td class="px-6 py-4 text-center">
+    <td class="px-6 py-4 text-gray-900 dark:text-gray-100">
         {{ change.status }}
     </td>
 
-    <td class="px-6 py-4 text-center">
-        <span class="capitalize">
-            {{ change.action }}
-        </span>
-    </td>
+<td class="px-6 py-4 text-center text-gray-900 dark:text-gray-100">
+    <span class="capitalize">
+        {{ change.action }}
+    </span>
+</td>
 
     <td class="px-6 py-4 text-center">
         <button
             @click="router.get(route('asset-photo-changes.show', change.id))"
-            class="text-indigo-600 hover:underline"
+            class="text-indigo-600 hover:underline dark:text-indigo-400"
         >
             View
         </button>

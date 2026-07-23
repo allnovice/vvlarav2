@@ -40,13 +40,13 @@ const displayValue = () => {
 </script>
 
 <template>
-    <div class="grid grid-cols-3 gap-4 border-b py-3 px-4">
+    <div class="grid grid-cols-3 gap-4 border-b border-gray-200 px-4 py-3 dark:border-gray-700">
 
-        <div class="font-medium text-gray-600">
+        <div class="font-medium text-gray-600 dark:text-gray-400">
             {{ label }}
         </div>
 
-        <div class="col-span-2">
+        <div class="col-span-2 text-gray-900 dark:text-gray-100">
             <slot>
                 {{ displayValue() }}
             </slot>

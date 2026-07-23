@@ -60,7 +60,7 @@ function back() {
 
 <div
     v-if="page.props.errors.change"
-    class="mb-4 rounded bg-red-100 border border-red-400 text-red-700 px-4 py-3"
+    class="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700 dark:border-red-700 dark:bg-red-900/40 dark:text-red-300"
 >
     {{ page.props.errors.change }}
 </div>
@@ -69,36 +69,36 @@ function back() {
 
     <!-- Request -->
 
-    <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800 mb-6">
 
-        <h3 class="text-lg font-semibold mb-4">
+        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Request Information
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <div>
-                <p class="text-sm text-gray-500">Requested By</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Requested By</p>
                 <p>{{ change.user.name }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Status</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>
                 <StatusBadge :status="change.status" />
             </div>
 
 <div>
-    <p class="text-sm text-gray-500">Action</p>
+    <p class="text-sm text-gray-500 dark:text-gray-400">Action</p>
     <p class="capitalize">{{ change.action }}</p>
 </div>
 
             <div>
-                <p class="text-sm text-gray-500">Submitted</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Submitted</p>
                 <p>{{ formatDate(change.created_at) }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Caption</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Caption</p>
                 <p>{{ change.caption || '-' }}</p>
             </div>
 
@@ -108,26 +108,26 @@ function back() {
 
     <!-- Asset -->
 
-    <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800 mb-6">
 
-        <h3 class="text-lg font-semibold mb-4">
+        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Asset Information
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <div>
-                <p class="text-sm text-gray-500">Property Number</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Property Number</p>
                 <p>{{ change.asset.property_number }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Type</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Type</p>
                 <p>{{ change.asset.type }}</p>
             </div>
 
             <div class="md:col-span-2">
-                <p class="text-sm text-gray-500">Description</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Description</p>
                 <p>{{ change.asset.description }}</p>
             </div>
 
@@ -137,9 +137,9 @@ function back() {
 
     <!-- Photo -->
 
-    <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800 mb-6">
 
-        <h3 class="text-lg font-semibold mb-4">
+        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Photo Preview
         </h3>
 
@@ -162,22 +162,22 @@ function back() {
 
     <div
         v-if="change.status !== 'pending'"
-        class="bg-white rounded-lg shadow p-6 mb-6"
+        class="rounded-lg bg-white p-6 shadow dark:bg-gray-800 mb-6"
     >
 
-        <h3 class="text-lg font-semibold mb-4">
+        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Processing
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <div>
-                <p class="text-sm text-gray-500">Processed By</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Processed By</p>
                 <p>{{ change.approver?.name }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Processed At</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Processed At</p>
                 <p>{{ formatDate(change.reviewed_at) }}</p>
             </div>
 
@@ -189,10 +189,10 @@ function back() {
 
     <div
         v-if="change.status === 'pending'"
-        class="bg-white rounded-lg shadow p-6"
+        class="rounded-lg bg-white p-6 shadow dark:bg-gray-800"
     >
 
-        <h3 class="text-lg font-semibold mb-4">
+        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Actions
         </h3>
 

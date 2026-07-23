@@ -34,12 +34,14 @@ function back() {
     <div class="flex items-center gap-4">
         <button
             @click="back"
-            class="px-3 py-1 text-sm border rounded hover:bg-gray-100"
+            
+            class="rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
         >
             ← Back
         </button>
 
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
             Asset Request
         </h2>
     </div>
@@ -49,7 +51,8 @@ function back() {
 
 <div
     v-if="page.props.errors.change"
-    class="mb-4 rounded bg-red-100 border border-red-400 text-red-700 px-4 py-3"
+    class="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700 dark:border-red-700 dark:bg-red-900/40 dark:text-red-300"
+    
 >
     {{ page.props.errors.change }}
 </div>
@@ -57,26 +60,27 @@ function back() {
 
 <div class="py-6 px-6">
 
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
 
-    <h3 class="text-lg font-semibold mb-4">
+    
+    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Asset Request
     </h3>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         <div>
-            <p class="text-sm text-gray-500">Requested By</p>
-            <p>{{ change.user.name }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Requested By</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.user.name }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Action</p>
-            <p class="capitalize">{{ change.action }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Action</p>
+            <p class="capitalize text-gray-900 dark:text-gray-100">{{ change.action }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Status</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>
 
 
 <StatusBadge :status="change.status" />
@@ -91,62 +95,63 @@ function back() {
 
 
 
-<div class="bg-white rounded-lg shadow p-6 mb-6">
+<div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
 
-    <h3 class="text-lg font-semibold mb-4">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Asset Information
     </h3>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         <div>
-            <p class="text-sm text-gray-500">Property Number</p>
-            <p>{{ change.data.property_number }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Property Number</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.property_number }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Type</p>
-            <p>{{ change.data.type }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Type</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.type }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Brand</p>
-            <p>{{ change.data.brand }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Brand</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.brand }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Model</p>
-            <p>{{ change.data.model }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Model</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.model }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Serial Number</p>
-            <p>{{ change.data.serial_number }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Serial Number</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.serial_number }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Assigned To</p>
-            <p>{{ change.data.assigned_to }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Assigned To</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.assigned_to }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Department</p>
-            <p>{{ change.data.department }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Department</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.department }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Location</p>
-            <p>{{ change.data.location }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.location }}</p>
         </div>
 
         <div class="md:col-span-2">
-            <p class="text-sm text-gray-500">Description</p>
-            <p>{{ change.data.description }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Description</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.data.description }}</p>
         </div>
 
 
 <ImageModal
-    :src="`/storage/${change.data.photo_path}`"
+    
+    :src="change.data.photo_path ? `/storage/${change.data.photo_path}` : null"
     alt="Asset Photo"
     thumbnail-class="w-32 h-32 rounded-xl object-cover shadow-sm border"
 />
@@ -165,23 +170,23 @@ function back() {
 
 <div
     v-if="change.status !== 'pending'"
-    class="bg-white rounded-lg shadow p-6 mb-6"
+    class="rounded-lg bg-white p-6 shadow dark:bg-gray-800"
 >
 
-    <h3 class="text-lg font-semibold mb-4">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Processing
     </h3>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         <div>
-            <p class="text-sm text-gray-500">Processed By</p>
-            <p>{{ change.approver?.name }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Processed By</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ change.approver?.name }}</p>
         </div>
 
         <div>
-            <p class="text-sm text-gray-500">Processed At</p>
-            <p>{{ formatDate(change.approved_at) }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Processed At</p>
+            <p class="text-gray-900 dark:text-gray-100">{{ formatDate(change.approved_at) }}</p>
         </div>
 
     </div>
@@ -192,12 +197,14 @@ function back() {
 
 
 
+
 <div
     v-if="change.status === 'pending'"
-    class="bg-white rounded-lg shadow p-6"
+    class="rounded-lg bg-white p-6 shadow dark:bg-gray-800"
 >
 
-    <h3 class="text-lg font-semibold mb-4">
+
+    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Actions
     </h3>
 
@@ -212,7 +219,7 @@ function back() {
 </button>
 <button
     @click="showRejectModal = true"
-    class="px-6 py-2 rounded bg-red-600 text-white ..."
+    class="rounded bg-red-600 px-6 py-2 text-white transition hover:bg-red-700"
 >
     ✕ Reject
 </button>

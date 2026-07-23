@@ -30,9 +30,9 @@ const emit = defineEmits([
     @close="emit('close')"
     max-width="lg"
 >
-    <div class="p-6">
+    <div class="bg-white p-6 dark:bg-gray-800">
 
-        <h3 class="text-lg font-bold mb-4">
+        <h3 class="mb-4 text-lg font-bold text-gray-900 dark:text-gray-100">
             {{ isEditing ? 'Edit Asset' : 'Add Asset' }}
         </h3>
 
@@ -53,7 +53,7 @@ const emit = defineEmits([
         id="photo"
         type="file"
         accept="image/*"
-        class="mt-1 block w-full"
+        class="mt-1 block w-full text-gray-900 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-medium hover:file:bg-gray-200 dark:text-gray-100 dark:file:bg-gray-700 dark:file:text-gray-100 dark:hover:file:bg-gray-600"
         @change="e => form.photo = e.target.files[0]"
     />
 

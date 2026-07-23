@@ -177,7 +177,7 @@ const sort = (column) => {
     <MainLayout>
 
         <template #header>
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 class="font-semibold text-xl leading-tight text-gray-800 dark:text-gray-100">
                     Assets
                 </h2>
            
@@ -185,7 +185,7 @@ const sort = (column) => {
 
         <div class="py-6 px-6">
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
 
  <!-- Toolbar -->
 <AssetToolbar
@@ -209,9 +209,9 @@ const sort = (column) => {
 
             </div>
 
-<div class="flex items-center justify-between border-t border-gray-200 px-4 py-3 bg-gray-50 rounded-b-xl">
+<div class="flex items-center justify-between rounded-b-xl border-t border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-900">
 
-    <p class="text-sm text-gray-600">
+    <p class="text-sm text-gray-600 dark:text-gray-400">
     Showing {{ assets.data.length }} asset<span v-if="assets.data.length !== 1">s</span>
 </p>
 

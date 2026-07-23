@@ -16,9 +16,9 @@ const user = computed(() => page.props.auth?.user ?? null);
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
 
-        <nav class="border-b border-gray-100 bg-white">
+        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between">
 
@@ -27,7 +27,7 @@ const user = computed(() => page.props.auth?.user ?? null);
 
                         <div class="flex shrink-0 items-center">
                             <Link href="/">
-                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
                             </Link>
                         </div>
 
@@ -103,7 +103,7 @@ const user = computed(() => page.props.auth?.user ?? null);
 
                                         <button
                                             type="button"
-                                            class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                                            class="inline-flex items-center rounded-md border border-transparent bg-white dark:bg-gray-800 px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
                                         >
 
 <img
@@ -318,10 +318,14 @@ const user = computed(() => page.props.auth?.user ?? null);
 
         </nav>
 
-        <header
-            v-if="$slots.header"
-            class="bg-white shadow"
-        >
+
+
+<header
+    v-if="$slots.header"
+    class="bg-white shadow dark:bg-gray-800"
+>
+
+
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <slot name="header" />
             </div>

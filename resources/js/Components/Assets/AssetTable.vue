@@ -25,10 +25,10 @@ const emit = defineEmits([
 <div class="overflow-x-auto">
     <table class="w-full border-collapse">
         <thead>
-            <tr class="bg-gray-50 border-b border-gray-200">
+            <tr class="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
                 <th
     @click="emit('sort', 'property_number')"
-    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 hover:bg-gray-100"
+    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
 >
     
     <div class="flex items-center gap-1">
@@ -43,7 +43,7 @@ const emit = defineEmits([
 
                 <th
     @click="emit('sort', 'type')"
-    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 hover:bg-gray-100"
+    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
 >
     
     <div class="flex items-center gap-1">
@@ -58,7 +58,7 @@ const emit = defineEmits([
 
                 <th
     @click="emit('sort', 'status')"
-    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 hover:bg-gray-100"
+    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
 >
     
     <div class="flex items-center gap-1">
@@ -73,7 +73,7 @@ const emit = defineEmits([
 
                 <th
     @click="emit('sort', 'description')"
-    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 hover:bg-gray-100"
+    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
 >
     
     <div class="flex items-center gap-1">
@@ -88,7 +88,7 @@ const emit = defineEmits([
 
 <th
     @click="emit('sort', 'assigned_to')"
-    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 hover:bg-gray-100"
+    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
 >
     <div class="flex items-center gap-1">
         Assigned To
@@ -102,7 +102,7 @@ const emit = defineEmits([
 
 
 
-                <th class="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th class="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Actions
                 </th>
             </tr>
@@ -112,21 +112,23 @@ const emit = defineEmits([
             <tr
                 v-for="(asset, index) in assets"
                 :key="asset.id"
-                :class="[
-                    index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
-                    'border-b border-gray-100 hover:bg-blue-50 transition-colors'
-                ]"
+:class="[
+    index % 2 === 0
+        ? 'bg-white dark:bg-gray-800'
+        : 'bg-gray-50 dark:bg-gray-900',
+    'border-b border-gray-100 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors'
+]"
             >
-                <td class="px-4 py-3">
+                <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
                     {{ asset.property_number }}
                 </td>
 
-                <td class="px-4 py-3">
+                <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
                     {{ asset.type }}
                 </td>
 
 
-                <td class="px-4 py-3">
+                <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
     <StatusBadge :status="asset.status" />
 
 </td>
@@ -140,7 +142,7 @@ const emit = defineEmits([
 
 
 
-<td class="px-4 py-3">
+<td class="px-4 py-3 text-gray-900 dark:text-gray-100">
     {{ asset.assigned_to || '-' }}
 </td>
 
@@ -176,7 +178,7 @@ const emit = defineEmits([
             </tr>
 
             <tr v-if="assets.length === 0">
-                <td colspan="6" class="px-4 py-6 text-center text-gray-500">
+                <td colspan="6" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">
                     No assets found.
                 </td>
             </tr>

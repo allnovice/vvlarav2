@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { CubeIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
     src: {
@@ -30,6 +31,11 @@ function onImageLoad(event) {
 }
 </script>
 <template>
+
+<div
+    v-if="src"
+    @click="show = true"
+>
     <img
         :src="src"
         :alt="alt"
@@ -39,8 +45,31 @@ function onImageLoad(event) {
             thumbnailClass,
         ]"
         @load="onImageLoad"
-        @click="show = true"
     />
+</div>
+
+
+
+<div
+    v-else
+    :class="[
+        'flex flex-col items-center justify-center rounded-xl border bg-gray-100 dark:border-gray-700 dark:bg-gray-800',
+        thumbnailClass,
+    ]"
+>
+    <CubeIcon class="h-10 w-10 text-gray-400 dark:text-gray-500" />
+
+    <span class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+        No Photo
+    </span>
+
+    <span class="mt-1 text-lg">
+        ¯\_(ツ)_/¯
+    </span>
+</div>
+
+
+
 
     <div
         v-if="show"

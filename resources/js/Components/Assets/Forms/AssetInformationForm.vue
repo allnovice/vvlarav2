@@ -10,7 +10,7 @@ defineProps({
 
 <template>
 
-    <h4 class="text-lg font-semibold mb-4">
+    <h4 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
         Asset Information
     </h4>
 
@@ -41,7 +41,7 @@ defineProps({
         <select
             id="type"
             v-model="form.type"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
         >
             <option value="">Select Type</option>
             <option>Laptop</option>
@@ -71,7 +71,7 @@ defineProps({
         <select
             id="status"
             v-model="form.status"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
         >
             <option value="Active">Active</option>
             <option value="Under Repair">Under Repair</option>
@@ -95,7 +95,7 @@ defineProps({
             id="description"
             v-model="form.description"
             rows="4"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
         ></textarea>
 
         <InputError

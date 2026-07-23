@@ -94,19 +94,19 @@ form.put(route('assets.update', props.asset.id), {
     <MainLayout>
 
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl leading-tight text-gray-800 dark:text-gray-100">
                 Asset Details
             </h2>
         </template>
 
         <div class="py-6 px-6">
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
 
                 <div class="mb-6">
                     <Link
                         :href="route('assets')"
-                        class="text-blue-600 hover:underline"
+                        class="text-blue-600 hover:underline dark:text-blue-400"
                     >
                         ← Back to Assets
                     </Link>

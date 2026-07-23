@@ -4,7 +4,7 @@
 <template>
     <a
         href="/auth/google"
-        class="mt-4 inline-flex w-full items-center justify-center gap-3 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-50"
+        class="mt-4 inline-flex w-full items-center justify-center gap-3 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm transition hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
     >
         <svg
             xmlns="http://www.w3.org/2000/svg"

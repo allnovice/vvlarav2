@@ -37,9 +37,11 @@ const formattedVerifiedAt = computed(() => {
 })
 </script>
 <template>
-    <div class="rounded-xl border border-gray-200 bg-white p-6">
+    
+    <div class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
 
-        <h3 class="mb-4 text-lg font-semibold">
+        
+        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Verification
         </h3>
 
@@ -51,7 +53,8 @@ const formattedVerifiedAt = computed(() => {
                 ✓ Verified
             </span>
 
-            <p class="mt-4 text-sm text-gray-600">
+          
+            <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
                 Verified on
                 {{ formattedVerifiedAt }}
             </p>
@@ -68,14 +71,15 @@ const formattedVerifiedAt = computed(() => {
         Pending Verification
     </span>
 
-    <p class="mt-4 text-sm text-gray-600">
+   
+    <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
         A verification request has been submitted and is awaiting approval.
     </p>
 
     <div class="mt-6">
         <button
             disabled
-            class="rounded-lg bg-gray-400 px-4 py-2 text-white cursor-not-allowed"
+            class="cursor-not-allowed rounded-lg bg-gray-400 px-4 py-2 text-white dark:bg-gray-600"
         >
             Verification Pending
         </button>

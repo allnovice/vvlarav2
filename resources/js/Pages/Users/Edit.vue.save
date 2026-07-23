@@ -130,7 +130,7 @@ const deleteUser = () => {
 
     <select
         v-model="form.role"
-        class="w-full rounded border-gray-300 bg-white text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+        class="w-full rounded border-g
     >
         <option value="admin">Admin</option>
         <option value="property_supply_officer">
@@ -147,7 +147,7 @@ const deleteUser = () => {
 
     <select
         v-model="form.status"
-        class="w-full rounded border-gray-300 bg-white text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+        class="w-full rounded border-gray-300"
     >
         <option value="active">Active</option>
         <option value="inactive">Inactive</option>
@@ -160,7 +160,7 @@ const deleteUser = () => {
 
 
 
-<div class="mt-8 flex gap-3">
+
 <button
     type="submit"
     :disabled="form.processing"
@@ -176,7 +176,6 @@ const deleteUser = () => {
 >
     Delete User
 </button>
-</div>
 
 </form>
 
