@@ -61,6 +61,7 @@ public function show(AssetChange $change)
         'change' => $change->load([
             'user',
             'approver',
+            'asset',
         ]),
     ]);
 

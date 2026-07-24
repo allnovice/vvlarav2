@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
 import ImageModal from '@/Components/ImageModal.vue'
@@ -12,6 +12,7 @@ const captionForm = useForm({
 const form = useForm({
     photos: [],
 })
+
 const props = defineProps({
     assetId: {
         type: Number,
@@ -21,7 +22,27 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    approvedPhotoCount: {
+        type: Number,
+        required: true,
+    },
+    pendingPhotoCount: {
+        type: Number,
+        required: true,
+    },
+    maxPhotoCount: {
+        type: Number,
+        required: true,
+    },
 })
+const availableSlots = computed(() => {
+    return Math.max(
+        0,
+        props.maxPhotoCount -
+            props.approvedPhotoCount -
+            props.pendingPhotoCount
+    );
+});
 const fileInput = ref(null)
 function openFilePicker() {
     fileInput.value?.click()
@@ -83,19 +104,35 @@ function requestDelete(photo) {
 
 <template>
     <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-        <div class="flex items-center justify-between mb-4">
-            
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Additional Photos
-            </h2>
 
-            <button
-                @click="openFilePicker"
-                class="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-                Add Photos
-            </button>
-        </div>
+
+
+<div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+
+    <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Additional Photos
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            {{ approvedPhotoCount }} approved •
+            {{ pendingPhotoCount }} pending •
+            {{ availableSlots }} of {{ maxPhotoCount }} slots available
+        </p>
+    </div>
+
+    <button
+        @click="openFilePicker"
+        class="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+    >
+        Add Photos
+    </button>
+
+</div>
+
+     
+
+
 
         <input
             ref="fileInput"
@@ -105,6 +142,15 @@ function requestDelete(photo) {
             class="hidden"
             @change="handleFiles"
         />
+
+
+<p
+    v-if="form.errors.photos"
+    class="mt-2 text-sm text-red-600 dark:text-red-400"
+>
+    {{ form.errors.photos }}
+</p>
+
 
         <div v-if="photos.length === 0" class="text-sm text-gray-500 dark:text-gray-400">
             No additional photos available.

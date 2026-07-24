@@ -11,10 +11,41 @@ class AssetPhotoController extends Controller
 {
     public function store(Request $request, Asset $asset)
     {
-        $request->validate([
-            'photos' => ['required', 'array'],
-            'photos.*' => ['image', 'max:5120'], // 5 MB each
-        ]);
+
+
+$request->validate([
+    'photos' => ['required', 'array'],
+    'photos.*' => [
+        'image',
+        'max:' . config('cmms.asset_photos.max_per_photo_kb'),
+    ],
+]);
+
+$maxPhotos = config('cmms.asset_photos.max_per_asset');
+
+$approvedPhotos = AssetPhoto::where('asset_id', $asset->id)
+    ->count();
+
+$pendingUploads = AssetPhotoChange::where('asset_id', $asset->id)
+    ->where('action', AssetPhotoChange::ACTION_UPLOAD)
+    ->where('status', AssetPhotoChange::STATUS_PENDING)
+    ->count();
+
+$requestedPhotos = count($request->file('photos'));
+
+$totalAfterUpload = $approvedPhotos + $pendingUploads + $requestedPhotos;
+
+if ($totalAfterUpload > $maxPhotos) {
+
+    $availableSlots = max(
+        0,
+        $maxPhotos - ($approvedPhotos + $pendingUploads)
+    );
+
+    return back()->withErrors([
+        'photos' => "This asset can have a maximum of {$maxPhotos} additional photos. Only {$availableSlots} slot(s) remaining.",
+    ]);
+}
 
         foreach ($request->file('photos') as $file) {
 

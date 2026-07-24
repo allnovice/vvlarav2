@@ -10,6 +10,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\AssetChange;
 use Illuminate\Validation\Rule;
 use App\Models\AssetVerification;
+use App\Models\AssetPhotoChange;
 
 class AssetController extends Controller
 {
@@ -280,10 +281,23 @@ $asset->photos->each(function ($photo) {
     ->exists();
 });
 
+$approvedPhotoCount = $asset->photos->count();
 
-    return Inertia::render('Assets/Show', [
-        'asset' => $asset,
-    ]);
+$pendingPhotoCount = AssetPhotoChange::where('asset_id', $asset->id)
+    ->where('action', AssetPhotoChange::ACTION_UPLOAD)
+    ->where('status', AssetPhotoChange::STATUS_PENDING)
+    ->count();
+
+$maxPhotoCount = config('cmms.asset_photos.max_per_asset');
+
+return Inertia::render('Assets/Show', [
+    'asset' => $asset,
+    'approvedPhotoCount' => $approvedPhotoCount,
+    'pendingPhotoCount' => $pendingPhotoCount,
+    'maxPhotoCount' => $maxPhotoCount,
+]);
+
+
 }
 
 public function verify(Asset $asset)

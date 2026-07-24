@@ -5,6 +5,8 @@ import MainLayout from '@/Layouts/MainLayout.vue'
 import StatusBadge from '@/Components/StatusBadge.vue'
 import ConfirmationModal from '@/Components/ConfirmationModal.vue'
 import ImageModal from '@/Components/ImageModal.vue'
+import DiffField from './Components/DiffField.vue'
+import DiffPhoto from './Components/DiffPhoto.vue'
 
 const showApproveModal = ref(false)
 const showRejectModal = ref(false)
@@ -103,58 +105,73 @@ function back() {
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Property Number</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.property_number }}</p>
-        </div>
-
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Type</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.type }}</p>
-        </div>
-
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Brand</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.brand }}</p>
-        </div>
-
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Model</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.model }}</p>
-        </div>
-
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Serial Number</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.serial_number }}</p>
-        </div>
-
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Assigned To</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.assigned_to }}</p>
-        </div>
-
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Department</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.department }}</p>
-        </div>
-
-        <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.location }}</p>
-        </div>
-
-        <div class="md:col-span-2">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Description</p>
-            <p class="text-gray-900 dark:text-gray-100">{{ change.data.description }}</p>
-        </div>
 
 
-<ImageModal
-    
-    :src="change.data.photo_path ? `/storage/${change.data.photo_path}` : null"
-    alt="Asset Photo"
-    thumbnail-class="w-32 h-32 rounded-xl object-cover shadow-sm border"
+
+
+
+
+<DiffField
+    label="Property Number"
+    :old-value="change.asset?.property_number"
+    :new-value="change.data.property_number"
 />
+<DiffField
+    label="Type"
+    :old-value="change.asset?.type"
+    :new-value="change.data.type"
+/>
+<DiffField
+    label="Status"
+    :old-value="change.asset?.status"
+    :new-value="change.data.status"
+/>
+<DiffField
+    label="Brand"
+    :old-value="change.asset?.brand"
+    :new-value="change.data.brand"
+/>
+<DiffField
+    label="Brand"
+    :old-value="change.asset?.brand"
+    :new-value="change.data.brand"
+/>
+<DiffField
+    label="Model"
+    :old-value="change.asset?.model"
+    :new-value="change.data.model"
+/>
+<DiffField
+    label="Serial Number"
+    :old-value="change.asset?.serial_number"
+    :new-value="change.data.serial_number"
+/>
+<DiffField
+    label="Assigned to"
+    :old-value="change.asset?.assigned_to"
+    :new-value="change.data.assigned_to"
+/>
+<DiffField
+    label="Department"
+    :old-value="change.asset?.department"
+    :new-value="change.data.department"
+/>
+<DiffField
+    label="Location"
+    :old-value="change.asset?.location"
+    :new-value="change.data.location"
+/>
+<DiffField
+    label="Description"
+    :old-value="change.asset?.description"
+    :new-value="change.data.description"
+/>
+<DiffPhoto
+    :old-photo="change.asset?.photo_path"
+    :new-photo="change.data.photo_path"
+/>
+
+
 
 
 

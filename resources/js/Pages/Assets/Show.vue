@@ -15,6 +15,9 @@ import AdditionalPhotosCard from '@/Components/Assets/Cards/AdditionalPhotosCard
 
 const props = defineProps({
     asset: Object,
+    approvedPhotoCount: Number,
+    pendingPhotoCount: Number,
+    maxPhotoCount: Number,
 })
 const showModal = ref(false)
 const page = usePage()
@@ -127,6 +130,9 @@ form.put(route('assets.update', props.asset.id), {
 <AdditionalPhotosCard
     :asset-id="asset.id"
     :photos="asset.photos"
+    :approved-photo-count="approvedPhotoCount"
+    :pending-photo-count="pendingPhotoCount"
+    :max-photo-count="maxPhotoCount"
 />
 <HistoryCard :asset="asset" />
 
