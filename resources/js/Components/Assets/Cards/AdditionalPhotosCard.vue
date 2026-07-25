@@ -171,13 +171,13 @@ function requestDelete(photo) {
             <div class="relative">
 
 
-             
+
 <ImageModal
     :src="`/storage/${photo.photo_path}`"
+    :thumbnail-src="`/storage/${photo.photo_thumb_path ?? photo.photo_path}`"
     alt="Additional Photo"
     thumbnail-class="w-full h-32 rounded"
 />
-
 <button
     type="button"
     :disabled="photo.has_pending_request"

@@ -11,6 +11,7 @@ class AssetPhoto extends Model
         'photo_path',
         'caption',
         'sort_order',
+        'photo_thumb_path',
     ];
 
     public function asset()

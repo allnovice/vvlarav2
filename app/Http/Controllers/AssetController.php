@@ -12,6 +12,9 @@ use Illuminate\Validation\Rule;
 use App\Models\AssetVerification;
 use App\Models\AssetPhotoChange;
 use App\Services\ActivityLogger;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+use App\Services\ImageService;
 
 class AssetController extends Controller
 {
@@ -102,9 +105,15 @@ public function qr(Asset $asset)
             'warranty_expiry' => ['nullable', 'date'],
         ]);
 
-        if ($request->hasFile('photo')) {
-            $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
-        }
+
+if ($request->hasFile('photo')) {
+
+    $image = app(ImageService::class)
+        ->storeAssetPhoto($request->file('photo'));
+
+    $validated['photo_path'] = $image['photo_path'];
+    $validated['photo_thumb_path'] = $image['photo_thumb_path'];
+}
 
 
 
@@ -191,33 +200,42 @@ return redirect()
             'warranty_expiry' => ['nullable', 'date'],
         ]);
 
-        if ($request->hasFile('photo')) {
-
-            if ($asset->photo_path) {
-                Storage::disk('public')->delete($asset->photo_path);
-            }
-
-            $validated['photo_path'] = $request->file('photo')->store('assets', 'public');
-        }
 
 
 
 if (auth()->user()->isAdmin()) {
 
+    if ($request->hasFile('photo')) {
+
+        if ($asset->photo_path) {
+            Storage::disk('public')->delete($asset->photo_path);
+        }
+
+        $image = app(ImageService::class)
+            ->storeAssetPhoto($request->file('photo'));
+
+        $validated['photo_path'] = $image['photo_path'];
+        $validated['photo_thumb_path'] = $image['photo_thumb_path'];
+    }
+
     $asset->update($validated);
 
 } else {
 
-    if (
-        AssetChange::pending()
-            ->where('asset_id', $asset->id)
-            ->exists()
-    ) {
-        return back()->with(
-            'error',
-            'This asset already has a pending request.'
-        );
+    if ($request->hasFile('photo')) {
+
+        // Do NOT delete the current photo.
+        // Just upload the new one for approval.
+        $image = app(ImageService::class)
+            ->storeAssetPhoto($request->file('photo'));
+
+        $validated['photo_path'] = $image['photo_path'];
+        $validated['photo_thumb_path'] = $image['photo_thumb_path'];
     }
+
+    // existing AssetChange::create(...) code
+
+
 
 
 

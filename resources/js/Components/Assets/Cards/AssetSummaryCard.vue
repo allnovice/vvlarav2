@@ -49,13 +49,14 @@ class="rounded-xl
 
 
 
+
 <ImageModal
     v-if="asset.photo_path"
     :src="`/storage/${asset.photo_path}`"
+    :thumbnail-src="`/storage/${asset.photo_thumb_path ?? asset.photo_path}`"
     alt="Asset Photo"
     thumbnail-class="w-32 h-32 rounded-xl shadow-sm"
 />
-
 
 
         <div

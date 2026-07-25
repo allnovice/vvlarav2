@@ -18,6 +18,7 @@ class Asset extends Model
     'description',
     'status',
     'photo_path',
+    'photo_thumb_path',
 
     // Specifications
     'brand',

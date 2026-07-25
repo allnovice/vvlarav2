@@ -68,7 +68,25 @@ app(\App\Services\ActivityLogger::class)->logAsset(
 
 private function approveUpdate(AssetChange $change): void
 {
-    $change->asset->update($change->data);
+
+if (
+    !empty($change->data['photo_path']) &&
+    $change->asset->photo_path &&
+    $change->asset->photo_path !== $change->data['photo_path']
+) {
+    Storage::disk('public')->delete($change->asset->photo_path);
+}
+
+if (
+    !empty($change->data['photo_thumb_path']) &&
+    $change->asset->photo_thumb_path &&
+    $change->asset->photo_thumb_path !== $change->data['photo_thumb_path']
+) {
+    Storage::disk('public')->delete($change->asset->photo_thumb_path);
+}
+
+
+$change->asset->update($change->data);
 
 
 
@@ -114,6 +132,16 @@ public function reject(AssetChange $change): void
             'change' => 'You cannot reject your own request.',
         ]);
     }
+    
+if (!empty($change->data['photo_path'])) {
+    Storage::disk('public')->delete($change->data['photo_path']);
+}
+
+if (!empty($change->data['photo_thumb_path'])) {
+    Storage::disk('public')->delete($change->data['photo_thumb_path']);
+}
+
+
 
     $change->update([
         'status' => AssetChange::STATUS_REJECTED,

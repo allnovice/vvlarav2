@@ -6,6 +6,7 @@ use App\Models\AssetPhoto;
 use App\Models\AssetPhotoChange;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use App\Services\ImageService;
 
 class AssetPhotoApprovalService
 {
@@ -44,28 +45,20 @@ switch ($change->action) {
         ]);
     }
 
-    private function approveUpload(AssetPhotoChange $change): void
-    {
-        $newPath = str_replace(
-            'assets/pending/',
-            'assets/additional/',
-            $change->photo_path
-        );
+    
+private function approveUpload(AssetPhotoChange $change): void
+{
+    $image = app(ImageService::class)
+        ->approvePendingPhoto($change->photo_path);
 
-        Storage::disk('public')->move(
-            $change->photo_path,
-            $newPath
-        );
-
-        AssetPhoto::create([
-            'asset_id' => $change->asset_id,
-            'photo_path' => $newPath,
-            'caption' => $change->caption,
-            'sort_order' => $change->asset->photos()->count(),
-        ]);
-    }
-
-
+    AssetPhoto::create([
+        'asset_id' => $change->asset_id,
+        'photo_path' => $image['photo_path'],
+        'photo_thumb_path' => $image['photo_thumb_path'],
+        'caption' => $change->caption,
+        'sort_order' => $change->asset->photos()->count(),
+    ]);
+}
 private function approveEdit(AssetPhotoChange $change): void
 {
     $photo = AssetPhoto::findOrFail($change->asset_photo_id);
@@ -74,15 +67,19 @@ private function approveEdit(AssetPhotoChange $change): void
         'caption' => $change->caption,
     ]);
 }
+
 private function approveDelete(AssetPhotoChange $change): void
 {
     $photo = AssetPhoto::findOrFail($change->asset_photo_id);
 
     Storage::disk('public')->delete($photo->photo_path);
 
+    if ($photo->photo_thumb_path) {
+        Storage::disk('public')->delete($photo->photo_thumb_path);
+    }
+
     $photo->delete();
 }
-
 
 
 

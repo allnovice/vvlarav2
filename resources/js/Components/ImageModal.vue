@@ -15,6 +15,10 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    thumbnailSrc: {
+        type: String,
+        default: null,
+    },
 })
 
 const show = ref(false)
@@ -37,7 +41,7 @@ function onImageLoad(event) {
     @click="show = true"
 >
     <img
-        :src="src"
+        :src="thumbnailSrc ?? src"
         :alt="alt"
         :class="[
             'block cursor-pointer',
