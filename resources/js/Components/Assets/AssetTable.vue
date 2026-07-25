@@ -1,7 +1,7 @@
 <script setup>
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import DangerButton from '@/Components/DangerButton.vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
 
 defineProps({
@@ -19,11 +19,15 @@ const emit = defineEmits([
     'delete',
     'sort',
 ])
+const page = usePage()
 </script>
 
 <template>
+
 <div class="overflow-x-auto">
+
     <table class="w-full border-collapse">
+
         <thead>
             <tr class="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
                 <th
@@ -157,21 +161,40 @@ const emit = defineEmits([
 </Link>
 
 
-<SecondaryButton
-    v-if="isAuthenticated"
-    :disabled="!!asset.pending_change"
-    @click="$emit('edit', asset)"
->
-    Edit
-</SecondaryButton>
+<template v-if="isAuthenticated">
+    <template v-if="asset.pending_change">
+        <span
+            class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium"
+            :class="{
+                'bg-yellow-100 text-yellow-800':
+                    asset.pending_change.action === 'update',
+                'bg-red-100 text-red-800':
+                    asset.pending_change.action === 'delete',
+            }"
+        >
+            Pending
+            {{
+                asset.pending_change.action === 'update'
+                    ? 'Update'
+                    : 'Deletion'
+            }}
+        </span>
+    </template>
 
-<DangerButton
-    v-if="isAuthenticated"
-    :disabled="!!asset.pending_change"
-    @click="$emit('delete', asset)"
->
-    Delete
-</DangerButton>
+    <template v-else>
+        <SecondaryButton
+            @click="$emit('edit', asset)"
+        >
+            Edit
+        </SecondaryButton>
+
+        <DangerButton
+            @click="$emit('delete', asset)"
+        >
+            Delete
+        </DangerButton>
+    </template>
+</template>
 
 
                 </td>

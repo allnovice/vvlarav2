@@ -152,7 +152,13 @@ app(\App\Services\ActivityLogger::class)->logAsset(
 
 }
 
-return redirect()->route('assets');
+
+return redirect()
+    ->route('assets')
+    ->with('success', 'Asset submitted for approval.');
+
+
+
 
 
     }
