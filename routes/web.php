@@ -14,6 +14,7 @@ use App\Http\Controllers\AssetVerificationController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\AssetPhotoController;
 use App\Http\Controllers\AssetPhotoChangeController;
+use App\Http\Controllers\ActivityLogController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -133,5 +134,8 @@ Route::get('/assets', [AssetController::class, 'index'])
     ->name('assets');
 Route::get('/assets/{asset}', [AssetController::class, 'show'])
     ->name('assets.show');
+
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])
+        ->name('activity-logs.index');
 
 require __DIR__.'/auth.php';

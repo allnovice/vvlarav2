@@ -11,6 +11,7 @@ use App\Models\AssetChange;
 use Illuminate\Validation\Rule;
 use App\Models\AssetVerification;
 use App\Models\AssetPhotoChange;
+use App\Services\ActivityLogger;
 
 class AssetController extends Controller
 {
@@ -136,11 +137,19 @@ if (
 }
 
 
-    AssetChange::create([
-        'user_id' => auth()->id(),
-        'action' => AssetChange::ACTION_CREATE,
-        'data' => $validated,
-    ]);
+$change = AssetChange::create([
+    'user_id' => auth()->id(),
+    'action' => AssetChange::ACTION_CREATE,
+    'data' => $validated,
+]);
+
+app(\App\Services\ActivityLogger::class)->logAsset(
+    ActivityLogger::ACTION_SUBMIT_CREATE,
+    'Submitted creation request for asset ' . $validated['property_number'],
+    null,
+    $change
+);
+
 }
 
 return redirect()->route('assets');
@@ -165,7 +174,7 @@ return redirect()->route('assets');
             'manufacturer' => ['nullable', 'string', 'max:255'],
 
             // Assignment
-            'assigned_to' => ['nullable', 'string', 'max:255'],
+	    'assigned_to' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'location' => ['nullable', 'string', 'max:255'],
 
@@ -204,12 +213,23 @@ if (auth()->user()->isAdmin()) {
         );
     }
 
-    AssetChange::create([
-        'asset_id' => $asset->id,
-        'user_id' => auth()->id(),
-        'action' => AssetChange::ACTION_UPDATE,
-        'data' => $validated,
-    ]);
+
+
+$change = AssetChange::create([
+    'asset_id' => $asset->id,
+    'user_id' => auth()->id(),
+    'action' => AssetChange::ACTION_UPDATE,
+    'data' => $validated,
+]);
+
+app(ActivityLogger::class)->logAsset(
+    ActivityLogger::ACTION_SUBMIT_UPDATE,
+    'Submitted update request for asset ' . $asset->property_number,
+    $asset,
+    $change
+);
+
+
 
 }
 
@@ -245,12 +265,21 @@ if (
     );
 }
 
-AssetChange::create([
+
+
+$change = AssetChange::create([
     'asset_id' => $asset->id,
     'user_id' => auth()->id(),
     'action' => AssetChange::ACTION_DELETE,
     'data' => $asset->toArray(),
 ]);
+
+app(\App\Services\ActivityLogger::class)->logAsset(
+    ActivityLogger::ACTION_SUBMIT_DELETE,
+    'Submitted delete request for asset ' . $asset->property_number,
+    $asset,
+    $change
+);
 
 
 
