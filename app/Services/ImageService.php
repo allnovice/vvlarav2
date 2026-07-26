@@ -67,6 +67,21 @@ public function generateThumbnail(
         new \SplFileInfo($disk->path($sourcePath))
     );
 
+    $directory = dirname($thumbPath);
+
+    logger()->info('Thumbnail directory', [
+        'directory' => $directory,
+        'exists_before' => $disk->exists($directory),
+    ]);
+
+    if (! $disk->exists($directory)) {
+        $disk->makeDirectory($directory);
+    }
+
+    logger()->info('Directory creation result', [
+        'exists_after' => $disk->exists($directory),
+    ]);
+
     $image
         ->cover(200, 200)
         ->save(
@@ -74,8 +89,6 @@ public function generateThumbnail(
             quality: 85
         );
 }
-
-
 
 
 }
