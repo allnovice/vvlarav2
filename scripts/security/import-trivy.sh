@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -a
+source .env
+set +a
+
 REPORT_DIR="./reports"
 
 SCAN_ID=$(date +%Y%m%d-%H%M%S)
@@ -23,11 +27,12 @@ else
 fi
 
 docker exec vvlarav2-db mariadb \
-    -u root \
-    -p11111111 \
-    soc \
+    -u "$SOC_DB_USERNAME" \
+    -p"$SOC_DB_PASSWORD" \
+    "$SOC_DB_DATABASE" \
     -e "INSERT INTO vulnerability_scans
         (scan_id, image_name, high_count, critical_count, scan_status)
         VALUES
         ('$SCAN_ID', '$IMAGE_NAME', $HIGH_COUNT, $CRITICAL_COUNT, '$STATUS');"
+
 done
