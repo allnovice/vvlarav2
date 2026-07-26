@@ -93,6 +93,8 @@ COPY --from=composer /app/vendor ./vendor
 
 COPY --from=frontend /app/public/build ./public/build
 
+COPY docker/php/security.ini /usr/local/etc/php/conf.d/security.ini
+
 RUN mkdir -p \
     storage/framework/cache \
     storage/framework/sessions \
