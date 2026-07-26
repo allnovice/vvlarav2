@@ -72,6 +72,145 @@ services:
       - laravel
 
 
+  loki:
+    image: grafana/loki:3.5.5
+    container_name: vvlarav2-loki
+
+    command: -config.file=/etc/loki/config.yml
+
+    volumes:
+      - ./docker/loki/config.yml:/etc/loki/config.yml:ro
+      - loki:/loki
+
+    restart: unless-stopped
+
+    networks:
+      - laravel
+
+
+  promtail:
+    image: grafana/promtail:3.5.5
+    container_name: vvlarav2-promtail
+
+    command: -config.file=/etc/promtail/config.yml
+
+    volumes:
+      - ./docker/promtail/config.yml:/etc/promtail/config.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    restart: unless-stopped
+
+    depends_on:
+      - loki
+
+    networks:
+      - laravel
+
+
+  grafana:
+    image: grafana/grafana:12.1.1
+    container_name: vvlarav2-grafana
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - grafana:/var/lib/grafana
+
+    restart: unless-stopped
+
+    depends_on:
+      - loki
+
+    networks:
+      - laravel
+
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    container_name: vvlarav2-node-exporter
+
+    pid: host
+
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --path.rootfs=/rootfs
+
+    restart: unless-stopped
+
+    networks:
+      - laravel
+
+  prometheus:
+    image: prom/prometheus:v3.6.0
+    container_name: vvlarav2-prometheus
+
+    ports:
+      - "9090:9090"
+
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus:/prometheus
+
+    restart: unless-stopped
+
+    depends_on:
+      - node-exporter
+
+    networks:
+      - laravel
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    container_name: vvlarav2-cadvisor
+
+    privileged: true
+
+    ports:
+      - "8081:8080"
+
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+
+    devices:
+      - /dev/kmsg
+
+    restart: unless-stopped
+
+    networks:
+      - laravel
+
+
+
+  watchtower:
+    image: nickfedor/watchtower:latest
+    container_name: vvlarav2-watchtower
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    command:
+      - --monitor-only
+      - --schedule
+      - "0 0 8 * * *"
+      - --cleanup
+
+    restart: unless-stopped
+
+    networks:
+      - laravel
+
+
 networks:
   laravel:
 
@@ -79,3 +218,6 @@ networks:
 volumes:
   mariadb:
   uploads:
+  loki:
+  grafana:
+  prometheus:

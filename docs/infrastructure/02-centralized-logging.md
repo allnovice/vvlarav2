@@ -12,10 +12,10 @@ Provide centralized log collection, storage, and search for all Docker container
 
 ## Status
 
-- [ ] Deploy Loki
-- [ ] Deploy Promtail
-- [ ] Deploy Grafana
-- [ ] Collect Docker logs
+- [*] Deploy Loki
+- [*] Deploy Promtail
+- [*] Deploy Grafana
+- [*] Collect Docker logs
 - [ ] Collect Nginx logs
 - [ ] Collect Laravel logs
 - [ ] Build dashboards
