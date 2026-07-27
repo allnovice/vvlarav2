@@ -42,6 +42,11 @@ if ($user->email_verified_at === null) {
     ])->save();
 }
 
+if (! $user->is_active) {
+    return redirect()
+    ->route('login')
+    ->with('error', 'Your account has been deactivated.');
+}
 
 auth()->login($user, true);
 

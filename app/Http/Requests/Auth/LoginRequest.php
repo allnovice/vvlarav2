@@ -53,13 +53,16 @@ class LoginRequest extends FormRequest
 
 $user = Auth::user();
 
-if (! $user->is_active) {
+if ($user->is_active !== 1) {
     Auth::logout();
+
+    RateLimiter::hit($this->throttleKey());
 
     throw ValidationException::withMessages([
         'email' => 'Your account has been deactivated.',
     ]);
 }
+
 
         RateLimiter::clear($this->throttleKey());
     }
