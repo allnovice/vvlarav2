@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\AssetPhotoController;
 use App\Http\Controllers\AssetPhotoChangeController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -96,6 +97,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/asset-photo-changes/{change}', [AssetPhotoChangeController::class, 'show'])
         ->name('asset-photo-changes.show');
+
+
+Route::get('/reports', [ReportController::class, 'index'])
+    ->name('reports.index');
+Route::get('/reports/export/csv', [ReportController::class, 'exportCsv'])
+    ->name('reports.export.csv');
+
 
 Route::post(
     '/assets/photos/{photo}/caption',
