@@ -47,13 +47,6 @@ Route::get('/dashboard', function () {
 /*--------------user admin controlled--------------*/
 Route::middleware(['auth', 'admin'])->group(function () {
 
-
-Route::get('/asset-photo-changes', [AssetPhotoChangeController::class, 'index'])
-    ->name('asset-photo-changes.index');
-
-Route::get('/asset-photo-changes/{change}', [AssetPhotoChangeController::class, 'show'])
-    ->name('asset-photo-changes.show');
-
 Route::post('/asset-photo-changes/{change}/approve', [AssetPhotoChangeController::class, 'approve'])
     ->name('asset-photo-changes.approve');
 
@@ -76,7 +69,7 @@ Route::post('/asset-photo-changes/{change}/reject', [AssetPhotoChangeController:
 });
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 /*--------------------qr--------------*/
     Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
         ->name('assets.qr');
@@ -97,6 +90,12 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/assets/{asset}/photos', [AssetPhotoController::class, 'store'])
         ->name('assets.photos.store');
+
+    Route::get('/asset-photo-changes', [AssetPhotoChangeController::class, 'index'])
+        ->name('asset-photo-changes.index');
+
+    Route::get('/asset-photo-changes/{change}', [AssetPhotoChangeController::class, 'show'])
+        ->name('asset-photo-changes.show');
 
 Route::post(
     '/assets/photos/{photo}/caption',

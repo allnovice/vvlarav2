@@ -59,7 +59,6 @@ public function update(Request $request, User $user)
 
     $validated = $request->validate([
         'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', 'max:255'],
         'department' => ['required', 'string', 'max:255'],
         'position' => ['required', 'string', 'max:255'],
         'contact_no' => ['nullable', 'string', 'max:255'],

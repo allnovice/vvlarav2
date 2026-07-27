@@ -73,7 +73,8 @@ const deleteUser = () => {
     <input
         v-model="form.email"
         type="email"
-        class="w-full rounded border-gray-300 bg-white text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+        readonly
+        class="w-full rounded border-gray-300 bg-gray-100 text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-not-allowed dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
     />
 <p
     v-if="form.errors.email"

@@ -47,8 +47,9 @@ class RegisteredUserController extends Controller
 
 
 
-        return redirect()
-            ->route('login')
-            ->with('status', 'Your account has been created and is awaiting administrator approval.');
+return redirect()
+    ->route('verification.notice')
+    ->with('status', 'Registration successful! Please verify your email. After verification, your account will require administrator approval.');
+
     }
 }
