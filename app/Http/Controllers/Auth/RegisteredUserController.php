@@ -47,9 +47,12 @@ class RegisteredUserController extends Controller
 
 
 
-return redirect()
-    ->route('verification.notice')
-    ->with('status', 'Registration successful! Please verify your email. After verification, your account will require administrator approval.');
-
+        return redirect()
+            ->route('home')
+            ->with(
+                'success',
+                'Registration successful! Please verify your email to access all CMMS features.'
+            );
     }
+    
 }
