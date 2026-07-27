@@ -3,6 +3,7 @@ import { router } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue';
 import AssetTable from '@/Components/Assets/AssetTable.vue'
 import ReportToolbar from '@/Components/Reports/ReportToolbar.vue'
+import AssetPagination from '@/Components/Assets/AssetPagination.vue'
 
 const props = defineProps({
     assets: Object,
@@ -34,7 +35,9 @@ function exportCsv() {
 <template>
     <MainLayout>
         <div class="p-6">
-            <h1 class="text-2xl font-bold">Reports</h1>
+<h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+    Reports
+</h1>
 <ReportToolbar
     :departments="props.departments"
     :locations="props.locations"
@@ -50,7 +53,7 @@ function exportCsv() {
     :sortDirection="'asc'"
     :isAuthenticated="false"
 />
-            
+<AssetPagination :links="assets.links" />            
         </div>
     </MainLayout>
 </template>
