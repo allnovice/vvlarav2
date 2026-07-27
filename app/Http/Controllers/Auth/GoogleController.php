@@ -26,6 +26,7 @@ $user = \App\Models\User::firstOrCreate(
         'name' => $googleUser->getName(),
         'role' => 'employee',
         'password' => bcrypt(\Illuminate\Support\Str::random(32)),
+        'email_verified_at' => now(),
     ]
 );
 
@@ -35,12 +36,12 @@ $user = \App\Models\User::firstOrCreate(
         'avatar' => $googleUser->getAvatar(),
     ]);
 
-
-if ($user->verified_at === null) {
-    return redirect()
-        ->route('login')
-        ->with('status', 'Your account has been created and is awaiting administrator approval.');
+if ($user->email_verified_at === null) {
+    $user->forceFill([
+        'email_verified_at' => now(),
+    ])->save();
 }
+
 
 auth()->login($user, true);
 

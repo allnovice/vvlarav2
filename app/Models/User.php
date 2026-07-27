@@ -19,8 +19,6 @@ use Illuminate\Notifications\Notifiable;
     'contact_no',
     'role',
     'is_active',
-    'verified_at',
-    'verified_by',
     'avatar',
 ])]
 #[Hidden(['password', 'remember_token'])]
