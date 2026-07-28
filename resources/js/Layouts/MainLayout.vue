@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
@@ -28,7 +27,11 @@ const user = computed(() => page.props.auth?.user ?? null);
 
                         <div class="flex shrink-0 items-center">
                             <Link href="/">
-                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
+                                <img
+                                    src="/images/logo.png"
+                                    alt="CMMS"
+                                    class="h-10 w-10 rounded-full object-cover"
+                                />
                             </Link>
                         </div>
 
