@@ -43,6 +43,9 @@ RUN composer dump-autoload --optimize
 # ======================================
 FROM node:24 AS frontend
 
+ARG VITE_APP_NAME
+ENV VITE_APP_NAME=$VITE_APP_NAME
+
 WORKDIR /app
 
 COPY package*.json ./

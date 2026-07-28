@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.runtime
+      args:
+        VITE_APP_NAME: ${VITE_APP_NAME}
       target: app
 
     image: vvlarav2-app:1.0
@@ -29,6 +31,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.runtime
+      args:
+        VITE_APP_NAME: ${VITE_APP_NAME}
       target: nginx
 
     image: vvlarav2-nginx:1.0
