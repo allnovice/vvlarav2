@@ -16,6 +16,7 @@ use App\Http\Controllers\AssetPhotoController;
 use App\Http\Controllers\AssetPhotoChangeController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\MaintenanceScheduleController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -98,6 +99,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/asset-photo-changes/{change}', [AssetPhotoChangeController::class, 'show'])
         ->name('asset-photo-changes.show');
 
+
+Route::post('/assets/{asset}/maintenance-schedule', [MaintenanceScheduleController::class, 'store'])
+    ->name('maintenance-schedule.store');
+
+Route::put('/assets/{asset}/maintenance-schedule', [MaintenanceScheduleController::class, 'update'])
+    ->name('maintenance-schedule.update');
+
+Route::delete('/assets/{asset}/maintenance-schedule', [MaintenanceScheduleController::class, 'destroy'])
+    ->name('maintenance-schedule.destroy');
 
 Route::get('/reports', [ReportController::class, 'index'])
     ->name('reports.index');

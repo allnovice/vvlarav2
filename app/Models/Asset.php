@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\AssetChange;
 use App\Models\AssetVerification;
 use App\Models\AssetPhoto;
+use App\Models\MaintenanceSchedule;
 
 class Asset extends Model
 {
@@ -75,5 +76,8 @@ public function photos()
     return $this->hasMany(AssetPhoto::class)
         ->orderBy('sort_order');
 }
-
+public function maintenanceSchedule()
+{
+    return $this->hasOne(MaintenanceSchedule::class);
+}
 }

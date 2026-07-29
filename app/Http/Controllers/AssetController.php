@@ -323,6 +323,7 @@ $asset->load([
     'pendingChange',
     'pendingVerification',
     'photos',
+    'maintenanceSchedule',
 ]);
 
 $asset->photos->each(function ($photo) {
