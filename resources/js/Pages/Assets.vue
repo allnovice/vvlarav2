@@ -207,20 +207,20 @@ const sort = (column) => {
     @sort="sort"
 />
 
-            </div>
+            
 
 <div class="flex items-center justify-between rounded-b-xl border-t border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-900">
 
     <p class="text-sm text-gray-600 dark:text-gray-400">
     Showing {{ assets.data.length }} asset<span v-if="assets.data.length !== 1">s</span>
 </p>
-
 </div>
 
 <AssetPagination
     :links="assets.links"
 />
 
+</div>
           </div>
             <!-- Modal -->
 

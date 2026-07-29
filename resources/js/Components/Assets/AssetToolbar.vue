@@ -29,7 +29,7 @@ const emit = defineEmits([
     @input="emit('update:search', $event.target.value)"
     type="text"
     placeholder="Search assets..."
-    class="w-80 rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder:text-gray-400"
+    class="w-full md:w-80 rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder:text-gray-400"
 />
 
 <select
