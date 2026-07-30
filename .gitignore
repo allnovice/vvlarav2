@@ -35,3 +35,6 @@ docker/*.tar
 *.tar
 *.tar.gz
 *.sql~
+parse_assets.php
+parse_asus.php
+

@@ -166,6 +166,54 @@ class="rounded-xl
 
     </div>
 
+
+
+<div v-if="asset.children?.length" class="mt-6 border-t pt-4">
+    <p class="text-sm font-semibold text-gray-500">
+        Linked Assets
+    </p>
+
+    <ul class="mt-2 space-y-2">
+        <li
+            v-for="child in asset.children"
+            :key="child.id"
+        >
+            <Link
+                :href="route('assets.show', child.id)"
+                class="text-blue-600 hover:underline"
+            >
+                {{ child.property_number }}
+            </Link>
+
+            <div class="text-sm text-gray-500">
+                {{ child.type }} • {{ child.brand }} {{ child.model }}
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div
+    v-if="asset.parent"
+    class="mt-6 border-t border-gray-200 pt-4 dark:border-gray-700"
+>
+    <p class="text-sm font-semibold text-gray-500 dark:text-gray-400">
+        Parent Asset
+    </p>
+
+    <Link
+        :href="route('assets.show', asset.parent.id)"
+        class="mt-1 inline-block text-blue-600 hover:underline dark:text-blue-400"
+    >
+        {{ asset.parent.property_number }}
+    </Link>
+
+    <p class="text-sm text-gray-500">
+        {{ asset.parent.brand }} {{ asset.parent.model }}
+    </p>
+</div>
+
+
+
 </div>
  
 </template>

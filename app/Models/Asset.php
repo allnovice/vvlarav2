@@ -39,7 +39,8 @@ class Asset extends Model
     'warranty_expiry',
     'verified_at',
     'verified_by',
-
+    // Linked
+    'parent_asset_id',
 ];
 
 protected function casts(): array
@@ -79,5 +80,14 @@ public function photos()
 public function maintenanceSchedule()
 {
     return $this->hasOne(MaintenanceSchedule::class);
+}
+public function parent()
+{
+    return $this->belongsTo(Asset::class, 'parent_asset_id');
+}
+
+public function children()
+{
+    return $this->hasMany(Asset::class, 'parent_asset_id');
 }
 }

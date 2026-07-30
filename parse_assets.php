@@ -28,6 +28,17 @@ if (($cols[2] ?? '') !== 'Desktop' || ($cols[8] ?? '') !== 'HP') {
         PREG_SET_ORDER
     );
 
+$updateParent = sprintf(
+    "UPDATE assets
+SET type = 'Monitor'
+WHERE property_number = '%s'
+  AND type = 'Desktop';\n",
+    addslashes($cols[1])
+);
+
+fwrite($out, $updateParent);
+
+
     foreach ($parts as $part) {
 
 $component = trim($part[1]);
@@ -53,7 +64,7 @@ $property = trim($part[2]);
         $manufacturer = $brand ?: $cols[11];
 
         $insert = sprintf(
-            "INSERT INTO assets (property_number,type,description,status,brand,model,serial_number,manufacturer,assigned_to,location,department,created_at,updated_at) VALUES ('%s','%s','','Active','%s','%s','%s','%s','%s','%s','%s',NOW(),NOW());\n",
+            "INSERT IGNORE INTO assets (property_number,type,description,status,brand,model,serial_number,manufacturer,assigned_to,location,department,created_at,updated_at) VALUES ('%s','%s','','Active','%s','%s','%s','%s','%s','%s','%s',NOW(),NOW());\n",
             addslashes($property),
             addslashes($type),
             addslashes($brand),
@@ -66,6 +77,20 @@ $property = trim($part[2]);
         );
 
         fwrite($out, $insert);
+
+        $update = sprintf(
+            "UPDATE assets child
+        JOIN assets parent
+            ON parent.property_number = '%s'
+        SET child.parent_asset_id = parent.id
+        WHERE child.property_number = '%s';\n",
+            addslashes($cols[1]),   // Parent (Desktop)
+            addslashes($property)   // Child (CPU, Monitor, etc.)
+        );
+
+        fwrite($out, $update);
+
+
     }
 }
 

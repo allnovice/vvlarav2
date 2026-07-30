@@ -103,6 +103,9 @@ public function qr(Asset $asset)
             'acquisition_cost' => ['nullable', 'numeric'],
             'supplier' => ['nullable', 'string', 'max:255'],
             'warranty_expiry' => ['nullable', 'date'],
+
+            // Linked
+            'parent_asset_id' => ['nullable', 'exists:assets,id'],
         ]);
 
 
@@ -198,6 +201,9 @@ return redirect()
             'acquisition_cost' => ['nullable', 'numeric'],
             'supplier' => ['nullable', 'string', 'max:255'],
             'warranty_expiry' => ['nullable', 'date'],
+
+            // Linked
+            'parent_asset_id' => ['nullable', 'exists:assets,id'],
         ]);
 
 
@@ -324,6 +330,8 @@ $asset->load([
     'pendingVerification',
     'photos',
     'maintenanceSchedule',
+    'parent',
+    'children',
 ]);
 
 $asset->photos->each(function ($photo) {
