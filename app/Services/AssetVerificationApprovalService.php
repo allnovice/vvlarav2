@@ -28,9 +28,12 @@ $verification->update([
     'reviewed_at' => now(),
     'reviewer_remarks' => $remarks,
 ]);
+
 $verification->asset->update([
-    'verified_at' => now(),
+    'verified_at' => $verification->asset->verified_at ?? now(),
     'verified_by' => auth()->id(),
+    'last_verified_at' => now(),
+    'next_verification_due' => now()->addMonths(6),
 ]);
 
 }

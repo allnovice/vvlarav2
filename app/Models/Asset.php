@@ -39,6 +39,8 @@ class Asset extends Model
     'warranty_expiry',
     'verified_at',
     'verified_by',
+    'last_verified_at',
+    'next_verification_due',
     // Linked
     'parent_asset_id',
 ];
