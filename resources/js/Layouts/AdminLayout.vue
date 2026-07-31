@@ -67,7 +67,7 @@ const user = computed(() => page.props.auth?.user ?? null);
     :href="route('asset-history-changes.index')"
     :active="route().current('asset-history-changes.*')"
 >
-    History Requests
+    History Change Requests
 </NavLink>
 
 
@@ -221,7 +221,7 @@ const user = computed(() => page.props.auth?.user ?? null);
     :href="route('asset-history-changes.index')"
     :active="route().current('asset-history-changes.*')"
 >
-    History Request
+    History Change Requests
 </ResponsiveNavLink>
 
                 <template v-if="user">

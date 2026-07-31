@@ -46,7 +46,7 @@ function formatShortDate(date) {
         </button>
 
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
-            History Request
+            History Change Request
         </h2>
 
     </div>
@@ -68,7 +68,7 @@ function formatShortDate(date) {
 <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800 mb-6">
 
     <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
-        History Request
+        History Change Request
     </h3>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

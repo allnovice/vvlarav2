@@ -22,7 +22,7 @@ function filterStatus(event) {
     <div class="flex items-center justify-between">
 
         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            History Requests
+            History Change Requests
         </h2>
 
         <select
