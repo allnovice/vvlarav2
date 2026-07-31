@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -8,17 +8,79 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Toast from '@/Components/Toast.vue';
 
 const showingNavigationDropdown = ref(false);
-
+const approvalsOpen = ref(false)
+const approvalsMenu = ref(null)
+const mobileApprovalsOpen = ref(false)
 const page = usePage();
 const isAdmin = computed(() => user.value?.role === 'admin');
 const user = computed(() => page.props.auth?.user ?? null);
+const mainLinks = [
+    {
+        label: 'Dashboard',
+        route: 'dashboard',
+        active: 'home',
+    },
+    {
+        label: 'Assets',
+        route: 'assets',
+        active: 'assets',
+    },
+    {
+        label: 'Users',
+        route: 'users.index',
+        active: 'users.*',
+    },
+]
+const approvalLinks = [
+    {
+        label: 'Asset Change Requests',
+        route: 'asset-changes.index',
+        active: 'asset-changes.*',
+    },
+    {
+        label: 'Photo Upload Requests',
+        route: 'asset-photo-changes.index',
+        active: 'asset-photo-changes.*',
+    },
+    {
+        label: 'History Change Requests',
+        route: 'asset-history-changes.index',
+        active: 'asset-history-changes.*',
+    },
+    {
+        label: 'Verification Requests',
+        route: 'asset-verifications.index',
+        active: 'asset-verifications.*',
+    },
+]
+const approvalsActive = computed(() =>
+    route().current('asset-changes.*') ||
+    route().current('asset-photo-changes.*') ||
+    route().current('asset-history-changes.*') ||
+    route().current('asset-verifications.*')
+)
+const handleClickOutside = (event) => {
+    if (
+        approvalsMenu.value &&
+        !approvalsMenu.value.contains(event.target)
+    ) {
+        approvalsOpen.value = false
+    }
+}
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <template>
 
     <div class="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
 <Toast />
-        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+        <nav class="sticky top-0 z-50 border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between">
 
@@ -38,58 +100,58 @@ const user = computed(() => page.props.auth?.user ?? null);
                         <div class="hidden sm:ms-10 sm:flex sm:space-x-8">
 
 <NavLink
-    :href="route('dashboard')"
-    :active="route().current('home')"
+    v-for="link in mainLinks"
+    :key="link.route"
+    :href="route(link.route)"
+    :active="route().current(link.active)"
 >
-    Dashboard
+    {{ link.label }}
 </NavLink>
 
-                            <NavLink
-                                :href="route('assets')"
-                                :active="route().current('assets')"
-                            >
-                                Assets
-                            </NavLink>
+<div ref="approvalsMenu" class="relative">
+    <button
+        type="button"
+        @click="approvalsOpen = !approvalsOpen"
+        :class="[
+    'inline-flex h-full items-center border-b-2 px-1 pt-1 text-sm font-medium transition',
+    approvalsActive
+        ? 'border-indigo-400 text-gray-900 dark:text-white'
+        : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'
+]"
+    >
+        Approvals
+        <span class="ml-1">
+            {{ approvalsOpen ? '▲' : '▼' }}
+        </span>
+    </button>
 
-<NavLink
-    :href="route('users.index')"
-    :active="route().current('users.*')"
+    <div
+        v-if="approvalsOpen"
+        class="absolute left-0 z-50 mt-2 w-64 rounded-md border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
+    >
+
+
+
+<Link
+    v-for="link in approvalLinks"
+    :key="link.route"
+    :href="route(link.route)"
+    :class="[
+        'block rounded px-4 py-2 text-sm',
+        route().current(link.active)
+            ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200'
+            : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
+    ]"
 >
-    Users
-</NavLink>
-
-<NavLink
-    :href="route('asset-changes.index')"
-    :active="route().current('asset-changes.*')"
->
-    Asset Change Requests
-</NavLink>
-
-<NavLink
-    :href="route('asset-photo-changes.index')"
-    :active="route().current('asset-photo-changes.*')"
->
-    Asset Photo Changes Requests
-</NavLink>
-
-<NavLink
-    :href="route('asset-history-changes.index')"
-    :active="route().current('asset-history-changes.*')"
->
-    History Change Requests
-</NavLink>
-
-<NavLink
-    :href="route('asset-verifications.index')"
-    :active="route().current('asset-verifications.*')"
->
-    Verification Requests
-</NavLink>
+    {{ link.label }}
+</Link>
 
 
 
+    </div>
+</div>
 
-
+  
                         </div>
 
                     </div>
@@ -211,53 +273,38 @@ const user = computed(() => page.props.auth?.user ?? null);
 
                 
 <ResponsiveNavLink
-    :href="route('dashboard')"
-    :active="route().current('home')"
+    v-for="link in mainLinks"
+    :key="link.route"
+    :href="route(link.route)"
+    :active="route().current(link.active)"
 >
-    Dashboard
+    {{ link.label }}
 </ResponsiveNavLink>
 
-<ResponsiveNavLink
-    :href="route('assets')"
-    :active="route().current('assets')"
+<button
+    @click="mobileApprovalsOpen = !mobileApprovalsOpen"
+    class="flex w-full items-center justify-between px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-200"
 >
-    Assets
-</ResponsiveNavLink>
-                
-<ResponsiveNavLink
-    :href="route('users.index')"
-    :active="route().current('users.*')"
->
-    Users
-</ResponsiveNavLink>
+    <span>Approvals</span>
+    <span>{{ mobileApprovalsOpen ? '▲' : '▼' }}</span>
+</button>
+<div v-if="mobileApprovalsOpen" class="ml-4">
+
 
 <ResponsiveNavLink
-    :href="route('asset-changes.index')"
-    :active="route().current('asset-changes.*')"
+    v-for="link in approvalLinks"
+    :key="link.route"
+    :href="route(link.route)"
+    :active="route().current(link.active)"
 >
-    Asset Change Requests
+    {{ link.label }}
 </ResponsiveNavLink>
 
-<ResponsiveNavLink
-    :href="route('asset-photo-changes.index')"
-    :active="route().current('asset-photo-changes.*')"
->
-    Asset Photo Changes Requests
-</ResponsiveNavLink>
 
-<ResponsiveNavLink
-    :href="route('asset-history-changes.index')"
-    :active="route().current('asset-history-changes.*')"
->
-    History Change Requests
-</ResponsiveNavLink>
+</div>
 
-<ResponsiveNavLink
-    :href="route('asset-verifications.index')"
-    :active="route().current('asset-verifications.*')"
->
-    Verification Requests
-</ResponsiveNavLink>
+
+
 
                 <template v-if="user">
 
