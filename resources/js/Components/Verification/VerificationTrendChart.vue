@@ -58,7 +58,7 @@ const chartOptions = {
 <template>
     <div class="rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 p-6 h-80">
         <h3 class="text-lg font-semibold mb-4">
-            Monthly Verifications
+            Verification Activity (Last 12 Months)
         </h3>
 
         <Bar

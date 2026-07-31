@@ -23,22 +23,27 @@ $coverage = $totalAssets > 0
     ? round(($verifiedAssets / $totalAssets) * 100)
     : 0;
 
-$monthlyVerifications = AssetVerification::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-    ->whereYear('created_at', now()->year)
+$monthlyVerifications = AssetVerification::selectRaw(
+        'MONTH(reviewed_at) as month, COUNT(*) as total'
+    )
+    ->whereNotNull('reviewed_at')
+    ->where('reviewed_at', '>=', Carbon::now()->subMonths(12))
     ->groupBy('month')
     ->orderBy('month')
     ->get();
 
-$dueSoonAssets = Asset::whereNotNull('next_verification_due')
-    ->whereDate('next_verification_due', '>=', Carbon::today())
-    ->orderBy('next_verification_due')
-    ->limit(10)
+$verificationAssets = Asset::orderBy('property_number')
     ->get([
         'id',
         'property_number',
         'type',
+        'brand',
+        'model',
+        'last_verified_at',
         'next_verification_due',
     ]);
+
+$neverVerified = Asset::whereNull('last_verified_at')->count();
 
     return Inertia::render('Verification/Index', [
         'totalAssets' => $totalAssets,
@@ -51,7 +56,8 @@ $dueSoonAssets = Asset::whereNotNull('next_verification_due')
     ->count(),
         'coverage' => $coverage,
         'monthlyVerifications' => $monthlyVerifications,
-        'dueSoonAssets' => $dueSoonAssets,
+        'verificationAssets' => $verificationAssets,
+        'neverVerified' => $neverVerified,
     ]);
 }
 }
