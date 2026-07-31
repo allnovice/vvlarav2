@@ -9,7 +9,7 @@ import ImageModal from '@/Components/ImageModal.vue'
 
 defineProps({
     asset: Object,
-
+    canApprove: Boolean,
     isAuthenticated: {
         type: Boolean,
         default: false,
@@ -18,6 +18,7 @@ defineProps({
 
 const emit = defineEmits([
     'edit',
+    'link-parent',
 ])
 
 </script>
@@ -159,6 +160,26 @@ class="rounded-xl
     </Link>
 
 </div>
+
+
+<button
+    v-if="isAuthenticated && canApprove"
+    :disabled="!!asset.parent_asset_id || asset.is_parent"
+    @click="$emit('link-parent')"
+    class="w-full inline-flex justify-center items-center px-4 py-2
+           bg-indigo-600 text-white rounded-lg
+           hover:bg-indigo-700
+           disabled:bg-gray-300
+           disabled:cursor-not-allowed"
+>
+    {{
+        asset.parent_asset_id
+            ? 'Already Linked'
+            : asset.is_parent
+                ? 'Parent Asset'
+                : 'Link Asset'
+    }}
+</button>
 
 
 

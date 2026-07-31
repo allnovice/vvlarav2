@@ -13,18 +13,23 @@ import VerificationCard from '@/Components/Assets/Cards/VerificationCard.vue'
 import HistoryCard from '@/Components/Assets/Cards/HistoryCard.vue'
 import AdditionalPhotosCard from '@/Components/Assets/Cards/AdditionalPhotosCard.vue'
 import MaintenanceScheduleCard from '@/Components/Assets/Cards/MaintenanceScheduleCard.vue'
+import LinkParentModal from '@/Components/Assets/LinkParentModal.vue'
 
 const props = defineProps({
+    show: Boolean,
     asset: Object,
     approvedPhotoCount: Number,
     pendingPhotoCount: Number,
     maxPhotoCount: Number,
 })
 const showModal = ref(false)
+const showLinkModal = ref(false)
 const page = usePage()
 
 const user = computed(() => page.props.auth?.user ?? null)
-
+const canApprove = computed(() => user.value?.canApprove ?? false)
+console.log(user.value)
+console.log(user.value?.canApprove)
 const isAuthenticated = computed(() => !!user.value)
 const form = useForm({
     // Asset Information
@@ -58,24 +63,23 @@ const editAsset = () => {
     form.property_number = props.asset.property_number
     form.type = props.asset.type
     form.status = props.asset.status
-    form.description = props.asset.description
-
+form.description = props.asset.description ?? ''
     // Specifications
-    form.brand = props.asset.brand
-    form.model = props.asset.model
-    form.serial_number = props.asset.serial_number
-    form.manufacturer = props.asset.manufacturer
+form.brand = props.asset.brand ?? ''
+form.model = props.asset.model ?? ''
+form.serial_number = props.asset.serial_number ?? ''
+form.manufacturer = props.asset.manufacturer ?? ''
 
     // Assignment
-    form.assigned_to = props.asset.assigned_to
-    form.department = props.asset.department
-    form.location = props.asset.location
+form.assigned_to = props.asset.assigned_to ?? ''
+form.department = props.asset.department ?? ''
+form.location = props.asset.location ?? ''
 
     // Acquisition
-    form.acquisition_date = props.asset.acquisition_date
-    form.acquisition_cost = props.asset.acquisition_cost
-    form.supplier = props.asset.supplier
-    form.warranty_expiry = props.asset.warranty_expiry
+form.acquisition_date = props.asset.acquisition_date ?? ''
+form.acquisition_cost = props.asset.acquisition_cost ?? ''
+form.supplier = props.asset.supplier ?? ''
+form.warranty_expiry = props.asset.warranty_expiry ?? ''
 
     form.photo = null
 
@@ -123,6 +127,8 @@ form.put(route('assets.update', props.asset.id), {
     :asset="asset"
     :isAuthenticated="isAuthenticated"    
     @edit="editAsset"
+    @link-parent="showLinkModal = true"
+    :can-approve="canApprove"
 />
 <SpecificationsCard :asset="asset" />
 <AssignmentCard :asset="asset" />
@@ -158,6 +164,10 @@ form.put(route('assets.update', props.asset.id), {
     @close="showModal = false"
     @submit="submit"
 />
-
+<LinkParentModal
+    :show="showLinkModal"
+    :asset="asset"
+    @close="showLinkModal = false"
+/>
     </MainLayout>
 </template>

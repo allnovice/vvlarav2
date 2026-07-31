@@ -68,6 +68,9 @@ Route::post('/asset-photo-changes/{change}/reject', [AssetPhotoChangeController:
         ->name('asset-verifications.approve');
     Route::post('/asset-verifications/{assetVerification}/reject', [AssetVerificationController::class, 'reject'])
         ->name('asset-verifications.reject');
+
+Route::post('/assets/{asset}/link-parent', [AssetController::class, 'linkParent'])
+    ->name('assets.link-parent');
 });
 
 
@@ -114,6 +117,9 @@ Route::get('/reports', [ReportController::class, 'index'])
 Route::get('/reports/export/csv', [ReportController::class, 'exportCsv'])
     ->name('reports.export.csv');
 
+
+Route::get('/assets/search', [AssetController::class, 'search'])
+    ->name('assets.search');
 
 Route::post(
     '/assets/photos/{photo}/caption',

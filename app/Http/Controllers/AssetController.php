@@ -323,7 +323,6 @@ app(\App\Services\ActivityLogger::class)->logAsset(
     public function show(Asset $asset)
 {
 
-
 $asset->load([
     'history',
     'pendingChange',
@@ -352,6 +351,10 @@ $pendingPhotoCount = AssetPhotoChange::where('asset_id', $asset->id)
 
 $maxPhotoCount = config('cmms.asset_photos.max_per_asset');
 
+$asset->loadCount('children');
+
+$asset->is_parent = $asset->children_count > 0;
+
 return Inertia::render('Assets/Show', [
     'asset' => $asset,
     'approvedPhotoCount' => $approvedPhotoCount,
@@ -373,8 +376,39 @@ public function verify(Asset $asset)
         ->route('assets.show', $asset)
         ->with('success', 'Asset verified successfully.');
 }
+public function search(Request $request)
+{
+    $search = trim($request->q ?? '');
 
+    if ($search === '') {
+        return response()->json([]);
+    }
 
+    $assets = Asset::query()
+        ->where(function ($query) use ($search) {
+            $query->where('property_number', 'like', "%{$search}%")
+                ->orWhere('brand', 'like', "%{$search}%")
+                ->orWhere('model', 'like', "%{$search}%");
+        })
+        ->select('id', 'property_number', 'type', 'brand', 'model')
+        ->orderBy('property_number')
+        ->limit(10)
+        ->get();
+
+    return response()->json($assets);
+}
+public function linkParent(Request $request, Asset $asset)
+{
+    $request->validate([
+        'parent_asset_id' => ['required', 'exists:assets,id'],
+    ]);
+
+    $asset->update([
+        'parent_asset_id' => $request->parent_asset_id,
+    ]);
+
+    return back();
+}
 
 
 

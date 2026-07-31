@@ -33,7 +33,18 @@ public function share(Request $request): array
         ...parent::share($request),
 
         'auth' => [
-            'user' => $request->user(),
+
+
+'user' => fn () => $request->user()
+    ? array_merge(
+        $request->user()->toArray(),
+        [
+            'canApprove' => $request->user()->canApprove(),
+        ]
+    )
+    : null,
+
+
         ],
 
         'flash' => [
