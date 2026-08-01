@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.0](https://github.com/allnovice/vvlarav2/compare/v0.5.0...v0.6.0) (2026-08-01)
+
+
+### Features
+
+* add asset verification module ([bc24d20](https://github.com/allnovice/vvlarav2/commit/bc24d20bf8a45c834d186941e7f3a4eaec6aa475))
+* **maintenance:** add maintenance evidence photos and history integration ([d6e2946](https://github.com/allnovice/vvlarav2/commit/d6e2946ff0d50a70fa3c724829ea5925d9190bc1))
+
 ## [0.5.0](https://github.com/allnovice/vvlarav2/compare/v0.4.0...v0.5.0) (2026-07-28)
 
 
