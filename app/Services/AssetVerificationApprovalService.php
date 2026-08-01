@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\AssetVerification;
 use Illuminate\Validation\ValidationException;
+use App\Models\AssetHistory;
 
 class AssetVerificationApprovalService
 {
@@ -35,7 +36,14 @@ $verification->asset->update([
     'last_verified_at' => now(),
     'next_verification_due' => now()->addMonths(6),
 ]);
-
+AssetHistory::create([
+    'asset_id' => $verification->asset_id,
+    'type' => 'verification',
+    'title' => 'Asset Verification',
+    'performed_by' => auth()->user()->name,
+    'performed_at' => now(),
+    'remarks' => $remarks ?? $verification->remarks,
+]);
 }
 public function reject(
     AssetVerification $verification,
