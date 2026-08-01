@@ -79,8 +79,10 @@ Route::post('/assets/{asset}/link-parent', [AssetController::class, 'linkParent'
 
 Route::middleware(['auth', 'verified'])->group(function () {
 /*--------------------qr--------------*/
-    Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
-        ->name('assets.qr');
+Route::get('/assets/qr/{asset}', [AssetController::class, 'showQr'])
+    ->name('assets.qr');
+Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
+    ->name('assets.print-qr');
 /*--------------------verify--------------*/
     Route::patch('/assets/{asset}/verify', [AssetController::class, 'verify'])
         ->name('assets.verify');

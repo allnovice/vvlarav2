@@ -151,7 +151,7 @@ class="rounded-xl
 </button>
 
     <Link
-        :href="route('assets.qr', asset.id)"
+        :href="route('assets.print-qr', asset.id)"
         class="w-full inline-flex justify-center items-center px-4 py-2
                bg-gray-700 text-white rounded-lg
                hover:bg-gray-800 transition"

@@ -60,7 +60,7 @@ public function index(Request $request)
 
 public function qr(Asset $asset)
 {
-    $url = route('assets.show', $asset);
+    $url = route('assets.qr', $asset);
 
     $qr = (string) QrCode::format('svg')
     ->size(250)
@@ -409,8 +409,17 @@ public function linkParent(Request $request, Asset $asset)
 
     return back();
 }
+public function showQr(Asset $asset)
+{
+    $asset->load([
+        'history',
+        'maintenanceSchedule',
+    ]);
 
-
+    return Inertia::render('Assets/QrShow', [
+        'asset' => $asset,
+    ]);
+}
 
 
 }
