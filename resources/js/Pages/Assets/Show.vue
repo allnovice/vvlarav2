@@ -134,7 +134,7 @@ form.put(route('assets.update', props.asset.id), {
 <AssignmentCard :asset="asset" />
 <AcquisitionCard :asset="asset" />
 <VerificationCard :asset="asset" />
-<MaintenanceScheduleCard :asset="asset" />
+
 <AdditionalPhotosCard
     :asset-id="asset.id"
     :photos="asset.photos"

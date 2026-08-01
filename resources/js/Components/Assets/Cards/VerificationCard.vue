@@ -35,6 +35,16 @@ const formattedVerifiedAt = computed(() => {
 
     return new Date(props.asset.verified_at).toLocaleString()
 })
+const formattedNextVerificationDue = computed(() => {
+    if (!props.asset.next_verification_due) return null
+
+    return new Date(props.asset.next_verification_due).toLocaleDateString()
+})
+const isVerified = computed(() => {
+    if (!props.asset.next_verification_due) return false
+
+    return new Date(props.asset.next_verification_due) >= new Date()
+})
 </script>
 <template>
     
@@ -45,7 +55,7 @@ const formattedVerifiedAt = computed(() => {
             Verification
         </h3>
 
-        <div v-if="asset.verified_at">
+        <div v-if="isVerified">
 
             <span
                 class="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700"
@@ -58,7 +68,10 @@ const formattedVerifiedAt = computed(() => {
                 Verified on
                 {{ formattedVerifiedAt }}
             </p>
-
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+    Next Verification Due
+    {{ formattedNextVerificationDue }}
+</p>
         </div>
 
 
@@ -111,6 +124,23 @@ const formattedVerifiedAt = computed(() => {
             </div>
 
         </div>
+
+
+<div v-if="asset.verified_at" class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
+    <p class="text-sm text-gray-600 dark:text-gray-400">
+        Last Verified
+        {{ formattedVerifiedAt }}
+    </p>
+
+    <p
+        v-if="asset.next_verification_due"
+        class="mt-2 text-sm text-gray-600 dark:text-gray-400"
+    >
+        Next Verification Due
+        {{ formattedNextVerificationDue }}
+    </p>
+</div>
+
 
     </div>
 

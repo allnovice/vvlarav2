@@ -18,6 +18,8 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\MaintenanceScheduleController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\MaintenanceExecutionController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -103,6 +105,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/asset-photo-changes/{change}', [AssetPhotoChangeController::class, 'show'])
         ->name('asset-photo-changes.show');
 
+Route::post(
+    '/maintenance/{asset}/perform',
+    [MaintenanceExecutionController::class, 'perform']
+)->name('maintenance.perform');
+
+Route::get('/maintenance', [MaintenanceController::class, 'index'])
+    ->name('maintenance.index');
 
 Route::get('/verification', [VerificationController::class, 'index'])
     ->name('verification.index');

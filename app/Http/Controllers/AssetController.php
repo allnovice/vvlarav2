@@ -324,7 +324,7 @@ app(\App\Services\ActivityLogger::class)->logAsset(
 {
 
 $asset->load([
-    'history',
+    'history.photos',
     'pendingChange',
     'pendingVerification',
     'photos',

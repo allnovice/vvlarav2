@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MaintenancePhoto;
 
 class AssetHistory extends Model
 {
@@ -28,4 +29,8 @@ class AssetHistory extends Model
     {
         return $this->belongsTo(Asset::class);
     }
+public function photos()
+{
+    return $this->hasMany(MaintenancePhoto::class);
+}
 }

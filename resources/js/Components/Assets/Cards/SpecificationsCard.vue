@@ -30,11 +30,6 @@ defineProps({
         :value="asset.serial_number"
     />
 
-    <InfoRow
-        label="Manufacturer"
-        :value="asset.manufacturer"
-    />
-
 </CardSection>
 
 </template>

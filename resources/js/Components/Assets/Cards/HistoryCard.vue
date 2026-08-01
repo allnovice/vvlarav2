@@ -2,12 +2,15 @@
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import HistoryModal from '@/Components/Assets/HistoryModal.vue'
+import ImageModal from '@/Components/ImageModal.vue'
+
 
 defineProps({
     asset: Object,
 })
-
 const showModal = ref(false)
+const showImageModal = ref(false)
+const selectedImage = ref('')
 </script>
 
 <template>
@@ -22,13 +25,6 @@ const showModal = ref(false)
 
             <div class="flex gap-2">
 
-
-<button
-    @click="showModal = true"
-    class="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
->
-    + Add History
-</button>
 
             </div>
 
@@ -107,6 +103,21 @@ const showModal = ref(false)
         >
             {{ entry.remarks }}
         </p>
+
+<div
+    v-if="entry.photos.length"
+    class="mt-4 flex flex-wrap gap-2"
+>
+
+<ImageModal
+    v-for="photo in entry.photos"
+    :key="photo.id"
+    :src="`/storage/${photo.photo_path}`"
+    :thumbnail-src="`/storage/${photo.photo_thumb_path}`"
+    thumbnail-class="h-20 w-20 rounded-lg border object-cover"
+/>
+
+</div>
 
     </div>
 
