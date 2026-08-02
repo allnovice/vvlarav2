@@ -20,6 +20,7 @@ use App\Http\Controllers\MaintenanceScheduleController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MaintenanceExecutionController;
+use App\Http\Controllers\QrLabelController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -78,11 +79,6 @@ Route::post('/assets/{asset}/link-parent', [AssetController::class, 'linkParent'
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-/*--------------------qr--------------*/
-Route::get('/assets/qr/{asset}', [AssetController::class, 'showQr'])
-    ->name('assets.qr');
-Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
-    ->name('assets.print-qr');
 /*--------------------verify--------------*/
     Route::patch('/assets/{asset}/verify', [AssetController::class, 'verify'])
         ->name('assets.verify');
@@ -176,5 +172,13 @@ Route::get('/assets/{asset}', [AssetController::class, 'show'])
 
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])
         ->name('activity-logs.index');
-
+/*--------------------qr--------------*/
+Route::get('/qr-labels', [QrLabelController::class, 'index'])
+    ->name('qr-labels.index');
+Route::get('/qr-labels/print', [QrLabelController::class, 'print'])
+    ->name('qr-labels.print');
+Route::get('/assets/qr/{asset}', [AssetController::class, 'showQr'])
+    ->name('assets.qr');
+Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
+    ->name('assets.print-qr');
 require __DIR__.'/auth.php';

@@ -12,12 +12,21 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    selectable: {
+        type: Boolean,
+        default: false,
+    },
+    selectedAssets: {
+        type: Array,
+        default: () => [],
+    },
 })
 
 const emit = defineEmits([
     'edit',
     'delete',
     'sort',
+    'toggle-select',
 ])
 const page = usePage()
 </script>
@@ -30,6 +39,14 @@ const page = usePage()
 
         <thead>
             <tr class="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
+
+<th
+    v-if="selectable"
+    class="w-10 px-4 py-3"
+>
+</th>
+
+
                 <th
     @click="emit('sort', 'property_number')"
     class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -123,6 +140,18 @@ const page = usePage()
     'border-b border-gray-100 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors'
 ]"
             >
+
+<td
+    v-if="selectable"
+    class="px-4 py-3"
+>
+<input
+    type="checkbox"
+    @change="$emit('toggle-select', asset.id)"
+>
+</td>
+
+
                 <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
                     {{ asset.property_number }}
                 </td>
@@ -201,7 +230,7 @@ const page = usePage()
             </tr>
 
             <tr v-if="assets.length === 0">
-                <td colspan="6" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">
+                <td :colspan="selectable ? 7 : 6" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">
                     No assets found.
                 </td>
             </tr>
