@@ -1,3 +1,23 @@
+## Maintenance Dashboard Improvements
+
+### Filtering
+- Added reusable `FilterSelect` component.
+- Added filters for Department, Asset Type, and Year Acquired (derived from Property Number).
+- Implemented cascading filters:
+  - Type options depend on the selected Department.
+  - Year options depend on the selected Department and Type.
+- Search works together with all filters.
+
+### Summary
+- Added reusable `FilterSummary` component.
+- Displays the active filters.
+- Displays the current filtered asset count.
+
+### Statistics
+- Maintenance statistic cards now update dynamically based on the selected filters.
+
+===========================================================
+
 # Maintenance Schedule
 
 ## Overview

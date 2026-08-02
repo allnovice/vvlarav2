@@ -45,7 +45,8 @@ $maintenanceAssets = Asset::leftJoin(
     'assets.model',
     'maintenance_schedules.maintenance_date',
     'maintenance_schedules.next_due_date',
-    'maintenance_schedules.frequency'
+    'maintenance_schedules.frequency',
+    'assets.department'
 )
 ->orderBy('assets.property_number')
 ->get();
