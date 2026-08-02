@@ -55,6 +55,24 @@ $recentActivities = AssetHistory::with('asset')
     ->take(10)
     ->get();
 
+
+$assets = Asset::leftJoin(
+    'maintenance_schedules',
+    'assets.id',
+    '=',
+    'maintenance_schedules.asset_id'
+)
+->select(
+    'assets.id',
+    'assets.property_number',
+    'assets.type',
+    'assets.department',
+    'maintenance_schedules.maintenance_date',
+    'maintenance_schedules.next_due_date'
+)
+->orderBy('assets.property_number')
+->get();
+
     return Inertia::render('Dashboard/Index', [
         'totalAssets' => $totalAssets,
         'activeAssets' => $activeAssets,
@@ -74,6 +92,7 @@ $recentActivities = AssetHistory::with('asset')
 'pendingPhotoChanges' => $pendingPhotoChanges,
 'pendingHistoryChanges' => $pendingHistoryChanges,
 'recentActivities' => $recentActivities,
+'assets' => $assets,
     ]);
 }
 

@@ -10,6 +10,7 @@ import ContentLayout from '@/Layouts/ContentLayout.vue'
 import DashboardRow from '@/Components/Dashboard/DashboardRow.vue'
 import DashboardColumn from '@/Components/Dashboard/DashboardColumn.vue'
 import { ref, onMounted } from 'vue'
+import MaintenanceOverview from '@/Components/Maintenance/MaintenanceOverview.vue'
 
 const windowWidth = ref(0)
 
@@ -40,75 +41,23 @@ recentActivities: Array,
 })
 
 </script>
-
 <template>
-  
-
-
-  <Head title="Dashboard" />
+    <Head title="Dashboard" />
 
     <MainLayout>
         <template #header>
-
-<h2
-    class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100"
->
-    Dashboard
-</h2>
-
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
+                Dashboard
+            </h2>
         </template>
 
-<ContentLayout>
-
-    <div class="space-y-6">
-
-        <!-- Row 1 -->
-
-
-<DashboardRow>
-<DashboardColumn>
-    <HeroSection />
-</DashboardColumn>
-<DashboardColumn>
-    <PendingTasks
-        :pending-verifications="pendingVerifications"
-        :pending-changes="pendingChanges"
-        :pending-photo-changes="pendingPhotoChanges"
-        :pending-history-changes="pendingHistoryChanges"
-    />
-</DashboardColumn>
-</DashboardRow>
-
-
-        <!-- Row 2 -->
-
-<DashboardRow>
-<DashboardColumn>
-    <MaintenanceSummary
-        :maintained-assets="maintainedAssets"
-        :unmaintained-assets="unmaintainedAssets"
-        :maintenance-coverage="maintenanceCoverage"
-    />
-</DashboardColumn>
-<DashboardColumn>
-    <AboutSection />
-</DashboardColumn>
-</DashboardRow>
-
-        <!-- Row 3 -->
-        <RecentActivity
+        <ContentLayout>
+            <MaintenanceOverview
+                :assets="assets"
+            />
+        </ContentLayout>
+<RecentActivity
             :activities="recentActivities"
         />
-
-    </div>
-
-</ContentLayout>
-
-
-
-
-
-
-
     </MainLayout>
 </template>
