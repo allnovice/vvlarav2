@@ -47,9 +47,19 @@ $maintenanceAssets = Asset::leftJoin(
     'maintenance_schedules.next_due_date',
     'maintenance_schedules.frequency',
     'assets.department'
-)
-->orderBy('assets.property_number')
-->get();
+);
+if (request()->filled('search')) {
+
+    $maintenanceAssets->where(
+        'assets.property_number',
+        'like',
+        '%' . request('search') . '%'
+    );
+
+}
+$maintenanceAssets = $maintenanceAssets
+    ->orderBy('assets.property_number')
+    ->get();
 
 $neverMaintained = $maintenanceAssets
     ->whereNull('maintenance_date')

@@ -85,7 +85,7 @@ public function qr(Asset $asset)
             'type' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['required', 'string', 'max:50'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photo' => ['nullable', 'image', 'max:5120'],
 
             // Specifications
             'brand' => ['nullable', 'string', 'max:255'],
@@ -183,7 +183,7 @@ return redirect()
             'type' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['required', 'string', 'max:50'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photo' => ['nullable', 'image', 'max:5120'],
 
             // Specifications
             'brand' => ['nullable', 'string', 'max:255'],
