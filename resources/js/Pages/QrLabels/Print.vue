@@ -50,9 +50,9 @@ const printLabel = () => {
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fill,1in);
+    grid-template-columns:repeat(auto-fill,.7in);
 
-    gap:3mm;
+    gap:2mm;
 
     justify-content:center;
 

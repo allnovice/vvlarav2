@@ -52,8 +52,9 @@ function printSelected() {
     if (selectedAssets.value.length === 0) return
 
     router.visit(route('qr-labels.print', {
-        ids: selectedAssets.value.join(',')
-        .join(',')
+        ids: selectedAssets.value
+            .map(asset => asset.id)
+            .join(',')
     }))
 }
 watch(search, (value) => {
