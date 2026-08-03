@@ -60,8 +60,8 @@ const printLabel = () => {
 
 .label{
 
-    width:1in;
-    height:1in;
+    width:.7in;
+    height:.7in;
 
     border:1px dashed #ccc;
 
@@ -105,7 +105,7 @@ const printLabel = () => {
 
     text-align:center;
 
-    font-size:8px;
+    font-size:4px;
     font-weight:600;
 
     line-height:1.1;

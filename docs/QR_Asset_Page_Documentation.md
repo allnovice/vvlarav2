@@ -1,93 +1,76 @@
-# QR Asset Page (`QrShow.vue`)
+# QR Asset System
 
 ## Overview
 
-Implemented a dedicated mobile-friendly QR landing page for technicians.
+Implemented a QR-based asset identification system consisting of:
 
-### Route Architecture
+- QR Asset page for technicians.
+- Bulk QR label generation and printing.
+- Mobile-friendly asset lookup after scanning.
 
-    /assets/{asset}/qr
+## Routes
 
--   Opens the QR print page (`PrintQr.vue`).
--   Generates the QR code.
+### QR Asset
 
-```{=html}
-<!-- -->
-```
     /assets/qr/{asset}
 
--   Opens `QrShow.vue`.
--   Intended as the page displayed after scanning the QR code.
+Displays the mobile-friendly asset information page after scanning a QR code.
 
-The QR code now points to:
+### QR Label Printing
 
-    route('assets.qr', $asset)
+    /qr-labels
 
-instead of the full asset page.
+Browse, search, and select multiple assets for QR label printing.
 
-## Controller
+### QR Label Preview
 
-Added:
+    /qr-labels/print
 
--   `AssetController@showQr()`
+Displays a printable preview of the selected QR labels.
 
-Loads only the data required by the QR page:
+## QR Asset Page
 
--   Asset
--   History
--   Maintenance Schedule
+Displays:
 
-Example:
+- Brand + Model
+- Property Number
+- Assigned To
+- Verification
+    - Verified Date
+    - Next Verification Due
+- Maintenance
+    - Last Maintenance
+    - Next Due
+- Complete Asset History
+- View Full Asset link
 
-``` php
-$asset->load([
-    'history',
-    'maintenanceSchedule',
-]);
-```
+History is intentionally **not limited**, allowing technicians to review the complete maintenance record directly from the QR page.
 
-## QrShow.vue
+## QR Label Printing
 
-Current layout:
+Features:
 
--   Brand + Model
--   Property Number
--   Assigned To
--   Verification
-    -   Verified Date
-    -   Next Verification Due
--   Maintenance
-    -   Last Maintenance
-    -   Next Due
--   Complete Asset History
--   "View Full Asset" link
+- Search assets
+- Multi-select assets
+- Persistent print queue using Local Storage
+- Selection survives page changes and browser refresh
+- Remove assets from the print queue
+- Bulk QR label preview
+- Browser-native printing (`window.print()`)
 
-## History
-
-Uses the existing `asset.history` relationship.
-
-Each entry displays:
-
--   Type
--   Performed Date
--   Title
--   Description (if available)
--   Remarks (if available)
-
-History is intentionally **not limited**, allowing technicians to review
-the complete maintenance record from the QR page.
+Labels are generated in a compact printable grid suitable for adhesive sticker paper.
 
 ## Design Goals
 
--   Mobile-first
--   Fast loading
--   Text-focused
--   Minimal UI
--   Reuses existing backend relationships
--   Keeps the full Asset page separate from the QR experience
+- Mobile-first QR experience
+- Lightweight asset lookup
+- Bulk QR label printing
+- Minimal user interaction
+- Reuse existing asset relationships
+- Browser-managed printing without external PDF generation
 
 ## Git Commit
 
-``` text
-feat(qr): add mobile-friendly QR asset page with maintenance history
+```text
+feat(qr): add bulk QR label printing and mobile QR asset page
 ```

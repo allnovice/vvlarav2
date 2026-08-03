@@ -20,14 +20,14 @@ $schedule = $asset->maintenanceSchedule;
 if ($schedule) {
     $validated = $request->validate([
         'remarks' => ['nullable', 'string'],
-        'photos' => ['nullable', 'array'],
+        'photos' => ['required', 'array'],
         'photos.*' => ['image', 'max:5120'],
     ]);
 } else {
     $validated = $request->validate([
         'frequency' => ['required', 'string'],
         'remarks' => ['nullable', 'string'],
-        'photos' => ['nullable', 'array'],
+        'photos' => ['required', 'array'],
         'photos.*' => ['image', 'max:5120'],
     ]);
 }

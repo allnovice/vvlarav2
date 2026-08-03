@@ -1,6 +1,6 @@
 <script setup>
 import { router } from '@inertiajs/vue3'
-import { watch, ref } from 'vue'
+import { watch, ref, onMounted } from 'vue'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import AssetSearchInput from '@/Components/Assets/AssetSearchInput.vue'
 import AssetTable from '@/Components/Assets/AssetTable.vue'
@@ -12,21 +12,48 @@ const props = defineProps({
 })
 const search = ref(props.search ?? '')
 const selectedAssets = ref([])
+onMounted(() => {
+    const saved = localStorage.getItem('selectedQrAssets')
 
-function toggleSelection(id) {
-    const index = selectedAssets.value.indexOf(id)
-
-    if (index === -1) {
-        selectedAssets.value.push(id)
-    } else {
-        selectedAssets.value.splice(index, 1)
+    if (saved) {
+        selectedAssets.value = JSON.parse(saved)
     }
+})
+function toggleSelection(id, checked) {
+
+    const asset = props.assets.data.find(a => a.id === id)
+
+    if (!asset) return
+
+    if (checked) {
+
+        if (!selectedAssets.value.some(a => a.id === id)) {
+
+            selectedAssets.value.push({
+                id: asset.id,
+                property_number: asset.property_number,
+            })
+
+        }
+
+    } else {
+
+        selectedAssets.value =
+            selectedAssets.value.filter(a => a.id !== id)
+
+    }
+
+}
+function removeSelection(id) {
+    selectedAssets.value =
+        selectedAssets.value.filter(asset => asset.id !== id)
 }
 function printSelected() {
     if (selectedAssets.value.length === 0) return
 
     router.visit(route('qr-labels.print', {
         ids: selectedAssets.value.join(',')
+        .join(',')
     }))
 }
 watch(search, (value) => {
@@ -36,6 +63,14 @@ watch(search, (value) => {
         preserveState: true,
         replace: true,
     })
+})
+watch(selectedAssets, (value) => {
+    localStorage.setItem(
+        'selectedQrAssets',
+        JSON.stringify(value)
+    )
+}, {
+    deep: true
 })
 </script>
 
@@ -64,8 +99,31 @@ watch(search, (value) => {
 </button>
 
 </div>
+<ul class="mt-2 space-y-1 text-sm">
+
+    <li
+        v-for="asset in selectedAssets"
+        :key="asset.id"
+        class="flex items-center justify-between rounded bg-gray-100 px-2 py-1 dark:bg-gray-800"
+    >
+
+        <span>
+            {{ asset.property_number }}
+        </span>
+
+        <button
+            @click="removeSelection(asset.id)"
+            class="font-bold text-red-600 hover:text-red-800"
+        >
+            ✕
+        </button>
+
+    </li>
+
+</ul>
 <AssetTable
     :assets="assets.data"
+    :selected-assets="selectedAssets"
     selectable
     @toggle-select="toggleSelection"
 />

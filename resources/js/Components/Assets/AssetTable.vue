@@ -147,8 +147,9 @@ const page = usePage()
 >
 <input
     type="checkbox"
-    @change="$emit('toggle-select', asset.id)"
->
+    :checked="selectedAssets.some(a => a.id === asset.id)"
+    @change="$emit('toggle-select', asset.id, $event.target.checked)"
+>   
 </td>
 
 
