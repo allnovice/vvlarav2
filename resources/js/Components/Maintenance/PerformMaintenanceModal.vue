@@ -15,8 +15,10 @@ const form = useForm({
     photos: [],
 })
 function performMaintenance() {
-    console.log(form.photos)
-    console.log(form.data())
+    if (form.processing) return
+    if (!confirm('Record this maintenance?')) {
+        return
+    }
     form.post(route('maintenance.perform', props.asset.id), {
         forceFormData: true,
         onSuccess: () => {
@@ -24,6 +26,7 @@ function performMaintenance() {
             form.reset()
         },
     })
+    
 }
 function openFilePicker() {
     fileInput.value?.click()
@@ -102,13 +105,14 @@ function handleFiles(event) {
 />
 
 <div class="mt-4">
-    <button
-        type="button"
-        @click="openFilePicker"
-        class="rounded bg-gray-200 px-4 py-2 text-gray-900 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
-    >
-        Add Photos
-    </button>
+<button
+    type="button"
+    @click="openFilePicker"
+    :disabled="form.processing"
+    class="rounded bg-gray-200 px-4 py-2 text-gray-900 transition hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+>
+    Add Photos
+</button>
 
     <p
         
@@ -136,16 +140,18 @@ function handleFiles(event) {
 
 <button
     @click="emit('close')"
+    :disabled="form.processing"
     class="mr-3 rounded border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
 >
     Close
 </button>
 
 <button
-    class="rounded bg-green-600 px-4 py-2 text-white"
     @click="performMaintenance"
+    :disabled="form.processing"
+    class="rounded bg-green-600 px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
 >
-    Save
+    {{ form.processing ? 'Uploading...' : 'Save' }}
 </button>
 
         </div>
