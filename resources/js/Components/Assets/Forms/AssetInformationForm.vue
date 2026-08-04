@@ -46,7 +46,9 @@ defineProps({
             <option value="">Select Type</option>
             <option>Laptop</option>
             <option>Desktop</option>
+            <option>CPU</option>
             <option>Monitor</option>
+            <option>Keyboard</option>
             <option>Printer</option>
             <option>Scanner</option>
             <option>Server</option>
