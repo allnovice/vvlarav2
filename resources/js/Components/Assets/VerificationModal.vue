@@ -2,8 +2,10 @@
 import Modal from '@/Components/Modal.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
+import { ref } from 'vue'
 
-defineProps({
+const fileInput = ref(null)
+const props = defineProps({
     show: Boolean,
     form: Object,
 })
@@ -12,6 +14,17 @@ const emit = defineEmits([
     'close',
     'submit',
 ])
+function openFilePicker() {
+    fileInput.value?.click()
+}
+
+function handleFiles(event) {
+    const files = Array.from(event.target.files)
+
+    if (!files.length) return
+
+    props.form.photos = files
+}
 </script>
 
 <template>
@@ -48,6 +61,32 @@ const emit = defineEmits([
                     class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-medium file:text-gray-700 hover:file:bg-gray-200 dark:text-gray-300 dark:file:bg-gray-700 dark:file:text-gray-100 dark:hover:file:bg-gray-600"
                     @change="form.attachment = $event.target.files[0]"
                 />
+<input
+    ref="fileInput"
+    type="file"
+    multiple
+    accept="image/*"
+    class="hidden"
+    @change="handleFiles"
+/>
+<div class="mt-4">
+
+    <button
+        type="button"
+        @click="openFilePicker"
+        class="rounded bg-gray-200 px-4 py-2 text-gray-900 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+    >
+        Add Photos
+    </button>
+
+    <p
+        v-if="form.photos?.length"
+        class="mt-2 text-sm text-gray-600 dark:text-gray-400"
+    >
+        {{ form.photos.length }} photo(s) selected
+    </p>
+
+</div>
 
             </div>
 

@@ -6,6 +6,8 @@ use App\Models\AssetVerification;
 use Illuminate\Http\Request;
 use App\Models\Asset;
 use App\Services\AssetVerificationApprovalService;
+use App\Models\AssetVerificationPhoto;
+use App\Services\ImageService;
 
 class AssetVerificationController extends Controller
 {
@@ -34,11 +36,13 @@ public function index()
 }
 
 
-public function store(Request $request, Asset $asset)
+public function store(Request $request, Asset $asset, ImageService $imageService)
 {
     $validated = $request->validate([
         'remarks' => ['nullable', 'string'],
         'attachment' => ['nullable', 'file', 'max:5120'],
+        'photos' => ['required', 'array'],
+        'photos.*' => ['image', 'max:5120'],
     ]);
 
     if (
@@ -59,7 +63,7 @@ if ($request->hasFile('attachment')) {
     $attachmentPath = $request->file('attachment')
         ->store('asset-verifications', 'public');
 }
-
+    $verification =
     AssetVerification::create([
         'asset_id' => $asset->id,
         'user_id' => auth()->id(),
@@ -67,6 +71,30 @@ if ($request->hasFile('attachment')) {
         'remarks' => $validated['remarks'] ?? null,
         'attachment_path' => $attachmentPath,
     ]);
+
+if ($request->hasFile('photos')) {
+
+    foreach ($request->file('photos') as $file) {
+
+        $photoPath = $file->store(
+            'asset-verifications',
+            'public'
+        );
+
+        $thumbPath = 'asset-verifications/thumbs/' . basename($photoPath);
+
+        $imageService->generateThumbnail(
+            $photoPath,
+            $thumbPath
+        );
+
+        AssetVerificationPhoto::create([
+            'asset_verification_id' => $verification->id,
+            'photo_path' => $photoPath,
+            'photo_thumb_path' => $thumbPath,
+        ]);
+    }
+}
 
     return back()->with(
         'success',
@@ -81,6 +109,7 @@ public function show(AssetVerification $assetVerification)
         'asset',
         'user',
         'reviewer',
+        'photos',
     ]);
 
     return inertia('AssetVerifications/Show', [

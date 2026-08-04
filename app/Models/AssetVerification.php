@@ -36,4 +36,8 @@ protected $fillable = [
     {
         return $this->belongsTo(User::class, 'reviewed_by');
     }
+public function photos()
+{
+    return $this->hasMany(AssetVerificationPhoto::class);
+}
 }

@@ -58,11 +58,47 @@ defineProps({
                 Maintenance
             </div>
 
-            <div class="text-sm text-gray-600 dark:text-gray-400">
-                {{ asset.maintenance_schedule?.maintenance_date ?? '-' }}
-                |
-                {{ asset.maintenance_schedule?.next_due_date ?? '-' }}
-            </div>
+<div class="text-sm text-gray-600 dark:text-gray-400">
+
+    <div>
+        Last:
+        {{
+            asset.maintenance_schedule?.maintenance_date
+                ? new Date(asset.maintenance_schedule.maintenance_date)
+                    .toLocaleDateString(undefined, {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    })
+                : '-'
+        }}
+    </div>
+
+    <div>
+
+        Next Due:
+
+        <Link
+            :href="route('maintenance.index', {
+                search: asset.property_number
+            })"
+            class="font-semibold text-blue-600 hover:underline"
+        >
+            {{
+                asset.maintenance_schedule?.next_due_date
+                    ? new Date(asset.maintenance_schedule.next_due_date)
+                        .toLocaleDateString(undefined, {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })
+                    : '-'
+            }}
+        </Link>
+
+    </div>
+
+</div>
 
         </div>
 
@@ -93,17 +129,17 @@ defineProps({
                 >
                     {{ entry.description }}
                 </div>
+                
+                <div
+                    v-if="entry.remarks"
+                    class="mt-1 text-sm italic text-gray-500 dark:text-gray-400"
+                >
+                    {{ entry.remarks }}
+                </div>
 
             </div>
 
-            <Link
-                :href="route('maintenance.index', {
-                    search: asset.property_number
-                })"
-                class="mt-3 inline-block text-sm text-blue-600 hover:underline"
-            >
-                View Maintenance History →
-            </Link>
+
 
         </div>
 

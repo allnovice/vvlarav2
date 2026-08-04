@@ -4,6 +4,7 @@ import { computed } from 'vue'
 import { ref } from 'vue'
 import VerificationModal from '@/Components/Assets/VerificationModal.vue'
 
+
 const props = defineProps({
     asset: Object,
 })
@@ -13,6 +14,7 @@ const showVerificationModal = ref(false)
 const form = useForm({
     remarks: '',
     attachment: null,
+    photos: [],
 })
 
 const submitVerification = () => {
@@ -126,20 +128,7 @@ const isVerified = computed(() => {
         </div>
 
 
-<div v-if="asset.verified_at" class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
-    <p class="text-sm text-gray-600 dark:text-gray-400">
-        Last Verified
-        {{ formattedVerifiedAt }}
-    </p>
 
-    <p
-        v-if="asset.next_verification_due"
-        class="mt-2 text-sm text-gray-600 dark:text-gray-400"
-    >
-        Next Verification Due
-        {{ formattedNextVerificationDue }}
-    </p>
-</div>
 
 
     </div>

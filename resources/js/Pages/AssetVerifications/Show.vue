@@ -5,6 +5,7 @@ import MainLayout from '@/Layouts/MainLayout.vue'
 import RejectModal from '@/Components/Assets/RejectModal.vue'
 import StatusBadge from '@/Components/StatusBadge.vue'
 import ConfirmationModal from '@/Components/ConfirmationModal.vue'
+import ImageModal from '@/Components/ImageModal.vue'
 
 const page = usePage()
 function back() {
@@ -187,6 +188,37 @@ function formatDate(date) {
 </div>
 
 
+
+
+<div>
+
+    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+        Photos
+    </p>
+
+    <div
+        v-if="verification.photos.length"
+        class="flex flex-wrap gap-2"
+    >
+
+        <ImageModal
+            v-for="photo in verification.photos"
+            :key="photo.id"
+            :src="`/storage/${photo.photo_path}`"
+            :thumbnail-src="`/storage/${photo.photo_thumb_path}`"
+            thumbnail-class="h-20 w-20 rounded-lg border object-cover"
+        />
+
+    </div>
+
+    <p
+        v-else
+        class="text-gray-500 dark:text-gray-400"
+    >
+        No photos.
+    </p>
+
+</div>
 
 
 
