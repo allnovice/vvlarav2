@@ -92,7 +92,7 @@ defineProps({
                             month: 'long',
                             day: 'numeric',
                         })
-                    : '-'
+                    : 'Not Scheduled'
             }}
         </Link>
 
