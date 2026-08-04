@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/allnovice/vvlarav2/compare/v0.6.0...v0.7.0) (2026-08-04)
+
+
+### Features
+
+* **qr:** add bulk QR label printing and mobile QR asset page ([8579662](https://github.com/allnovice/vvlarav2/commit/857966276fcabaccc31e3670f1fe2e238e276d1b))
+* **qr:** add mobile-friendly QR asset page with maintenance history ([9b11d43](https://github.com/allnovice/vvlarav2/commit/9b11d43c1cfd7ac97a60cd1ba78622a163bd1fce))
+
 ## [0.6.0](https://github.com/allnovice/vvlarav2/compare/v0.5.0...v0.6.0) (2026-08-01)
 
 
