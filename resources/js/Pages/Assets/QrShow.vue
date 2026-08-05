@@ -79,7 +79,7 @@ defineProps({
         Next Due:
 
         <Link
-            :href="route('maintenance.index', {
+            :href="route('operations.index', {
                 search: asset.property_number
             })"
             class="font-semibold text-blue-600 hover:underline"

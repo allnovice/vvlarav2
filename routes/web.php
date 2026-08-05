@@ -109,8 +109,7 @@ Route::post(
     [MaintenanceExecutionController::class, 'perform']
 )->name('maintenance.perform');
 
-Route::get('/maintenance', [MaintenanceController::class, 'index'])
-    ->name('maintenance.index');
+
 
 Route::get('/operations', [OperationsController::class, 'index'])
     ->name('operations.index');
