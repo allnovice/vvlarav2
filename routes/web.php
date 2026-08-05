@@ -21,6 +21,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MaintenanceExecutionController;
 use App\Http\Controllers\QrLabelController;
+use App\Http\Controllers\OperationsController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -110,6 +111,10 @@ Route::post(
 
 Route::get('/maintenance', [MaintenanceController::class, 'index'])
     ->name('maintenance.index');
+
+Route::get('/operations', [OperationsController::class, 'index'])
+    ->name('operations.index');
+
 
 Route::get('/verification', [VerificationController::class, 'index'])
     ->name('verification.index');

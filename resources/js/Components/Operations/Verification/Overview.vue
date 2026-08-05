@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue'
-import MainLayout from '@/Layouts/MainLayout.vue'
 import StatCard from '@/Components/Operations/Shared/StatCard.vue'
 import VerificationTrendChart from '@/Components/Verification/VerificationTrendChart.vue'
 import DueSoonTable from '@/Components/Verification/DueSoonTable.vue'
@@ -55,10 +54,7 @@ const props = defineProps({
     neverVerified: Number,
 })
 </script>
-
 <template>
-    <MainLayout>
-        
         <div class="p-6 space-y-2">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 Verification Dashboard
@@ -106,7 +102,6 @@ const props = defineProps({
 />
 
 </div>
-
-        </div>
-    </MainLayout>
+</div>
+       
 </template>

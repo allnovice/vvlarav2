@@ -14,6 +14,7 @@ import HistoryCard from '@/Components/Assets/Cards/HistoryCard.vue'
 import AdditionalPhotosCard from '@/Components/Assets/Cards/AdditionalPhotosCard.vue'
 import MaintenanceScheduleCard from '@/Components/Assets/Cards/MaintenanceScheduleCard.vue'
 import LinkParentModal from '@/Components/Assets/LinkParentModal.vue'
+import VerificationModal from '@/Components/Assets/VerificationModal.vue'
 
 const props = defineProps({
     show: Boolean,
@@ -23,9 +24,12 @@ const props = defineProps({
     maxPhotoCount: Number,
 })
 const showModal = ref(false)
+const showVerificationModal = ref(false)
 const showLinkModal = ref(false)
 const page = usePage()
-
+const emit = defineEmits([
+    'showVerification',
+])
 const user = computed(() => page.props.auth?.user ?? null)
 const canApprove = computed(() => user.value?.canApprove ?? false)
 console.log(user.value)
@@ -57,6 +61,11 @@ const form = useForm({
     warranty_expiry: '',
 
 })
+const verificationForm = useForm({
+    remarks: '',
+    attachment: null,
+    photos: [],
+})
 const editAsset = () => {
 
     // Asset Information
@@ -87,15 +96,23 @@ form.warranty_expiry = props.asset.warranty_expiry ?? ''
 }
 const submit = () => {
 
-form.put(route('assets.update', props.asset.id), {
-    forceFormData: true,
-    onSuccess: () => {
-        showModal.value = false
-    },
-})
-
+    form.put(route('assets.update', props.asset.id), {
+        forceFormData: true,
+        onSuccess: () => {
+            showModal.value = false
+        },
+    })
 }
+const submitVerification = () => {
+    verificationForm.post(route('asset-verifications.store', props.asset.id), {
+        forceFormData: true,
 
+        onSuccess: () => {
+            showVerificationModal.value = false
+            verificationForm.reset()
+        },
+    })
+}
 </script>
 
 <template>
@@ -129,6 +146,7 @@ form.put(route('assets.update', props.asset.id), {
     @edit="editAsset"
     @link-parent="showLinkModal = true"
     :can-approve="canApprove"
+    @showVerification="showVerificationModal = true"
 />
 <SpecificationsCard :asset="asset" />
 <AssignmentCard :asset="asset" />
@@ -143,16 +161,6 @@ form.put(route('assets.update', props.asset.id), {
     :max-photo-count="maxPhotoCount"
 />
 <HistoryCard :asset="asset" />
-
-
-
-
-
-
-
-
-
-
                  </div>
             </div>
         </div>
@@ -168,6 +176,13 @@ form.put(route('assets.update', props.asset.id), {
     :show="showLinkModal"
     :asset="asset"
     @close="showLinkModal = false"
+/>
+<VerificationModal
+    :show="showVerificationModal"
+    :form="verificationForm"
+    :asset="asset"
+    @close="showVerificationModal = false"
+    @submit="submitVerification"
 />
     </MainLayout>
 </template>

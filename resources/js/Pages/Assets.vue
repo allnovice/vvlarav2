@@ -91,6 +91,7 @@ const form = useForm({
 })
 
 const submit = () => {
+    if (form.processing) return
     if (isEditing.value) {
         form.put(route('assets.update', editingId.value), {
             forceFormData: true,

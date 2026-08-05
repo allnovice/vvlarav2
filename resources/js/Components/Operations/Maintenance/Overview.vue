@@ -2,7 +2,7 @@
 import { ref, computed, watch, watchEffect } from 'vue'
 import FilterSelect from '@/Components/Common/FilterSelect.vue'
 import FilterSummary from '@/Components/Common/FilterSummary.vue'
-import VerificationStatCard from '@/Components/Verification/VerificationStatCard.vue'
+import StatCard from '@/Components/Operations/Shared/StatCard.vue'
 import AssetSearchInput from '@/Components/Assets/AssetSearchInput.vue'
 
 const emit = defineEmits([
@@ -240,35 +240,35 @@ watchEffect(() => {
         />
 
         <div class="grid grid-cols-5 gap-2">
-            <VerificationStatCard
+            <StatCard
                 title="Total Assets"
                 :value="filteredStats.total"
                 :active="activeFilter === 'all'"
                 @click="activeFilter = 'all'"
             />
 
-            <VerificationStatCard
+            <StatCard
                 title="Never Maintained"
                 :value="filteredStats.neverMaintained"
                 :active="activeFilter === 'neverMaintained'"
                 @click="activeFilter = 'neverMaintained'"
             />
 
-            <VerificationStatCard
+            <StatCard
                 title="Due Soon"
                 :value="filteredStats.dueSoon"
                 :active="activeFilter === 'dueSoon'"
                 @click="activeFilter = 'dueSoon'"
             />
 
-            <VerificationStatCard
+            <StatCard
                 title="Overdue"
                 :value="filteredStats.overdue"
                 :active="activeFilter === 'overdue'"
                 @click="activeFilter = 'overdue'"
             />
 
-            <VerificationStatCard
+            <StatCard
                 title="Coverage"
                 :value="`${filteredStats.coverage}%`"
                 :active="activeFilter === 'coverage'"

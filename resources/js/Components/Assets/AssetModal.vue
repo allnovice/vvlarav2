@@ -71,8 +71,14 @@ const emit = defineEmits([
                 Cancel
             </SecondaryButton>
 
-            <PrimaryButton @click="emit('submit')">
-                {{ isEditing ? 'Update' : 'Save' }}
+            <PrimaryButton
+                :disabled="form.processing"
+                @click="emit('submit')"
+            >
+                {{ form.processing
+                    ? (isEditing ? 'Updating...' : 'Saving...')
+                    : (isEditing ? 'Update' : 'Save')
+                }}
             </PrimaryButton>
         </div>
 

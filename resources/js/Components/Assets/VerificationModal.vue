@@ -8,6 +8,7 @@ const fileInput = ref(null)
 const props = defineProps({
     show: Boolean,
     form: Object,
+    asset: Object,
 })
 
 const emit = defineEmits([
@@ -35,7 +36,10 @@ function handleFiles(event) {
             <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 Submit Verification
             </h2>
-
+<div class="mt-2 rounded-md bg-gray-100 px-3 py-2 text-sm dark:bg-gray-700">
+    <span class="font-semibold">Property Number:</span>
+    {{ asset.property_number }}
+</div>
             <div class="mt-6">
 
                 <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -64,6 +68,7 @@ function handleFiles(event) {
 <input
     ref="fileInput"
     type="file"
+    :disabled="form.processing"
     multiple
     accept="image/*"
     class="hidden"
@@ -73,10 +78,11 @@ function handleFiles(event) {
 
     <button
         type="button"
+        :disabled="form.processing"
         @click="openFilePicker"
         class="rounded bg-gray-200 px-4 py-2 text-gray-900 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
     >
-        Add Photos
+        {{ form.processing ? 'Uploading...' : 'Add Photos' }}
     </button>
 
     <p
@@ -84,6 +90,13 @@ function handleFiles(event) {
         class="mt-2 text-sm text-gray-600 dark:text-gray-400"
     >
         {{ form.photos.length }} photo(s) selected
+    </p>
+    <p v-if="form.errors.attachment" class="mt-1 text-sm text-red-600">
+        {{ form.errors.attachment }}
+    </p>
+
+    <p v-if="form.errors.photos" class="mt-1 text-sm text-red-600">
+        {{ form.errors.photos }}
     </p>
 
 </div>
@@ -99,9 +112,10 @@ function handleFiles(event) {
                 </SecondaryButton>
 
                 <PrimaryButton
+                    :disabled="form.processing"
                     @click="emit('submit')"
                 >
-                    Submit Verification
+                    {{ form.processing ? 'Submitting...' : 'Submit Verification' }}
                 </PrimaryButton>
 
             </div>

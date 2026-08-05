@@ -19,6 +19,7 @@ defineProps({
 const emit = defineEmits([
     'edit',
     'link-parent',
+    'showVerification',
 ])
 
 </script>
@@ -99,7 +100,6 @@ class="rounded-xl
 
             <TagChip :value="asset.department || 'Unassigned'" />
 
-            <TagChip :value="asset.location || 'No Location'" />
 
         </div>
 
@@ -129,14 +129,17 @@ class="rounded-xl
 
 
 <div class="mt-2">
-    <span
-        :class="asset.verified_at
-            ? 'bg-green-100 text-green-700'
-            : 'bg-yellow-100 text-yellow-700'"
-        class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium"
-    >
-        {{ asset.verified_at ? '✓ Verified' : 'Not Verified' }}
-    </span>
+    <StatusBadge
+        :status="
+            asset.pending_verification
+                ? 'Pending Verification'
+                : asset.verified_at
+                    ? 'Verified'
+                    : 'Not Verified'
+        "
+        :clickable="!asset.verified_at && !asset.pending_verification"
+        @click="$emit('showVerification')"
+    />
 </div>
 
 
@@ -236,5 +239,5 @@ class="rounded-xl
 
 
 </div>
- 
+
 </template>

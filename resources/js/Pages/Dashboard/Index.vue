@@ -1,16 +1,8 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue'
 import { Head } from '@inertiajs/vue3';
-import HeroSection from '@/Components/Dashboard/HeroSection.vue'
-import AboutSection from '@/Components/Dashboard/AboutSection.vue'
-import MaintenanceSummary from '@/Components/Dashboard/MaintenanceSummary.vue'
-import PendingTasks from '@/Components/Dashboard/PendingTasks.vue'
 import RecentActivity from '@/Components/Dashboard/RecentActivity.vue'
-import ContentLayout from '@/Layouts/ContentLayout.vue'
-import DashboardRow from '@/Components/Dashboard/DashboardRow.vue'
-import DashboardColumn from '@/Components/Dashboard/DashboardColumn.vue'
-import { ref, onMounted } from 'vue'
-import MaintenanceOverview from '@/Components/Maintenance/MaintenanceOverview.vue'
+import { ref } from 'vue'
 
 const windowWidth = ref(0)
 
@@ -23,9 +15,7 @@ defineProps({
     archivedAssets: Number,
     totalUsers: Number,
 
-    pendingChanges: Number,
-    pendingVerifications: Number,
-    pendingUserApprovals: Number,
+
 
 maintainedAssets: Number,
 unmaintainedAssets: Number,
@@ -33,10 +23,7 @@ maintenanceCoverage: Number,
 
 assets: Array,
 
-pendingChanges: Number,
-pendingVerifications: Number,
-pendingPhotoChanges: Number,
-pendingHistoryChanges: Number,
+
 recentActivities: Array,
 })
 
@@ -51,11 +38,6 @@ recentActivities: Array,
             </h2>
         </template>
 
-        <ContentLayout>
-            <MaintenanceOverview
-                :assets="assets"
-            />
-        </ContentLayout>
 <RecentActivity
             :activities="recentActivities"
         />
