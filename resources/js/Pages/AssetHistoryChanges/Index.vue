@@ -17,13 +17,8 @@ function filterStatus(event) {
 <template>
 <MainLayout>
 
-<template #header>
 
-    <div class="flex items-center justify-between">
-
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            History Change Requests
-        </h2>
+<div class="flex items-center justify-end p-4">
 
         <select
             :value="status"
@@ -37,9 +32,6 @@ function filterStatus(event) {
         </select>
 
     </div>
-
-</template>
-
 
     <div class="py-6 px-6">
 

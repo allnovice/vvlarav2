@@ -3,7 +3,36 @@ import SecondaryButton from '@/Components/SecondaryButton.vue'
 import DangerButton from '@/Components/DangerButton.vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import StatusBadge from '@/Components/Assets/StatusBadge.vue'
+import { CheckBadgeIcon } from '@heroicons/vue/24/solid'
+import {
+    Laptop,
+    Computer,
+    Cpu,
+    Monitor,
+    Keyboard,
+    Printer,
+    ScanLine,
+    Server,
+    Router,
+    Battery,
+    Armchair,
+    Package,
+} from '@lucide/vue'
 
+const typeIcons = {
+    Laptop,
+    Desktop: Computer,
+    CPU: Cpu,
+    Monitor,
+    Keyboard,
+    Printer,
+    Scanner: ScanLine,
+    Server,
+    'Network Device': Router,
+    UPS: Battery,
+    Furniture: Armchair,
+    Other: Package,
+}
 defineProps({
     assets: Array,
     sortBy: String,
@@ -63,36 +92,6 @@ const page = usePage()
 </th>
 
                 <th
-    @click="emit('sort', 'type')"
-    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
->
-    
-    <div class="flex items-center gap-1">
-    Type
-
-    <span v-if="sortBy === 'type'">
-        {{ sortDirection === 'asc' ? '▲' : '▼' }}
-    </span>
-</div>
-
-</th>
-
-                <th
-    @click="emit('sort', 'status')"
-    class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
->
-    
-    <div class="flex items-center gap-1">
-    Status
-
-    <span v-if="sortBy === 'status'">
-        {{ sortDirection === 'asc' ? '▲' : '▼' }}
-    </span>
-</div>
-
-</th>
-
-                <th
     @click="emit('sort', 'description')"
     class="cursor-pointer px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
 >
@@ -120,12 +119,6 @@ const page = usePage()
     </div>
 </th>
 
-
-
-
-                <th class="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Actions
-                </th>
             </tr>
         </thead>
 
@@ -152,86 +145,49 @@ const page = usePage()
 >   
 </td>
 
+<td class="px-4 py-3 whitespace-nowrap">
+    <Link
+        :href="route('assets.show', asset.id)"
+        class="font-semibold text-indigo-600 hover:underline dark:text-indigo-400"
+    >
+        {{ asset.property_number }}
+    </Link>
 
-                <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
-                    {{ asset.property_number }}
-                </td>
-
-                <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
-                    {{ asset.type }}
-                </td>
-
-
-                <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
+<div class="mt-1 flex flex-wrap items-center gap-1">
     <StatusBadge :status="asset.status" />
+
+    <StatusBadge
+        :status="
+            asset.pending_verification
+                ? 'Pending Verification'
+                : asset.verified_at
+                    ? 'Verified'
+                    : 'Not Verified'
+        "
+    />
+
+    <component
+        :is="typeIcons[asset.type]"
+        v-if="typeIcons[asset.type]"
+        class="h-4 w-4 text-slate-600 dark:text-slate-300"
+        :title="asset.type"
+    />
+</div>
+
 
 </td>
 
-
-                <td class="px-4 py-3 whitespace-normal break-words">
+<td class="px-4 py-3 whitespace-normal break-words">
                     {{ asset.description }}
                 </td>
-
-                
-
-
 
 <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
     {{ asset.assigned_to || '-' }}
 </td>
-
-
-
-<td class="px-4 py-3 text-center space-x-2">
-<Link
-    :href="route('assets.show', asset.id)"
-    class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
->
-    View
-</Link>
-
-
-<template v-if="isAuthenticated">
-    <template v-if="asset.pending_change">
-        <span
-            class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium"
-            :class="{
-                'bg-yellow-100 text-yellow-800':
-                    asset.pending_change.action === 'update',
-                'bg-red-100 text-red-800':
-                    asset.pending_change.action === 'delete',
-            }"
-        >
-            Pending
-            {{
-                asset.pending_change.action === 'update'
-                    ? 'Update'
-                    : 'Deletion'
-            }}
-        </span>
-    </template>
-
-    <template v-else>
-        <SecondaryButton
-            @click="$emit('edit', asset)"
-        >
-            Edit
-        </SecondaryButton>
-
-        <DangerButton
-            @click="$emit('delete', asset)"
-        >
-            Delete
-        </DangerButton>
-    </template>
-</template>
-
-
-                </td>
             </tr>
 
             <tr v-if="assets.length === 0">
-                <td :colspan="selectable ? 7 : 6" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">
+                <td :colspan="selectable ? 4 : 3" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">
                     No assets found.
                 </td>
             </tr>

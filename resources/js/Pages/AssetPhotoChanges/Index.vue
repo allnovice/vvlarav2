@@ -18,11 +18,8 @@ function filterStatus(event) {
 <template>
     <MainLayout>
 
-        <template #header>
-            <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                    Photo Upload Requests
-                </h2>
+
+            <div class="flex items-center justify-end p-4">
 
                 <select
                     :value="status"
@@ -35,8 +32,6 @@ function filterStatus(event) {
                     <option value="all">All</option>
                 </select>
             </div>
-        </template>
-
         <div class="p-6">
 
             <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">

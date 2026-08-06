@@ -9,31 +9,10 @@ defineProps({
 </script>
 
 <template>
-<MainLayout>
-
-        <template #header>
-            <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                    Users
-                </h2>
-
-                <div class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ users.total }} users
-                </div>
-            </div>
-        </template>
-
-
-
-
-
-
+<MainLayout title="Users">
 
     <div class="p-6">
        
-
-
-
 <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
 
     <div class="overflow-x-auto">

@@ -7,6 +7,9 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Toast from '@/Components/Toast.vue';
 
+defineProps({
+    title: String,
+})
 const showingNavigationDropdown = ref(false);
 const approvalsOpen = ref(false)
 const approvalsMenu = ref(null)
@@ -81,7 +84,7 @@ onBeforeUnmount(() => {
     <div class="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
 <Toast />
         <nav class="sticky top-0 z-50 border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-full px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between">
 
                     <!-- Left -->
@@ -246,7 +249,11 @@ onBeforeUnmount(() => {
                     </div>
 
                     <!-- Mobile button -->
-
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none sm:hidden">
+    <span class="text-base font-semibold">
+        {{ title }}
+    </span>
+</div>
                     <div class="-me-2 flex items-center sm:hidden">
 
                         <button

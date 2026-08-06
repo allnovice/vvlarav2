@@ -113,6 +113,15 @@ const submitVerification = () => {
         },
     })
 }
+const deleteAsset = () => {
+    if (!isAuthenticated.value) return
+
+    if (!confirm(`Delete asset "${props.asset.property_number}"?`)) {
+        return
+    }
+
+    form.delete(route('assets.destroy', props.asset.id))
+}
 </script>
 
 <template>
@@ -147,6 +156,7 @@ const submitVerification = () => {
     @link-parent="showLinkModal = true"
     :can-approve="canApprove"
     @showVerification="showVerificationModal = true"
+    @delete="deleteAsset"
 />
 <SpecificationsCard :asset="asset" />
 <AssignmentCard :asset="asset" />

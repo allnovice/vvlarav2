@@ -57,7 +57,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <MainLayout>
+    <MainLayout title="Verification Dashboard">
         
         <div class="p-6 space-y-2">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">

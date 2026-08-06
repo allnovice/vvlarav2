@@ -18,6 +18,7 @@ defineProps({
 
 const emit = defineEmits([
     'edit',
+    'delete',
     'link-parent',
     'showVerification',
 ])
@@ -151,6 +152,14 @@ class="rounded-xl
     class="... disabled:opacity-25 disabled:cursor-not-allowed"
 >
     Edit Asset
+</button>
+<button
+    v-if="isAuthenticated"
+    :disabled="!!asset.pending_change"
+    @click="$emit('delete')"
+    class="... disabled:opacity-25 disabled:cursor-not-allowed"
+>
+    Delete Asset
 </button>
 
     <Link

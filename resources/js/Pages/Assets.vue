@@ -22,7 +22,7 @@ const showModal = ref(false)
 const isEditing = ref(false)
 const editingId = ref(null)
 const search = ref(props.search ?? '')
-const statusFilter = ref('All')
+const typeFilter = ref('All')
 const sortBy = ref('property_number')
 const sortDirection = ref('asc')
 
@@ -39,12 +39,12 @@ const updateSearch = (value) => {
     search.value = value
     performSearch()
 }
-const updateStatusFilter = (value) => {
-    statusFilter.value = value
+const updateTypeFilter = (value) => {
+    typeFilter.value = value
 
     router.get(route('assets'), {
         search: search.value,
-        status: statusFilter.value,
+        type: typeFilter.value,
         sort: sortBy.value,
         direction: sortDirection.value,
     }, {
@@ -175,26 +175,15 @@ const sort = (column) => {
 </script>
 
 <template>
-    <MainLayout>
-
-        <template #header>
-                <h2 class="font-semibold text-xl leading-tight text-gray-800 dark:text-gray-100">
-                    Assets
-                </h2>
-           
-        </template>
-
-        <div class="py-6 px-6">
-
-            <div class="rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-
+    <MainLayout title="Assets">
+            <div class="bg-white dark:bg-gray-800">
  <!-- Toolbar -->
 <AssetToolbar
     :search="search"
-    :statusFilter="statusFilter"
     :isAuthenticated="isAuthenticated"
+    :typeFilter="typeFilter"
+    @update:typeFilter="updateTypeFilter"
     @update:search="updateSearch"
-    @update:statusFilter="updateStatusFilter"
     @addAsset="showModal = true"
 />
 
@@ -222,7 +211,6 @@ const sort = (column) => {
 />
 
 </div>
-          </div>
             <!-- Modal -->
 
 

@@ -18,13 +18,7 @@ function filterStatus(event) {
 <template>
 <MainLayout>
 
-    <template #header>
-
-        <div class="flex items-center justify-between">
-
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                Verification Requests
-            </h2>
+        <div class="flex items-center justify-end p-4">
 
             <select
                 :value="status"
@@ -41,9 +35,6 @@ dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
             </select>
 
         </div>
-
-    </template>
-
     <div class="py-6 px-6">
 
         <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">

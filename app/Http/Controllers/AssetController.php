@@ -26,20 +26,24 @@ public function index(Request $request)
 
     if ($request->filled('search')) {
 
-        $search = $request->search;
+$terms = preg_split('/\s+/', trim($request->search));
 
-        $query->where(function ($q) use ($search) {
+foreach ($terms as $term) {
 
-            $q->where('property_number', 'like', "%{$search}%")
-              ->orWhere('type', 'like', "%{$search}%")
-              ->orWhere('description', 'like', "%{$search}%")
-              ->orWhere('status', 'like', "%{$search}%")
-              ->orWhere('brand', 'like', "%{$search}%")
-              ->orWhere('model', 'like', "%{$search}%")
-              ->orWhere('serial_number', 'like', "%{$search}%")
-              ->orWhere('assigned_to', 'like', "%{$search}%");
+    $query->where(function ($q) use ($term) {
 
-        });
+        $q->where('property_number', 'like', "%{$term}%")
+          ->orWhere('type', 'like', "%{$term}%")
+          ->orWhere('description', 'like', "%{$term}%")
+          ->orWhere('status', 'like', "%{$term}%")
+          ->orWhere('brand', 'like', "%{$term}%")
+          ->orWhere('model', 'like', "%{$term}%")
+          ->orWhere('serial_number', 'like', "%{$term}%")
+          ->orWhere('assigned_to', 'like', "%{$term}%");
+
+    });
+
+}
 
     }
 
@@ -48,8 +52,8 @@ public function index(Request $request)
 
     $query->orderBy($sort, $direction);
 
-    if ($request->filled('status') && $request->status !== 'All') {
-    $query->where('status', $request->status);
+    if ($request->filled('type') && $request->type !== 'All') {
+        $query->where('type', $request->type);
     }
     return Inertia::render('Assets', [
         'assets' => $query->paginate(10)->withQueryString(),
