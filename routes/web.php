@@ -22,6 +22,7 @@ use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MaintenanceExecutionController;
 use App\Http\Controllers\QrLabelController;
 use App\Http\Controllers\OperationsController;
+use App\Http\Controllers\PropertyCardController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])
     ->name('google.redirect');
@@ -185,4 +186,7 @@ Route::get('/assets/qr/{asset}', [AssetController::class, 'showQr'])
     ->name('assets.qr');
 Route::get('/assets/{asset}/qr', [AssetController::class, 'qr'])
     ->name('assets.print-qr');
+
+Route::get('/property-cards/print', [PropertyCardController::class, 'print'])
+    ->name('property-cards.print');
 require __DIR__.'/auth.php';

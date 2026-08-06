@@ -57,6 +57,13 @@ function printSelected() {
             .join(',')
     }))
 }
+function printPropertyCards() {
+    router.visit(route('property-cards.print', {
+        ids: selectedAssets.value
+            .map(asset => asset.id)
+            .join(',')
+    }))
+}
 watch(search, (value) => {
     router.get(route('qr-labels.index'), {
         search: value,
@@ -90,7 +97,13 @@ watch(selectedAssets, (value) => {
     <div class="text-sm text-gray-600">
         Selected: {{ selectedAssets.length }}
     </div>
- 
+ <button
+    @click="printPropertyCards"
+    class="rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+    :disabled="selectedAssets.length === 0"
+>
+    Print Property Cards
+</button>
  <button
     @click="printSelected"
     class="rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
