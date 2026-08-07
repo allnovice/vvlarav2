@@ -249,7 +249,10 @@ onBeforeUnmount(() => {
                     </div>
 
                     <!-- Mobile button -->
-<div class="absolute inset-0 flex items-center justify-center pointer-events-none sm:hidden">
+<div
+    v-if="!showingNavigationDropdown"
+    class="absolute inset-0 flex items-center justify-center pointer-events-none sm:hidden"
+>
     <span class="text-base font-semibold">
         {{ title }}
     </span>
