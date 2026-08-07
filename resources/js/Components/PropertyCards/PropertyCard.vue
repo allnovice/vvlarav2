@@ -20,7 +20,10 @@ function formatDate(date) {
 
 <template>
 
-<div class="relative w-[92mm] h-[32mm] border border-black bg-white p-1 font-serif text-black text-[9px] leading-tight box-border flex flex-col">
+<div
+    class="relative w-[92mm] h-[33mm] border border-black bg-white p-1 text-black text-[9px] leading-tight box-border flex flex-col"
+    style="font-family: 'LiberationSerif';"
+>
 <img
     src="/images/logo.png"
     class="absolute top-1 left-1 w-10 z-50 opacity-90 pointer-events-none"
