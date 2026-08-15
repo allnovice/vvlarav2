@@ -1,0 +1,69 @@
+services:
+
+  app:
+    image: vvlarav2-app:1.0
+
+    container_name: vvlarav2-app
+
+    volumes:
+      - uploads:/var/www/html/storage/app/public
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    depends_on:
+      - mariadb
+
+    networks:
+      - laravel
+
+
+  nginx:
+    image: vvlarav2-nginx:1.0
+
+    container_name: vvlarav2-nginx
+
+    volumes:
+      - uploads:/var/www/html/storage/app/public
+
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+
+    depends_on:
+      - app
+
+    networks:
+      - laravel
+
+
+  mariadb:
+    image: mariadb:11
+
+    container_name: vvlarav2-db
+
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+    volumes:
+      - mariadb:/var/lib/mysql
+
+    networks:
+      - laravel
+
+
+networks:
+  laravel:
+
+
+volumes:
+  mariadb:
+  uploads:
