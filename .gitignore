@@ -22,11 +22,14 @@
 /storage/*.key
 /storage/pail
 /vendor
+
 reports/
+
 _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
 # Docker image archives
 docker/*.tar
 
@@ -37,4 +40,3 @@ docker/*.tar
 *.sql~
 parse_assets.php
 parse_asus.php
-
