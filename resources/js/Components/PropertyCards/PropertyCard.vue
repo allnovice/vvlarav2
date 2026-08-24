@@ -21,7 +21,7 @@ function formatDate(date) {
 <template>
 
 <div
-    class="relative w-[92mm] h-[33mm] border border-black bg-white p-1 text-black text-[9px] leading-tight box-border flex flex-col"
+    class="relative w-[92mm] h-[38mm] border border-black bg-white p-1 text-black text-[9px] leading-tight box-border flex flex-col"
     style="font-family: 'LiberationSerif';"
 >
 <img
@@ -74,7 +74,7 @@ function formatDate(date) {
             </tr>
 
             <!-- Data Row 1 (Active) -->
-            <tr class="border-b border-black h-7">
+            <tr class="border-b border-black h-4">
                 <td class="border-r border-black align-middle">{{ formatDate(card.print?.date) }}</td>
                 <td class="border-r border-black align-middle">{{ card.print?.coaRepresentative }}</td>
                 <td class="border-r border-black align-middle leading-tight">
@@ -85,7 +85,23 @@ function formatDate(date) {
             </tr>
 
             <!-- Blank Rows to match official template grid -->
-  
+<!-- Blank Row 1 -->
+            <tr class="border-b border-black h-4">
+                <td class="border-r border-black"></td>
+                <td class="border-r border-black"></td>
+                <td class="border-r border-black"></td>
+                <td class="border-r border-black"></td>
+                <td></td>
+            </tr>
+
+            <!-- Blank Row 2 -->
+            <tr class="border-b border-black h-4">
+                <td class="border-r border-black"></td>
+                <td class="border-r border-black"></td>
+                <td class="border-r border-black"></td>
+                <td class="border-r border-black"></td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
 

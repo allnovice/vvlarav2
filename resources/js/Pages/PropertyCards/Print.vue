@@ -55,6 +55,30 @@ function printCards() {
 
 <div class="space-y-4">
 
+<div>
+    <label class="mb-1 block text-sm font-medium text-black">
+        Property No.
+    </label>
+
+    <input
+        v-model="editingCard.property_number"
+        class="w-full rounded border px-3 py-2 text-black"
+    >
+</div>
+
+<div>
+    <label class="mb-1 block text-sm font-medium text-black">
+        Description
+    </label>
+
+    <input
+        v-model="editingCard.description"
+        class="w-full rounded border px-3 py-2 text-black"
+    >
+</div>  
+
+
+
     <div>
         <label class="mb-1 block text-sm font-medium text-black">
             Date
