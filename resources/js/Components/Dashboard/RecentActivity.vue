@@ -1,5 +1,4 @@
 <script setup>
-import DashboardWidget from './DashboardWidget.vue'
 import { Link } from '@inertiajs/vue3'
 
 defineProps({
@@ -20,7 +19,6 @@ const formatDate = (value) => {
 </script>
 
 <template>
-<DashboardWidget>
         <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Recent Activity
         </h2>
@@ -75,5 +73,4 @@ const formatDate = (value) => {
 >
             No recent activity.
         </div>
-</DashboardWidget>
 </template>

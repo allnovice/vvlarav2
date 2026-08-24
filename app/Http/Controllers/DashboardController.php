@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\AssetPhotoChange;
 use App\Models\AssetHistoryChange;
 use App\Models\AssetHistory;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
@@ -73,6 +74,10 @@ $assets = Asset::leftJoin(
 ->orderBy('assets.property_number')
 ->get();
 
+$releases = Http::get(
+    'https://api.github.com/repos/allnovice/vvlarav2/releases'
+)->json();
+
     return Inertia::render('Dashboard/Index', [
         'totalAssets' => $totalAssets,
         'activeAssets' => $activeAssets,
@@ -93,6 +98,7 @@ $assets = Asset::leftJoin(
 'pendingHistoryChanges' => $pendingHistoryChanges,
 'recentActivities' => $recentActivities,
 'assets' => $assets,
+'releases' => $releases,
     ]);
 }
 

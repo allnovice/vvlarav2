@@ -154,7 +154,18 @@ onBeforeUnmount(() => {
     </div>
 </div>
 
-  
+<NavLink
+    :href="route('operations.index')"
+    :active="route().current('operations.*')"
+>
+    Operations
+</NavLink>
+<NavLink
+    :href="route('qr-labels.index')"
+    :active="route().current('qr-labels.*')"
+>
+    QR Labels
+</NavLink>
                         </div>
 
                     </div>
@@ -314,6 +325,18 @@ onBeforeUnmount(() => {
 </div>
 
 
+<ResponsiveNavLink
+    :href="route('operations.index')"
+    :active="route().current('operations.*')"
+>
+    Operations
+</ResponsiveNavLink>
+<ResponsiveNavLink
+    :href="route('qr-labels.index')"
+    :active="route().current('qr-labels.*')"
+>
+    QR Labels
+</ResponsiveNavLink>
 
 
                 <template v-if="user">

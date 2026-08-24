@@ -3,28 +3,15 @@ import MainLayout from '@/Layouts/MainLayout.vue'
 import { Head } from '@inertiajs/vue3';
 import RecentActivity from '@/Components/Dashboard/RecentActivity.vue'
 import { ref } from 'vue'
+import Changelog from '@/Components/Dashboard/Changelog.vue'
+
 
 const windowWidth = ref(0)
 
 
 defineProps({
-    totalAssets: Number,
-    activeAssets: Number,
-    underRepairAssets: Number,
-    borrowedAssets: Number,
-    archivedAssets: Number,
-    totalUsers: Number,
-
-
-
-maintainedAssets: Number,
-unmaintainedAssets: Number,
-maintenanceCoverage: Number,
-
-assets: Array,
-
-
-recentActivities: Array,
+    recentActivities: Array,
+    releases: Array,
 })
 
 </script>
@@ -34,8 +21,14 @@ recentActivities: Array,
     <MainLayout title="Dashboard">
 
 
-<RecentActivity
+        <RecentActivity
             :activities="recentActivities"
         />
+
+        <Changelog
+            :releases="releases"
+        />
+
+        
     </MainLayout>
 </template>
