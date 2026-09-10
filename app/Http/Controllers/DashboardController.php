@@ -15,16 +15,13 @@ class DashboardController extends Controller
 {
 public function index()
 {
-    $totalAssets = Asset::count();
+$totalAssets = Asset::count();
 
-    $activeAssets = Asset::where('status', 'Active')->count();
-
-    $underRepairAssets = Asset::where('status', 'Under Repair')->count();
-
-    $borrowedAssets = Asset::where('status', 'Borrowed')->count();
-
-    $archivedAssets = Asset::where('status', 'Archived')->count();
-
+$assetStatuses = Asset::selectRaw('status, COUNT(*) as count')
+    ->groupBy('status')
+    ->orderBy('status')
+    ->get();
+    
     $totalUsers = User::count();
 
     $maintainedAssets = Asset::whereHas('history', function ($query) {
@@ -80,11 +77,8 @@ $releases = Http::get(
 
     return Inertia::render('Dashboard/Index', [
         'totalAssets' => $totalAssets,
-        'activeAssets' => $activeAssets,
-        'underRepairAssets' => $underRepairAssets,
-        'borrowedAssets' => $borrowedAssets,
-        'archivedAssets' => $archivedAssets,
         'totalUsers' => $totalUsers,
+        'assetStatuses' => $assetStatuses,
 
 'maintainedAssets' => $maintainedAssets,
 'unmaintainedAssets' => $unmaintainedAssets,
