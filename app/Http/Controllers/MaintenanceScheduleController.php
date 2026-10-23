@@ -29,7 +29,7 @@ public function store(Request $request, Asset $asset)
         'Quarterly' => $date->copy()->addMonths(3),
         'Semi-Annual' => $date->copy()->addMonths(6),
         'Annual' => $date->copy()->addYear(),
-        'Custom' => $date->copy()->addDays($validated['custom_interval']),
+        'Custom' => $date->copy()->addDays($validated['custom_interval'] ?? 1),
         default => $date,
     };
 
@@ -37,7 +37,7 @@ public function store(Request $request, Asset $asset)
         'asset_id' => $asset->id,
         'maintenance_date' => $validated['maintenance_date'],
         'frequency' => $validated['frequency'],
-        'custom_interval' => $validated['custom_interval'],
+        'custom_interval' => $validated['custom_interval'] ?? null,
         'next_due_date' => $nextDue,
         'notes' => $validated['notes'],
         'created_by' => Auth::id(),

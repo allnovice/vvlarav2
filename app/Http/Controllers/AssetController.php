@@ -55,7 +55,7 @@ foreach ($terms as $term) {
     if ($request->filled('type') && $request->type !== 'All') {
         $query->where('type', $request->type);
     }
-    return Inertia::render('Assets', [
+    return Inertia::render('Assets/Index', [
         'assets' => $query->paginate(10)->withQueryString(),
         'search' => $request->search,
     ]);

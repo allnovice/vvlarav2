@@ -51,17 +51,38 @@ public function edit(User $user)
         'user' => $user,
     ]);
 }
-
 public function update(Request $request, User $user)
 {
+    $actor = $request->user();
+    $isSelf = $actor->is($user);
+
+    // Prevent changing your own role or account status.
+    if ($isSelf && (
+        ($request->has('role') && $request->input('role') !== $user->role)
+        || ($request->has('is_active')
+            && (bool) $request->boolean('is_active') !== (bool) $user->is_active)
+    )) {
+        abort(403, 'You cannot change your own role or status.');
+    }
+
+    // Only Admin may change the status of an existing IT Head.
+    if ($request->has('is_active')
+        && (bool) $request->boolean('is_active') !== (bool) $user->is_active
+        && ! ($actor->isAdmin() && $user->role === 'it_head' && ! $isSelf)
+    ) {
+        abort(403, 'You are not allowed to change this account status.');
+    }
 
     $validated = $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'department' => ['required', 'string', 'max:255'],
         'position' => ['required', 'string', 'max:255'],
         'contact_no' => ['nullable', 'string', 'max:255'],
-        'role' => ['required', 'string'],
-        'is_active' => ['required', 'boolean'],
+        'role' => [
+            'required',
+            'in:admin,it_head,property_supply_officer,technician,employee',
+        ],
+        'is_active' => ['sometimes', 'boolean'],
     ]);
 
     $user->update($validated);

@@ -33,8 +33,6 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])
 /*--------------approval-routes-ithead-PSO-admin--------------*/
 Route::middleware(['auth', 'admin', 'approve.users'])->group(function () {
 
-    Route::post('/users/{user}/approve', [UserController::class, 'approve'])
-        ->name('users.approve');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])
         ->name('users.edit');
     Route::patch('/users/{user}', [UserController::class, 'update'])

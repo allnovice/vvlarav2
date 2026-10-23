@@ -1,11 +1,17 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue'
-import { useForm, router } from '@inertiajs/vue3'
+import { useForm, router, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
 
 const props = defineProps({
     user: Object,
 })
-
+const page = usePage()
+const canEditStatus = computed(() =>
+    page.props.auth.user?.role === 'admin' &&
+    props.user.role === 'it_head' &&
+    page.props.auth.user?.id !== props.user.id
+)
 const form = useForm({
     name: props.user.name,
     email: props.user.email,
@@ -143,7 +149,7 @@ const deleteUser = () => {
     </select>
 </div>
 
-<div class="mb-6">
+<div v-if="canEditStatus" class="mb-6">
     <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
 
     <select
