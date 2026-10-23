@@ -27,6 +27,7 @@ $user = \App\Models\User::firstOrCreate(
         'role' => 'employee',
         'password' => bcrypt(\Illuminate\Support\Str::random(32)),
         'email_verified_at' => now(),
+        'is_active' => true,
     ]
 );
 
