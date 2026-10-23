@@ -68,7 +68,7 @@ public function update(Request $request, User $user)
     // Only Admin may change the status of an existing IT Head.
     if ($request->has('is_active')
         && (bool) $request->boolean('is_active') !== (bool) $user->is_active
-        && ! ($actor->isAdmin() && $user->role === 'it_head' && ! $isSelf)
+        && ! ($actor->isAdmin() && ! $isSelf)
     ) {
         abort(403, 'You are not allowed to change this account status.');
     }

@@ -9,7 +9,6 @@ const props = defineProps({
 const page = usePage()
 const canEditStatus = computed(() =>
     page.props.auth.user?.role === 'admin' &&
-    props.user.role === 'it_head' &&
     page.props.auth.user?.id !== props.user.id
 )
 const form = useForm({

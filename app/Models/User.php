@@ -69,7 +69,7 @@ public function canApprove(): bool
 }
 public function canApproveUsers(): bool
 {
-    return $this->isITHead();
+    return $this->isAdmin() || $this->isITHead();
 }
 
 }
