@@ -205,4 +205,62 @@ public function test_it_head_cannot_promote_self_to_admin(): void
         'role' => 'it_head',
     ]);
 }
+public function test_it_head_cannot_assign_admin_role_to_another_user(): void
+{
+    $itHead = User::factory()->create(['role' => 'it_head']);
+    $target = User::factory()->create(['role' => 'employee']);
+
+    $this->actingAs($itHead)
+        ->patch(route('users.update', $target), [
+            'name' => $target->name,
+            'department' => $target->department ?? 'IT',
+            'position' => $target->position ?? 'Staff',
+            'contact_no' => $target->contact_no,
+            'role' => 'admin',
+            'is_active' => true,
+        ])
+        ->assertForbidden();
+
+    $this->assertDatabaseHas('users', [
+        'id' => $target->id,
+        'role' => 'employee',
+    ]);
+}
+
+public function test_it_head_cannot_modify_admin_account(): void
+{
+    $itHead = User::factory()->create(['role' => 'it_head']);
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $this->actingAs($itHead)
+        ->patch(route('users.update', $admin), [
+            'name' => 'Changed Admin',
+            'department' => $admin->department ?? 'IT',
+            'position' => $admin->position ?? 'Admin',
+            'contact_no' => $admin->contact_no,
+            'role' => 'employee',
+            'is_active' => true,
+        ])
+        ->assertForbidden();
+
+    $this->assertDatabaseHas('users', [
+        'id' => $admin->id,
+        'role' => 'admin',
+        'name' => $admin->name,
+    ]);
+}
+
+public function test_it_head_cannot_delete_admin_account(): void
+{
+    $itHead = User::factory()->create(['role' => 'it_head']);
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $this->actingAs($itHead)
+        ->delete(route('users.destroy', $admin))
+        ->assertForbidden();
+
+    $this->assertDatabaseHas('users', [
+        'id' => $admin->id,
+    ]);
+}
 }

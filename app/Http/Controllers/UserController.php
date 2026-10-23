@@ -56,6 +56,11 @@ public function update(Request $request, User $user)
     $actor = $request->user();
     $isSelf = $actor->is($user);
 
+    // Only Admin may modify an Admin account.
+    if ($user->isAdmin() && ! $actor->isAdmin()) {
+        abort(403, 'Only an Admin can modify an Admin account.');
+    }
+
     // Prevent changing your own role or account status.
     if ($isSelf && (
         ($request->has('role') && $request->input('role') !== $user->role)
@@ -84,21 +89,35 @@ public function update(Request $request, User $user)
         ],
         'is_active' => ['sometimes', 'boolean'],
     ]);
-
+// Only Admin may assign the Admin role.
+if ($validated['role'] === 'admin' && ! $actor->isAdmin()) {
+    abort(403, 'Only an Admin can assign the Admin role.');
+}
     $user->update($validated);
 
     return redirect()
         ->route('users.show', $user)
         ->with('success', 'User updated successfully.');
 }
-public function destroy(User $user)
+public function destroy(Request $request, User $user)
 {
+    $actor = $request->user();
+
+    // Prevent deleting your own account.
+    if ($actor->is($user)) {
+        abort(403, 'You cannot delete your own account.');
+    }
+
+    // Only Admin may delete an Admin account.
+    if ($user->isAdmin() && ! $actor->isAdmin()) {
+        abort(403, 'Only an Admin can delete an Admin account.');
+    }
+
     $user->delete();
 
     return redirect()
         ->route('users.index')
         ->with('success', 'User deleted successfully.');
 }
-
 
 }
